@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Cairo } from "next/font/google";
-import "../globals.css";
+import "../../globals.css";
 import { Notifications } from "@mantine/notifications";
 import {
   ColorSchemeScript,
@@ -9,11 +9,11 @@ import {
 } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
-import { Shell } from "@/components/shell";
 import { NextIntlClientProvider } from "next-intl";
-import { theme } from "../../theme";
+import { theme } from "../../../theme";
 import { DatesProvider } from "@mantine/dates";
 import { ModalsProvider } from "@mantine/modals";
+
 
 const CairoFont = Cairo({
   variable: "--font-cairo",
@@ -32,9 +32,9 @@ export default async function RootLayout({
   params,
 }: Readonly<{
   children: React.ReactNode;
-  params: {
+  params: Promise<{
     locale: string;
-  };
+  }>;
 }>) {
   const { locale } = await params;
   const dir = locale === "ar" ? "rtl" : "ltr";
@@ -55,7 +55,7 @@ export default async function RootLayout({
             <MantineProvider theme={theme}>
               <DatesProvider settings={{ locale, consistentWeeks: true }}>
                 <ModalsProvider>
-                  <Shell initialFullSize={true}>{children}</Shell>
+                  {children}
                   <Notifications />
                 </ModalsProvider>
               </DatesProvider>

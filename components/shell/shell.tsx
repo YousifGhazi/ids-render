@@ -24,7 +24,7 @@ export function Shell({
   initialFullSize: boolean;
 }) {
   const pathname = usePathname();
-  const [fullSize, setFullSize] = useState(initialFullSize);
+  const [fullSize] = useState(initialFullSize);
 
   const uuidRegex = /^\/employees\/[0-9a-fA-F-]{36}$/;
   const isEmployeePage = uuidRegex.test(pathname);

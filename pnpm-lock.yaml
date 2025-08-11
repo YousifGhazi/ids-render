@@ -38,6 +38,15 @@ importers:
       react-dom:
         specifier: 19.1.0
         version: 19.1.0(react@19.1.0)
+      survey-core:
+        specifier: ^2.3.1
+        version: 2.3.1
+      survey-creator-core:
+        specifier: ^2.3.1
+        version: 2.3.1(survey-core@2.3.1)
+      survey-creator-react:
+        specifier: ^2.3.1
+        version: 2.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1)(survey-creator-core@2.3.1(survey-core@2.3.1))(survey-react-ui@2.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1))
     devDependencies:
       '@eslint/eslintrc':
         specifier: ^3
@@ -1679,6 +1688,40 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
+  survey-core@2.3.1:
+    resolution: {integrity: sha512-drVoBap+ju00YbMdl3hbF8DqrXr9Y6T79t8oV5uHURcYFX7JumFNIkXC3BV1eeUAU/m/9PDRv5yXLON9thpXeQ==}
+
+  survey-creator-core@2.3.1:
+    resolution: {integrity: sha512-9AB40F0nxy1WHFyL4XgLxyUIcvQR/Lg2SeIfVtHckTpWydFuZluYAepu+K0mjEXf1JQs8s+0Kq6h/hWzXC6u9A==}
+    engines: {node: '>=0.10.0'}
+    peerDependencies:
+      ace-builds: ^1.4.12
+      survey-core: 2.3.1
+    peerDependenciesMeta:
+      ace-builds:
+        optional: true
+
+  survey-creator-react@2.3.1:
+    resolution: {integrity: sha512-JcE0iboqUUWoUCQG7mE9iXoTPDyD75aysL9wgN08bJ2ZF8vIEDJi7jrqNFj+nYg2fm1hdIHy1ZUJQLSZhMadGg==}
+    engines: {node: '>=0.10.0'}
+    peerDependencies:
+      ace-builds: ^1.4.12
+      react: ^16.5.0 || ^17.0.1 || ^18.1.0 || ^19.0.0
+      react-dom: ^16.5.0 || ^17.0.1 || ^18.1.0 || ^19.0.0
+      survey-core: 2.3.1
+      survey-creator-core: 2.3.1
+      survey-react-ui: 2.3.1
+    peerDependenciesMeta:
+      ace-builds:
+        optional: true
+
+  survey-react-ui@2.3.1:
+    resolution: {integrity: sha512-0xUakm1oSgtA26kGRf/8KIPONcabaochD+ufvSjGZ+tKi7nkjnzVXuikzI7VdGBZujXdRqvG9E3zi3qBgnushw==}
+    peerDependencies:
+      react: ^16.5.0 || ^17.0.1 || ^18.1.0 || ^19.0.0
+      react-dom: ^16.5.0 || ^17.0.1 || ^18.1.0 || ^19.0.0
+      survey-core: 2.3.1
+
   tabbable@6.2.0:
     resolution: {integrity: sha512-Cat63mxsVJlzYvN51JmVXIgNoUokrIaT2zLclCXjRd8boZ0004U4KCs/sToJ75C6sdlByWxpYnb5Boif1VSFew==}
 
@@ -2720,7 +2763,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.39.0(eslint@9.33.0)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0)(eslint@9.33.0))(eslint@9.33.0):
+  eslint-module-utils@2.12.1(@typescript-eslint/parser@8.39.0(eslint@9.33.0)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.33.0):
     dependencies:
       debug: 3.2.7
     optionalDependencies:
@@ -2742,7 +2785,7 @@ snapshots:
       doctrine: 2.1.0
       eslint: 9.33.0
       eslint-import-resolver-node: 0.3.9
-      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.39.0(eslint@9.33.0)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1(eslint-plugin-import@2.32.0)(eslint@9.33.0))(eslint@9.33.0)
+      eslint-module-utils: 2.12.1(@typescript-eslint/parser@8.39.0(eslint@9.33.0)(typescript@5.9.2))(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.10.1)(eslint@9.33.0)
       hasown: 2.0.2
       is-core-module: 2.16.1
       is-glob: 4.0.3
@@ -3662,6 +3705,26 @@ snapshots:
       has-flag: 4.0.0
 
   supports-preserve-symlinks-flag@1.0.0: {}
+
+  survey-core@2.3.1: {}
+
+  survey-creator-core@2.3.1(survey-core@2.3.1):
+    dependencies:
+      survey-core: 2.3.1
+
+  survey-creator-react@2.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1)(survey-creator-core@2.3.1(survey-core@2.3.1))(survey-react-ui@2.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1)):
+    dependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+      survey-core: 2.3.1
+      survey-creator-core: 2.3.1(survey-core@2.3.1)
+      survey-react-ui: 2.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1)
+
+  survey-react-ui@2.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1):
+    dependencies:
+      react: 19.1.0
+      react-dom: 19.1.0(react@19.1.0)
+      survey-core: 2.3.1
 
   tabbable@6.2.0: {}
 

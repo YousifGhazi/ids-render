@@ -32,6 +32,12 @@ export function Sidebar({ fullSize }: { fullSize: boolean }) {
         value="ids"
       >
         {/* shell link */}
+        <ShellLink
+          section="/"
+          collapsed={!fullSize}
+          label={t("sidebar.home")}
+          icon={<IconHome size={18} />}
+        />
       </ShellAccordion>
 
       <ShellAccordion
@@ -40,6 +46,13 @@ export function Sidebar({ fullSize }: { fullSize: boolean }) {
         fullSize={fullSize}
         value="surveies"
       >
+        <ShellLink
+          section="/"
+          collapsed={!fullSize}
+          label={t("sidebar.home")}
+          icon={<IconHome size={18} />}
+        />
+
         {/* shell link */}
       </ShellAccordion>
       <ShellAccordion
@@ -48,6 +61,13 @@ export function Sidebar({ fullSize }: { fullSize: boolean }) {
         fullSize={fullSize}
         value="management"
       >
+        <ShellLink
+          section="/"
+          collapsed={!fullSize}
+          label={t("sidebar.home")}
+          icon={<IconHome size={18} />}
+        />
+
         {/* shell link */}
       </ShellAccordion>
       <ShellAccordion
@@ -56,6 +76,13 @@ export function Sidebar({ fullSize }: { fullSize: boolean }) {
         fullSize={fullSize}
         value="printer"
       >
+        <ShellLink
+          section="/"
+          collapsed={!fullSize}
+          label={t("sidebar.home")}
+          icon={<IconHome size={18} />}
+        />
+
         {/* shell link */}
       </ShellAccordion>
       <ShellAccordion
@@ -64,6 +91,13 @@ export function Sidebar({ fullSize }: { fullSize: boolean }) {
         fullSize={fullSize}
         value="delivery"
       >
+        <ShellLink
+          section="/"
+          collapsed={!fullSize}
+          label={t("sidebar.home")}
+          icon={<IconHome size={18} />}
+        />
+
         {/* shell link */}
       </ShellAccordion>
     </Stack>
