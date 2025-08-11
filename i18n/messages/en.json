@@ -6,5 +6,6 @@
     "management": "Management",
     "printer": "Printer",
     "delivery": "Delivery"
-  }
+  },
+  "logout": "Logout"
 }
