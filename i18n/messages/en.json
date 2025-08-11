@@ -1,0 +1,10 @@
+{
+  "sidebar": {
+    "home": "Home",
+    "ids": "ID Issuance",
+    "surveies": "Create Surveys",
+    "management": "Management",
+    "printer": "Printer",
+    "delivery": "Delivery"
+  }
+}
