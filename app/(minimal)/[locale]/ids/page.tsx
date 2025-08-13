@@ -1,10 +1,7 @@
 "use client";
-import dynamic from "next/dynamic";
 
-const SurveyCreator = dynamic(() => import("@/components/form-builder/index"), {
-  ssr: false,
-});
+import IDCardDesigner from '@/components/ids-designer';
 
-export default function Home() {
-  return <SurveyCreator />;
+export default function FormBuilder() {
+  return <IDCardDesigner />;
 }
