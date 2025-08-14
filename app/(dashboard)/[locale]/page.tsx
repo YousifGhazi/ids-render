@@ -1,10 +1,13 @@
 "use client";
-import dynamic from "next/dynamic";
 
-const SurveyCreator = dynamic(() => import("@/components/form-builder/index"), {
-  ssr: false,
-});
+import { Container, Paper } from "@mantine/core";
 
 export default function Home() {
-  return <SurveyCreator />;
+  return (
+    <Paper bg="#f8f9fa" mih={"100%"} p="xl">
+      <Container size="xl">
+        <h1>Welcome to the Dashboard</h1>
+      </Container>
+    </Paper>
+  );
 }

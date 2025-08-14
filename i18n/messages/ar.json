@@ -5,7 +5,23 @@
     "surveies": "انشاء الاستمارات",
     "management": "الادارة",
     "printer": "الطابعة",
-    "delivery": "التوصيل"
+    "delivery": "التوصيل",
+    "customers": "المستخدمين"
   },
-  "logout": "تسجيل الخروج"
+  "name": "الاسم",
+  "phoneNumber": "رقم الهاتف",
+  "gender": "الجنس",
+  "organization": "الجهة",
+  "department": "القسم",
+  "dateOfBirth": "تاريخ الميلاد",
+  "logout": "تسجيل الخروج",
+
+  "add": "اضافة",
+  "edit": "تعديل",
+  "delete": "حذف",
+  "view": "عرض",
+  "customer": {
+    "customers": "المستخدمين",
+    "customer": "المستخدم"
+  }
 }

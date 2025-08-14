@@ -13,7 +13,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { theme } from "../../../theme";
 import { DatesProvider } from "@mantine/dates";
 import { ModalsProvider } from "@mantine/modals";
-
+import { ReactQueryProvider } from "@/providers/react-query-provider";
 
 const CairoFont = Cairo({
   variable: "--font-cairo",
@@ -55,8 +55,10 @@ export default async function RootLayout({
             <MantineProvider theme={theme}>
               <DatesProvider settings={{ locale, consistentWeeks: true }}>
                 <ModalsProvider>
-                  {children}
-                  <Notifications />
+                  <ReactQueryProvider>
+                    {children}
+                    <Notifications />
+                  </ReactQueryProvider>
                 </ModalsProvider>
               </DatesProvider>
             </MantineProvider>
