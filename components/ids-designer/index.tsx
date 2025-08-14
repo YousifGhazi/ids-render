@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
 import * as fabric from 'fabric';
 import { Box, Button, Group, Stack, Text, ColorInput, NumberInput, TextInput, Paper, ActionIcon, Divider, Select, Slider, Switch, Tabs, Checkbox } from '@mantine/core';
 import { IconSquare, IconCircle, IconLetterT, IconPhoto, IconTrash, IconCopy, IconFlipHorizontal, IconFlipVertical, IconSettings, IconPalette, IconShape, IconAccessible, IconEye, IconRotate, IconColorPicker, IconBold, IconItalic, IconUnderline, IconDownload, IconDeviceFloppy, IconArrowBackUp, IconArrowForwardUp, IconTriangle, IconStar, IconMinus, IconAlignLeft, IconAlignCenter, IconAlignRight, IconAlignBoxTopCenter, IconAlignBoxCenterMiddle, IconAlignBoxBottomCenter, IconLayoutDistributeHorizontal, IconLayoutDistributeVertical, IconZoomIn, IconZoomOut, IconZoom, IconUpload } from '@tabler/icons-react';
@@ -10,6 +10,20 @@ interface IDCardDesignerProps {
   width?: number;
   height?: number;
 }
+
+// Constants for better performance
+const DEFAULT_CANVAS_SETTINGS = {
+  backgroundColor: '#ffffff',
+  selection: true,
+  selectionKey: 'ctrlKey',
+  selectionColor: 'rgba(100, 149, 237, 0.3)',
+  selectionBorderColor: 'rgba(100, 149, 237, 0.8)',
+  selectionLineWidth: 2,
+} as const;
+
+const CUSTOM_PROPS = ['dataType', 'isSmartField', 'smartFieldType', 'objectType', 'textAlign', 'direction'] as const;
+
+const DEFAULT_OBJECT_POSITION = { left: 100, top: 100 } as const;
 
 export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesignerProps) {
   const t = useTranslations('idsDesigner');
@@ -36,13 +50,58 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
   const [canvasBackgroundColor, setCanvasBackgroundColor] = useState('#ffffff');
   const [canvasBackgroundImage, setCanvasBackgroundImage] = useState<string | null>(null);
 
-  const initializeCanvas = () => {
+  // Memoized field texts for better performance
+  const fieldTexts = useMemo(() => ({
+    'name': locale === 'ar' ? 'أحمد محمد' : 'Ahmed Mohammed',
+    'id': '263.7487.1278B',
+    'date': new Date().toLocaleDateString(locale === 'ar' ? 'ar-SA' : 'en-US'),
+    'department': locale === 'ar' ? 'علوم الحاسوب' : 'Computer Science',
+    'age': '25',
+    'salary': locale === 'ar' ? '50,000 ريال' : '$50,000'
+  }), [locale]);
+
+  // Helper functions for field types
+  const getDataType = useCallback((fieldType: string) => {
+    switch (fieldType) {
+      case 'id':
+      case 'department':
+      case 'name':
+        return 'text';
+      case 'date':
+        return 'date';
+      case 'age':
+      case 'salary':
+        return 'number';
+      default:
+        return 'text';
+    }
+  }, []);
+
+  const getObjectType = useCallback((fieldType: string) => {
+    switch (fieldType) {
+      case 'name':
+        return 'person';
+      case 'id':
+        return 'identifier';
+      case 'date':
+        return 'temporal';
+      case 'department':
+        return 'organization';
+      case 'age':
+        return 'demographic';
+      case 'salary':
+        return 'financial';
+      default:
+        return 'general';
+    }
+  }, []);
+
+  const initializeCanvas = useCallback(() => {
     if (canvasRef.current) {
       // Configure fabric.js to include custom properties in serialization
       fabric.Object.prototype.toObject = (function(toObject) {
         return function(this: fabric.Object, propertiesToInclude?: string[]) {
-          const customProps = ['dataType', 'isSmartField', 'smartFieldType', 'objectType', 'textAlign', 'direction'];
-          const allProps = propertiesToInclude ? [...propertiesToInclude, ...customProps] : customProps;
+          const allProps = propertiesToInclude ? [...propertiesToInclude, ...CUSTOM_PROPS] : [...CUSTOM_PROPS];
           return toObject.call(this, allProps);
         };
       })(fabric.Object.prototype.toObject);
@@ -53,17 +112,11 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
       const fabricCanvas = new fabric.Canvas(canvasRef.current, {
         width: canvasWidth,
         height: canvasHeight,
-        backgroundColor: '#ffffff',
-        selection: true, // Enable multiple selection
-        selectionKey: 'ctrlKey', // Allow Ctrl+click for multiple selection
-        selectionColor: 'rgba(100, 149, 237, 0.3)',
-        selectionBorderColor: 'rgba(100, 149, 237, 0.8)',
-        selectionLineWidth: 2,
+        ...DEFAULT_CANVAS_SETTINGS,
       });
 
       // Add selection event listeners
-      fabricCanvas.on('selection:created', (e: { selected?: fabric.Object[] }) => {
-        console.log('selection:created', e.selected?.length || 0, 'objects');
+      const handleSelectionChange = (e: { selected?: fabric.Object[] }) => {
         if (e.selected && e.selected.length > 0) {
           setSelectedObjects(e.selected);
           if (e.selected.length === 1) {
@@ -74,34 +127,22 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
             setSelectedObject(null);
           }
         }
-      });
+      };
 
-      fabricCanvas.on('selection:updated', (e: { selected?: fabric.Object[] }) => {
-        console.log('selection:updated', e.selected?.length || 0, 'objects');
-        if (e.selected && e.selected.length > 0) {
-          setSelectedObjects(e.selected);
-          if (e.selected.length === 1) {
-            const obj = e.selected[0];
-            setSelectedObject(obj);
-            updateControlsFromObject(obj);
-          } else {
-            setSelectedObject(null);
-          }
-        }
-      });
-
-      fabricCanvas.on('selection:cleared', () => {
-        console.log('selection:cleared');
+      const handleSelectionCleared = () => {
         setSelectedObject(null);
         setSelectedObjects([]);
         setCanvasSelected(false);
         resetControls();
-      });
+      };
+
+      fabricCanvas.on('selection:created', handleSelectionChange);
+      fabricCanvas.on('selection:updated', handleSelectionChange);
+      fabricCanvas.on('selection:cleared', handleSelectionCleared);
 
       // Add canvas click listener for canvas selection
-      fabricCanvas.on('mouse:down', (e) => {
+      fabricCanvas.on('mouse:down', (e: { target?: fabric.Object }) => {
         if (!e.target) {
-          // Clicked on empty canvas area
           setCanvasSelected(true);
           setSelectedObject(null);
           setSelectedObjects([]);
@@ -113,19 +154,19 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
       });
 
       // Add object modification listeners
-      fabricCanvas.on('object:modified', (e) => {
+      fabricCanvas.on('object:modified', (e: { target?: fabric.Object }) => {
         if (e.target && e.target === selectedObject) {
           updateControlsFromObject(e.target);
         }
       });
 
-      fabricCanvas.on('object:scaling', (e) => {
+      fabricCanvas.on('object:scaling', (e: { target?: fabric.Object }) => {
         if (e.target && e.target === selectedObject) {
           updateControlsFromObject(e.target);
         }
       });
 
-      fabricCanvas.on('object:rotating', (e) => {
+      fabricCanvas.on('object:rotating', (e: { target?: fabric.Object }) => {
         if (e.target && e.target === selectedObject) {
           setRotation(Math.round(e.target.angle || 0));
         }
@@ -135,7 +176,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
       return fabricCanvas;
     }
     return null;
-  };
+  }, [canvasOrientation, width, height]);
 
   useEffect(() => {
     const fabricCanvas = initializeCanvas();
@@ -188,7 +229,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
     };
   }, [canvas, currentSide]);
 
-  const saveCurrentSideData = () => {
+  const saveCurrentSideData = useCallback(() => {
     if (!canvas) return;
     const canvasData = JSON.stringify(canvas.toJSON());
     if (currentSide === 'front') {
@@ -196,9 +237,9 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
     } else {
       setBackCanvasData(canvasData);
     }
-  };
+  }, [canvas, currentSide]);
 
-  const loadSideData = (side: 'front' | 'back') => {
+  const loadSideData = useCallback((side: 'front' | 'back') => {
     if (!canvas) return;
     
     const data = side === 'front' ? frontCanvasData : backCanvasData;
@@ -239,9 +280,9 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
       setSelectedObject(null);
       resetControls();
     }
-  };
+  }, [canvas, frontCanvasData, backCanvasData]);
 
-  const switchSide = (side: 'front' | 'back') => {
+  const switchSide = useCallback((side: 'front' | 'back') => {
     if (currentSide === side) return;
     
     // Save current side data
@@ -254,26 +295,25 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
     setTimeout(() => {
       loadSideData(side);
     }, 50);
-  };
+  }, [currentSide, saveCurrentSideData, loadSideData]);
 
-  const addText = () => {
+  const addText = useCallback(() => {
     setShowTextTypePanel(true);
-  };
+  }, []);
 
-  const addShape = () => {
+  const addShape = useCallback(() => {
     setShowShapePanel(true);
-  };
+  }, []);
 
-  const addStaticText = (type: 'single' | 'multi') => {
+  const addStaticText = useCallback((type: 'single' | 'multi') => {
     if (!canvas) return;
     
     const text = new fabric.IText(type === 'single' ? t('textTypes.singleLine') : t('textTypes.multiLine'), {
-      left: 100,
-      top: 100,
+      ...DEFAULT_OBJECT_POSITION,
       fontFamily: 'Arial',
       fontSize: 20,
       fill: '#000000',
-      dataType: 'text', // Default data type
+      dataType: 'text',
       textAlign: isRTL ? 'right' : 'left',
       direction: isRTL ? 'rtl' : 'ltr',
     });
@@ -282,60 +322,13 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
     canvas.setActiveObject(text);
     canvas.renderAll();
     setShowTextTypePanel(false);
-  };
+  }, [canvas, t, isRTL]);
 
-  const addVariableText = (type: string) => {
+  const addVariableText = useCallback((type: string) => {
     if (!canvas) return;
     
-    const fieldTexts = {
-      'name': locale === 'ar' ? 'أحمد محمد' : 'Ahmed Mohammed',
-      'id': '263.7487.1278B',
-      'date': new Date().toLocaleDateString(locale === 'ar' ? 'ar-SA' : 'en-US'),
-      'department': locale === 'ar' ? 'علوم الحاسوب' : 'Computer Science',
-      'age': '25',
-      'salary': locale === 'ar' ? '50,000 ريال' : '$50,000'
-    };
-    
-    // Determine data type based on field type
-    const getDataType = (fieldType: string) => {
-      switch (fieldType) {
-        case 'id':
-        case 'department':
-        case 'name':
-          return 'text';
-        case 'date':
-          return 'date';
-        case 'age':
-        case 'salary':
-          return 'number';
-        default:
-          return 'text';
-      }
-    };
-    
-    // Determine object type based on field type
-    const getObjectType = (fieldType: string) => {
-      switch (fieldType) {
-        case 'name':
-          return 'person';
-        case 'id':
-          return 'identifier';
-        case 'date':
-          return 'temporal';
-        case 'department':
-          return 'organization';
-        case 'age':
-          return 'demographic';
-        case 'salary':
-          return 'financial';
-        default:
-          return 'general';
-      }
-    };
-    
     const text = new fabric.Text(fieldTexts[type as keyof typeof fieldTexts] || type, {
-      left: 100,
-      top: 100,
+      ...DEFAULT_OBJECT_POSITION,
       fontFamily: 'Arial',
       fontSize: 16,
       fill: '#000000',
@@ -355,131 +348,98 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
     canvas.setActiveObject(text);
     canvas.renderAll();
     setShowTextTypePanel(false);
-  };
+  }, [canvas, fieldTexts, getDataType, getObjectType, isRTL]);
 
-  const addSquare = () => {
+  // Helper function for common shape properties
+  const createShapeWithDefaults = useCallback((shape: fabric.Object) => {
     if (!canvas) return;
-    
+    canvas.add(shape);
+    canvas.setActiveObject(shape);
+    canvas.renderAll();
+    setShowShapePanel(false);
+  }, [canvas]);
+
+  const addSquare = useCallback(() => {
     const square = new fabric.Rect({
-      left: 100,
-      top: 100,
+      ...DEFAULT_OBJECT_POSITION,
       width: 80,
       height: 80,
       fill: '#3b82f6',
       stroke: '#1e40af',
       strokeWidth: 2,
     });
-    
-    canvas.add(square);
-    canvas.setActiveObject(square);
-    canvas.renderAll();
-    setShowShapePanel(false);
-  };
+    createShapeWithDefaults(square);
+  }, [createShapeWithDefaults]);
 
-  const addRectangle = () => {
-    if (!canvas) return;
-    
+  const addRectangle = useCallback(() => {
     const rect = new fabric.Rect({
-      left: 100,
-      top: 100,
+      ...DEFAULT_OBJECT_POSITION,
       width: 120,
       height: 60,
       fill: '#ef4444',
       stroke: '#dc2626',
       strokeWidth: 2,
     });
-    
-    canvas.add(rect);
-    canvas.setActiveObject(rect);
-    canvas.renderAll();
-    setShowShapePanel(false);
-  };
+    createShapeWithDefaults(rect);
+  }, [createShapeWithDefaults]);
 
-  const addTriangle = () => {
-    if (!canvas) return;
-    
+  const addTriangle = useCallback(() => {
     const triangle = new fabric.Triangle({
-      left: 100,
-      top: 100,
+      ...DEFAULT_OBJECT_POSITION,
       width: 80,
       height: 80,
       fill: '#10b981',
       stroke: '#059669',
       strokeWidth: 2,
     });
-    
-    canvas.add(triangle);
-    canvas.setActiveObject(triangle);
-    canvas.renderAll();
-    setShowShapePanel(false);
-  };
+    createShapeWithDefaults(triangle);
+  }, [createShapeWithDefaults]);
 
-  const addCircle = () => {
-    if (!canvas) return;
-    
+  const addCircle = useCallback(() => {
     const circle = new fabric.Circle({
-      left: 100,
-      top: 100,
+      ...DEFAULT_OBJECT_POSITION,
       radius: 40,
       fill: '#f59e0b',
       stroke: '#d97706',
       strokeWidth: 2,
     });
-    
-    canvas.add(circle);
-    canvas.setActiveObject(circle);
-    canvas.renderAll();
-    setShowShapePanel(false);
-  };
+    createShapeWithDefaults(circle);
+  }, [createShapeWithDefaults]);
 
-  const addStar = () => {
-    if (!canvas) return;
-    
-    // Create a star using polygon points
-    const starPoints = [
-      { x: 0, y: -50 },
-      { x: 14.7, y: -15.4 },
-      { x: 47.6, y: -15.4 },
-      { x: 23.8, y: 6.2 },
-      { x: 29.4, y: 40.4 },
-      { x: 0, y: 20 },
-      { x: -29.4, y: 40.4 },
-      { x: -23.8, y: 6.2 },
-      { x: -47.6, y: -15.4 },
-      { x: -14.7, y: -15.4 }
-    ];
-    
+  // Memoized star points for better performance
+  const starPoints = useMemo(() => [
+    { x: 0, y: -50 },
+    { x: 14.7, y: -15.4 },
+    { x: 47.6, y: -15.4 },
+    { x: 23.8, y: 6.2 },
+    { x: 29.4, y: 40.4 },
+    { x: 0, y: 20 },
+    { x: -29.4, y: 40.4 },
+    { x: -23.8, y: 6.2 },
+    { x: -47.6, y: -15.4 },
+    { x: -14.7, y: -15.4 }
+  ], []);
+
+  const addStar = useCallback(() => {
     const star = new fabric.Polygon(starPoints, {
-      left: 100,
-      top: 100,
+      ...DEFAULT_OBJECT_POSITION,
       fill: '#8b5cf6',
       stroke: '#7c3aed',
       strokeWidth: 2,
     });
-    
-    canvas.add(star);
-    canvas.setActiveObject(star);
-    canvas.renderAll();
-    setShowShapePanel(false);
-  };
+    createShapeWithDefaults(star);
+  }, [starPoints, createShapeWithDefaults]);
 
-  const addLine = () => {
-    if (!canvas) return;
-    
+  const addLine = useCallback(() => {
     const line = new fabric.Line([50, 100, 200, 100], {
-      left: 100,
-      top: 100,
+      ...DEFAULT_OBJECT_POSITION,
       stroke: '#374151',
       strokeWidth: 3,
     });
-    
-    canvas.add(line);
-    canvas.setActiveObject(line);
-    canvas.renderAll();
-    setShowShapePanel(false);
-  };
+    createShapeWithDefaults(line);
+  }, [createShapeWithDefaults]);
 
-  const addImage = () => {
+  const addImage = useCallback(() => {
     if (!canvas) return;
     
     const input = document.createElement('input');
@@ -494,8 +454,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           const imgUrl = event.target?.result as string;
           fabric.FabricImage.fromURL(imgUrl).then((img) => {
             img.set({
-              left: 100,
-              top: 100,
+              ...DEFAULT_OBJECT_POSITION,
               scaleX: 0.5,
               scaleY: 0.5,
             });
@@ -509,17 +468,24 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
     };
     
     input.click();
-  };
+  }, [canvas]);
 
-  const deleteSelected = () => {
+  const resetControls = useCallback(() => {
+    setTransparency(0);
+    setRotation(0);
+    setObjectWidth(288);
+    setObjectHeight(70);
+  }, []);
+
+  const deleteSelected = useCallback(() => {
     if (!canvas || !selectedObject) return;
     canvas.remove(selectedObject);
     setSelectedObject(null);
     resetControls();
     canvas.renderAll();
-  };
+  }, [canvas, selectedObject, resetControls]);
 
-  const duplicateSelected = () => {
+  const duplicateSelected = useCallback(() => {
     if (!canvas || !selectedObject) return;
     
     selectedObject.clone().then((cloned: fabric.Object) => {
@@ -531,175 +497,108 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
       canvas.setActiveObject(cloned);
       canvas.renderAll();
     });
-  };
+  }, [canvas, selectedObject]);
 
-  const flipHorizontal = () => {
+  const flipHorizontal = useCallback(() => {
     if (!canvas || !selectedObject) return;
     selectedObject.set('flipX', !selectedObject.flipX);
     canvas.renderAll();
-  };
+  }, [canvas, selectedObject]);
 
-  const flipVertical = () => {
+  const flipVertical = useCallback(() => {
     if (!canvas || !selectedObject) return;
     selectedObject.set('flipY', !selectedObject.flipY);
     canvas.renderAll();
-  };
+  }, [canvas, selectedObject]);
 
-  const updateObjectProperty = (property: string, value: string | number | boolean) => {
+  const updateObjectProperty = useCallback((property: string, value: string | number | boolean) => {
     if (!canvas || !selectedObject) return;
     selectedObject.set(property, value);
     canvas.renderAll();
-    // Trigger re-render to update UI controls
     setObjectUpdateTrigger(prev => prev + 1);
-  };
+  }, [canvas, selectedObject]);
 
-  const updateControlsFromObject = (obj: fabric.Object) => {
+  const updateControlsFromObject = useCallback((obj: fabric.Object) => {
     setTransparency(Math.round((1 - (obj.opacity || 1)) * 100));
     setRotation(Math.round(obj.angle || 0));
     
-    // Get scaled dimensions for proper display
     const width = Math.round((obj.width || 0) * (obj.scaleX || 1));
     const height = Math.round((obj.height || 0) * (obj.scaleY || 1));
     setObjectWidth(width);
     setObjectHeight(height);
-  };
+  }, []);
 
-  const resetControls = () => {
-    setTransparency(0);
-    setRotation(0);
-    setObjectWidth(288);
-    setObjectHeight(70);
-  };
-
-  const handleTransparencyChange = (value: number) => {
+  const handleTransparencyChange = useCallback((value: number) => {
     setTransparency(value);
     if (selectedObject && canvas) {
       selectedObject.set('opacity', 1 - (value / 100));
       canvas.renderAll();
     }
-  };
+  }, [selectedObject, canvas]);
 
-  const handleRotationChange = (value: number) => {
+  const handleRotationChange = useCallback((value: number) => {
     setRotation(value);
     if (selectedObject && canvas) {
       selectedObject.set('angle', value);
       canvas.renderAll();
     }
-  };
+  }, [selectedObject, canvas]);
 
-  const handleWidthChange = (value: number | string) => {
+  const handleWidthChange = useCallback((value: number | string) => {
     const width = typeof value === 'string' ? parseInt(value) || 0 : value;
     setObjectWidth(width);
     if (selectedObject && canvas) {
-      // Handle different object types properly
       if (selectedObject.type === 'circle') {
-        const radius = width / 2;
-        selectedObject.set('radius', radius);
+        selectedObject.set('radius', width / 2);
       } else if (selectedObject.type === 'i-text' || selectedObject.type === 'text') {
-        // For text objects, adjust scale instead of width
-        const currentWidth = (selectedObject.width || 1) * (selectedObject.scaleX || 1);
         const scaleX = width / (selectedObject.width || 1);
         selectedObject.set('scaleX', scaleX);
       } else {
-        // For rectangles and other shapes
         selectedObject.set('width', width);
       }
       canvas.renderAll();
     }
-  };
+  }, [selectedObject, canvas]);
 
-  const handleHeightChange = (value: number | string) => {
+  const handleHeightChange = useCallback((value: number | string) => {
     const height = typeof value === 'string' ? parseInt(value) || 0 : value;
     setObjectHeight(height);
     if (selectedObject && canvas) {
-      // Handle different object types properly
       if (selectedObject.type === 'circle') {
-        const radius = height / 2;
-        selectedObject.set('radius', radius);
+        selectedObject.set('radius', height / 2);
       } else if (selectedObject.type === 'i-text' || selectedObject.type === 'text') {
-        // For text objects, adjust scale instead of height
-        const currentHeight = (selectedObject.height || 1) * (selectedObject.scaleY || 1);
         const scaleY = height / (selectedObject.height || 1);
         selectedObject.set('scaleY', scaleY);
       } else {
-        // For rectangles and other shapes
         selectedObject.set('height', height);
       }
       canvas.renderAll();
     }
-  };
+  }, [selectedObject, canvas]);
 
-  const handleSmartFieldSelect = (value: string | null) => {
+  const handleSmartFieldSelect = useCallback((value: string | null) => {
     if (!value || !canvas) return;
     
-    const fieldTexts = {
-      'name': locale === 'ar' ? 'أحمد محمد' : 'Ahmed Mohammed',
-      'id': '263.7487.1278B',
-      'date': new Date().toLocaleDateString(locale === 'ar' ? 'ar-SA' : 'en-US'),
-      'department': locale === 'ar' ? 'علوم الحاسوب' : 'Computer Science',
-      'age': '25',
-      'salary': locale === 'ar' ? '50,000 ريال' : '$50,000'
-    };
-    
-    // Determine data type based on field type
-    const getDataType = (fieldType: string) => {
-      switch (fieldType) {
-        case 'id':
-        case 'department':
-        case 'name':
-          return 'text';
-        case 'date':
-          return 'date';
-        case 'age':
-        case 'salary':
-          return 'number';
-        default:
-          return 'text';
-      }
-    };
-    
-    // Determine object type based on field type
-    const getObjectType = (fieldType: string) => {
-      switch (fieldType) {
-        case 'name':
-          return 'person';
-        case 'id':
-          return 'identifier';
-        case 'date':
-          return 'temporal';
-        case 'department':
-          return 'organization';
-        case 'age':
-          return 'demographic';
-        case 'salary':
-          return 'financial';
-        default:
-          return 'general';
-      }
-    };
-    
     // If there's a selected text object, convert it to a smart field
-     if (selectedObject && (selectedObject.type === 'i-text' || selectedObject.type === 'text')) {
-       const textObj = selectedObject as fabric.Text;
-       
-       // Update the existing text object to become a smart field (keep original text)
-       textObj.set({
-         isSmartField: true,
-         smartFieldType: value,
-         dataType: getDataType(value),
-         objectType: getObjectType(value),
-         backgroundColor: '#e3f2fd',
-         padding: 4,
-         editable: false
-       });
-       
-       canvas.renderAll();
-       setObjectUpdateTrigger(prev => prev + 1);
+    if (selectedObject && (selectedObject.type === 'i-text' || selectedObject.type === 'text')) {
+      const textObj = selectedObject as fabric.Text;
+      
+      textObj.set({
+        isSmartField: true,
+        smartFieldType: value,
+        dataType: getDataType(value),
+        objectType: getObjectType(value),
+        backgroundColor: '#e3f2fd',
+        padding: 4,
+        editable: false
+      });
+      
+      canvas.renderAll();
+      setObjectUpdateTrigger(prev => prev + 1);
     } else {
       // If no text object is selected, create a new smart field
       const text = new fabric.IText(fieldTexts[value as keyof typeof fieldTexts] || value, {
-        left: 100,
-        top: 100,
+        ...DEFAULT_OBJECT_POSITION,
         fontFamily: 'Arial',
         fontSize: 16,
         fill: '#000000',
@@ -718,33 +617,33 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
       canvas.setActiveObject(text);
       canvas.renderAll();
     }
-  };
+  }, [canvas, selectedObject, getDataType, getObjectType, fieldTexts, isRTL]);
 
-  const toggleBold = () => {
+  const toggleBold = useCallback(() => {
     if (selectedObject?.type === 'i-text' || selectedObject?.type === 'text') {
       const currentWeight = (selectedObject as fabric.Text).fontWeight;
       const newWeight = currentWeight === 'bold' ? 'normal' : 'bold';
       updateObjectProperty('fontWeight', newWeight);
     }
-  };
+  }, [selectedObject, updateObjectProperty]);
 
-  const toggleItalic = () => {
+  const toggleItalic = useCallback(() => {
     if (selectedObject?.type === 'i-text' || selectedObject?.type === 'text') {
       const currentStyle = (selectedObject as fabric.Text).fontStyle;
       const newStyle = currentStyle === 'italic' ? 'normal' : 'italic';
       updateObjectProperty('fontStyle', newStyle);
     }
-  };
+  }, [selectedObject, updateObjectProperty]);
 
-  const toggleUnderline = () => {
+  const toggleUnderline = useCallback(() => {
     if (selectedObject?.type === 'i-text' || selectedObject?.type === 'text') {
       const currentUnderline = (selectedObject as fabric.Text).underline;
       const newUnderline = !currentUnderline;
       updateObjectProperty('underline', newUnderline);
     }
-  };
+  }, [selectedObject, updateObjectProperty]);
 
-  const toggleRTL = () => {
+  const toggleRTL = useCallback(() => {
     setIsRTL(!isRTL);
     if (selectedObject?.type === 'i-text' || selectedObject?.type === 'text') {
       const newDirection = !isRTL ? 'rtl' : 'ltr';
@@ -752,34 +651,33 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
       updateObjectProperty('direction', newDirection);
       updateObjectProperty('textAlign', newAlign);
     }
-  };
+  }, [isRTL, selectedObject, updateObjectProperty]);
 
-  const alignLeft = () => {
+  const alignLeft = useCallback(() => {
     if (selectedObject?.type === 'i-text' || selectedObject?.type === 'text') {
       updateObjectProperty('textAlign', 'left');
     }
-  };
+  }, [selectedObject, updateObjectProperty]);
 
-  const alignCenter = () => {
+  const alignCenter = useCallback(() => {
     if (selectedObject?.type === 'i-text' || selectedObject?.type === 'text') {
       updateObjectProperty('textAlign', 'center');
     }
-  };
+  }, [selectedObject, updateObjectProperty]);
 
-  const alignRight = () => {
+  const alignRight = useCallback(() => {
     if (selectedObject?.type === 'i-text' || selectedObject?.type === 'text') {
       updateObjectProperty('textAlign', 'right');
     }
-  };
+  }, [selectedObject, updateObjectProperty]);
 
-  const changeCanvasBackgroundColor = (color: string) => {
+  const changeCanvasBackgroundColor = useCallback((color: string) => {
     if (!canvas) return;
     setCanvasBackgroundColor(color);
     setCanvasBackgroundImage(null);
     canvas.backgroundColor = color;
     canvas.renderAll();
     
-    // Manually trigger save since background changes don't fire canvas events
     setTimeout(() => {
       const canvasData = JSON.stringify(canvas.toJSON());
       if (currentSide === 'front') {
@@ -788,9 +686,22 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
         setBackCanvasData(canvasData);
       }
     }, 100);
-  };
+  }, [canvas, currentSide]);
 
-  const changeCanvasBackgroundImage = () => {
+  // Helper function for saving canvas data after background changes
+  const saveCanvasDataAfterBackgroundChange = useCallback(() => {
+    if (!canvas) return;
+    setTimeout(() => {
+      const canvasData = JSON.stringify(canvas.toJSON());
+      if (currentSide === 'front') {
+        setFrontCanvasData(canvasData);
+      } else {
+        setBackCanvasData(canvasData);
+      }
+    }, 100);
+  }, [canvas, currentSide]);
+
+  const changeCanvasBackgroundImage = useCallback(() => {
     if (!canvas) return;
     
     const input = document.createElement('input');
@@ -805,29 +716,15 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           const imgUrl = event.target?.result as string;
           setCanvasBackgroundImage(imgUrl);
           fabric.FabricImage.fromURL(imgUrl).then((img) => {
-            // Scale image to fit canvas
             const canvasWidth = canvas.getWidth();
             const canvasHeight = canvas.getHeight();
             const scaleX = canvasWidth / (img.width || 1);
             const scaleY = canvasHeight / (img.height || 1);
             
-            img.set({
-              scaleX: scaleX,
-              scaleY: scaleY,
-            });
-            
+            img.set({ scaleX, scaleY });
             canvas.backgroundImage = img;
             canvas.renderAll();
-            
-            // Manually trigger save since background changes don't fire canvas events
-            setTimeout(() => {
-              const canvasData = JSON.stringify(canvas.toJSON());
-              if (currentSide === 'front') {
-                setFrontCanvasData(canvasData);
-              } else {
-                setBackCanvasData(canvasData);
-              }
-            }, 100);
+            saveCanvasDataAfterBackgroundChange();
           });
         };
         reader.readAsDataURL(file);
@@ -835,51 +732,38 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
     };
     
     input.click();
-  };
+  }, [canvas, saveCanvasDataAfterBackgroundChange]);
 
-  const removeCanvasBackground = () => {
+  const removeCanvasBackground = useCallback(() => {
     if (!canvas) return;
     setCanvasBackgroundImage(null);
     setCanvasBackgroundColor('#ffffff');
     canvas.backgroundColor = '#ffffff';
     canvas.backgroundImage = undefined;
     canvas.renderAll();
-    
-    // Manually trigger save since background changes don't fire canvas events
-    setTimeout(() => {
-      const canvasData = JSON.stringify(canvas.toJSON());
-      if (currentSide === 'front') {
-        setFrontCanvasData(canvasData);
-      } else {
-        setBackCanvasData(canvasData);
-      }
-    }, 100);
-  };
+    saveCanvasDataAfterBackgroundChange();
+  }, [canvas, saveCanvasDataAfterBackgroundChange]);
 
-  const undoAction = () => {
-    // Basic undo functionality - could be enhanced with proper history management
+  const undoAction = useCallback(() => {
     if (canvas && canvas.getObjects().length > 0) {
       const objects = canvas.getObjects();
       canvas.remove(objects[objects.length - 1]);
       canvas.renderAll();
     }
-  };
+  }, [canvas]);
 
-  const redoAction = () => {
-    // Placeholder for redo functionality
-    console.log('Redo action - would need proper history management');
-  };
+  const redoAction = useCallback(() => {
+    // Placeholder for redo functionality - would need proper history management
+  }, []);
 
-  const saveDesign = () => {
+  const saveDesign = useCallback(() => {
     if (!canvas) return;
     
-    // Save current side data first
     saveCurrentSideData();
     
-    // Create comprehensive template data
     const templateData = {
       version: '1.0',
-      canvasOrientation: canvasOrientation,
+      canvasOrientation,
       canvasWidth: canvasOrientation === 'horizontal' ? width : height,
       canvasHeight: canvasOrientation === 'horizontal' ? height : width,
       frontCanvas: frontCanvasData ? JSON.parse(frontCanvasData) : (currentSide === 'front' ? canvas.toJSON() : null),
@@ -887,7 +771,6 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
       createdAt: new Date().toISOString()
     };
     
-    // Create and download JSON file
     const jsonString = JSON.stringify(templateData, null, 2);
     const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -897,13 +780,10 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
     link.download = `id-card-template-${new Date().toISOString().split('T')[0]}.json`;
     link.click();
     
-    // Clean up
     URL.revokeObjectURL(url);
-    
-    console.log('Template saved successfully');
-  };
+  }, [canvas, saveCurrentSideData, canvasOrientation, width, height, frontCanvasData, backCanvasData, currentSide]);
 
-  const importTemplate = () => {
+  const importTemplate = useCallback(() => {
     if (!canvas) return;
     
     const input = document.createElement('input');
@@ -1042,20 +922,14 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
     };
     
     input.click();
-  };
+  }, [canvas, setFrontCanvasData, setBackCanvasData, canvasOrientation, setCanvasOrientation, width, height, setCurrentSide, setSelectedObject]);
 
-  // Alignment functions for multiple objects
-  const alignObjects = (alignment: 'left' | 'center' | 'right' | 'top' | 'middle' | 'bottom') => {
-    console.log('alignObjects called with:', alignment, 'selectedObjects:', selectedObjects.length);
-    if (!canvas || selectedObjects.length < 2) {
-      console.log('Alignment cancelled - canvas:', !!canvas, 'selectedObjects.length:', selectedObjects.length);
-      return;
-    }
+  const alignObjects = useCallback((alignment: 'left' | 'center' | 'right' | 'top' | 'middle' | 'bottom') => {
+    if (!canvas || selectedObjects.length < 2) return;
     
     const objects = selectedObjects;
     let referenceValue: number;
     
-    // Calculate reference value based on alignment type
     switch (alignment) {
       case 'left':
         referenceValue = Math.min(...objects.map(obj => obj.left || 0));
@@ -1100,19 +974,14 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
     }
     
     canvas.renderAll();
-  };
+  }, [canvas, selectedObjects]);
   
-  const distributeObjects = (direction: 'horizontal' | 'vertical') => {
-    console.log('distributeObjects called with:', direction, 'selectedObjects:', selectedObjects.length);
-    if (!canvas || selectedObjects.length < 3) {
-      console.log('Distribution cancelled - canvas:', !!canvas, 'selectedObjects.length:', selectedObjects.length);
-      return;
-    }
+  const distributeObjects = useCallback((direction: 'horizontal' | 'vertical') => {
+    if (!canvas || selectedObjects.length < 3) return;
     
     const objects = [...selectedObjects];
     
     if (direction === 'horizontal') {
-      // Sort by left position
       objects.sort((a, b) => (a.left || 0) - (b.left || 0));
       
       const leftMost = objects[0].left || 0;
@@ -1127,7 +996,6 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
         }
       });
     } else {
-      // Sort by top position
       objects.sort((a, b) => (a.top || 0) - (b.top || 0));
       
       const topMost = objects[0].top || 0;
@@ -1144,7 +1012,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
     }
     
     canvas.renderAll();
-  };
+  }, [canvas, selectedObjects]);
 
   const saveBothSides = async () => {
     if (!canvas) return;
