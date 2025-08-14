@@ -57,8 +57,16 @@ export function ShellLink({
       {...props}
       label={label}
       active={active}
-      variant="light"
       leftSection={icon}
+      variant="light"
+      w="fit-content"
+      py={4}
+      px={20}
+      h={34}
+      href={section}
+      onClick={toggle}
+      component={Link}
+      style={{ borderRadius: 5 }}
     />
   );
 }

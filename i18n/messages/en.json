@@ -5,7 +5,23 @@
     "surveies": "Create Surveys",
     "management": "Management",
     "printer": "Printer",
-    "delivery": "Delivery"
+    "delivery": "Delivery",
+    "customers": "Customers"
   },
-  "logout": "Logout"
+  "name": "name",
+  "phoneNumber": "phone number",
+  "gender": "gender",
+  "organization": "organization",
+  "department": "department",
+  "dateOfBirth": "date of birth",
+  "logout": "Logout",
+
+  "add": "Add",
+  "edit": "Edit",
+  "delete": "Delete",
+  "view": "View",
+  "customer": {
+    "customers": "Customers",
+    "customer": "Customer"
+  }
 }

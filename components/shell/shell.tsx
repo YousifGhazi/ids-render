@@ -1,53 +1,23 @@
 "use client";
 
-import {
-  HEADER_HEIGHT,
-  NAVBAR_WIDTH_COLLAPSED,
-  NAVBAR_WIDTH_FULL,
-} from "@/utils/constants";
-import {
-  AppShell,
-  AppShellHeader,
-  AppShellMain,
-  AppShellNavbar,
-} from "@mantine/core";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { Header } from "./header";
-import { Sidebar } from "./sidebar";
+import { HEADER_HEIGHT } from "@/utils/constants";
+import { AppShell, AppShellHeader, AppShellMain } from "@mantine/core";
+import { Header } from "./header/";
 
-export function Shell({
-  children,
-  initialFullSize,
-}: {
-  children: React.ReactNode;
-  initialFullSize: boolean;
-}) {
-  const pathname = usePathname();
-  const [fullSize] = useState(initialFullSize);
-
-  const uuidRegex = /^\/employees\/[0-9a-fA-F-]{36}$/;
-  const isEmployeePage = uuidRegex.test(pathname);
-
+export function Shell({ children }: { children: React.ReactNode }) {
   return (
-    <AppShell
-      padding="md"
-      header={{ height: HEADER_HEIGHT }}
-      aside={isEmployeePage ? { width: 300, breakpoint: "sm" } : undefined}
-      navbar={{
-        breakpoint: "sm",
-        width: fullSize ? NAVBAR_WIDTH_FULL : NAVBAR_WIDTH_COLLAPSED,
-      }}
-    >
+    <AppShell header={{ height: HEADER_HEIGHT }}>
       <AppShellHeader>
         <Header />
       </AppShellHeader>
 
-      <AppShellNavbar>
-        <Sidebar fullSize={fullSize} />
-      </AppShellNavbar>
-
-      <AppShellMain>{children}</AppShellMain>
+      <AppShellMain
+        style={{
+          height: "calc(100dvh - var(--app-shell-header-height))",
+        }}
+      >
+        {children}
+      </AppShellMain>
     </AppShell>
   );
 }
