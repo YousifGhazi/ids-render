@@ -23,5 +23,87 @@
   "customer": {
     "customers": "Customers",
     "customer": "Customer"
+  },
+  "idsDesigner": {
+    "addText": "Add Text",
+    "addShape": "Add Shape",
+    "addImage": "Add Image",
+    "delete": "Delete",
+    "duplicate": "Duplicate",
+    "flipHorizontal": "Flip Horizontal",
+    "flipVertical": "Flip Vertical",
+    "undo": "Undo",
+    "redo": "Redo",
+    "save": "Save",
+    "download": "Download",
+    "front": "Front",
+    "back": "Back",
+    "horizontal": "Horizontal",
+    "vertical": "Vertical",
+    "zoomIn": "Zoom In",
+    "zoomOut": "Zoom Out",
+    "resetZoom": "Reset Zoom",
+    "transparency": "Transparency",
+    "rotation": "Rotation",
+    "width": "Width",
+    "height": "Height",
+    "backgroundColor": "Background Color",
+    "backgroundImage": "Background Image",
+    "removeBackground": "Remove Background",
+    "textTypes": {
+      "singleLine": "Single Line Text",
+      "multiLine": "Multi Line Text",
+      "smartFields": "Smart Fields"
+    },
+    "smartFields": {
+      "name": "Name",
+      "id": "ID Number",
+      "date": "Date",
+      "department": "Department",
+      "age": "Age",
+      "salary": "Salary",
+      "indicator": "Smart Field",
+      "unknown": "Unknown"
+    },
+    "shapes": {
+      "square": "Square",
+      "rectangle": "Rectangle",
+      "circle": "Circle",
+      "triangle": "Triangle",
+      "star": "Star",
+      "line": "Line"
+    },
+    "textFormatting": {
+      "bold": "Bold",
+      "italic": "Italic",
+      "underline": "Underline",
+      "alignLeft": "Align Left",
+      "alignCenter": "Align Center",
+      "alignRight": "Align Right",
+      "rtl": "Right to Left"
+    },
+    "alignment": {
+      "alignObjects": "Align Objects",
+      "distributeObjects": "Distribute Objects",
+      "alignTop": "Align Top",
+      "alignMiddle": "Align Middle",
+      "alignBottom": "Align Bottom",
+      "distributeHorizontal": "Distribute Horizontal",
+      "distributeVertical": "Distribute Vertical"
+    },
+    "panels": {
+      "smartFields": "Smart Fields",
+      "objects": "Objects",
+      "properties": "Properties"
+    },
+    "canvas": {
+      "selectCanvas": "Select canvas to change background",
+      "orientation": "Orientation",
+      "zoom": "Zoom"
+    },
+    "actions": {
+      "importTemplate": "Import Template",
+      "saveBothSides": "Save Both Sides"
+    }
   }
 }

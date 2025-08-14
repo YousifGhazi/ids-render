@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import * as fabric from 'fabric';
 import { Box, Button, Group, Stack, Text, ColorInput, NumberInput, TextInput, Paper, ActionIcon, Divider, Select, Slider, Switch, Tabs, Checkbox } from '@mantine/core';
 import { IconSquare, IconCircle, IconLetterT, IconPhoto, IconTrash, IconCopy, IconFlipHorizontal, IconFlipVertical, IconSettings, IconPalette, IconShape, IconAccessible, IconEye, IconRotate, IconColorPicker, IconBold, IconItalic, IconUnderline, IconDownload, IconDeviceFloppy, IconArrowBackUp, IconArrowForwardUp, IconTriangle, IconStar, IconMinus, IconAlignLeft, IconAlignCenter, IconAlignRight, IconAlignBoxTopCenter, IconAlignBoxCenterMiddle, IconAlignBoxBottomCenter, IconLayoutDistributeHorizontal, IconLayoutDistributeVertical, IconZoomIn, IconZoomOut, IconZoom, IconUpload } from '@tabler/icons-react';
+import { useTranslations, useLocale } from 'next-intl';
 
 interface IDCardDesignerProps {
   width?: number;
@@ -11,6 +12,8 @@ interface IDCardDesignerProps {
 }
 
 export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesignerProps) {
+  const t = useTranslations('idsDesigner');
+  const locale = useLocale();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [canvas, setCanvas] = useState<fabric.Canvas | null>(null);
   const [selectedObject, setSelectedObject] = useState<fabric.Object | null>(null);
@@ -28,7 +31,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
   const [objectUpdateTrigger, setObjectUpdateTrigger] = useState(0);
   const [canvasOrientation, setCanvasOrientation] = useState<'horizontal' | 'vertical'>('horizontal');
   const [zoomLevel, setZoomLevel] = useState(100);
-  const [isRTL, setIsRTL] = useState(true);
+  const [isRTL, setIsRTL] = useState(locale === 'ar');
   const [canvasSelected, setCanvasSelected] = useState(false);
   const [canvasBackgroundColor, setCanvasBackgroundColor] = useState('#ffffff');
   const [canvasBackgroundImage, setCanvasBackgroundImage] = useState<string | null>(null);
@@ -264,7 +267,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
   const addStaticText = (type: 'single' | 'multi') => {
     if (!canvas) return;
     
-    const text = new fabric.IText(type === 'single' ? 'نص من سطر واحد' : 'نص متعدد\nالأسطر', {
+    const text = new fabric.IText(type === 'single' ? t('textTypes.singleLine') : t('textTypes.multiLine'), {
       left: 100,
       top: 100,
       fontFamily: 'Arial',
@@ -285,12 +288,12 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
     if (!canvas) return;
     
     const fieldTexts = {
-      'name': 'أحمد محمد',
+      'name': locale === 'ar' ? 'أحمد محمد' : 'Ahmed Mohammed',
       'id': '263.7487.1278B',
-      'date': new Date().toLocaleDateString('ar-SA'),
-      'department': 'علوم الحاسوب',
+      'date': new Date().toLocaleDateString(locale === 'ar' ? 'ar-SA' : 'en-US'),
+      'department': locale === 'ar' ? 'علوم الحاسوب' : 'Computer Science',
       'age': '25',
-      'salary': '50,000 ريال'
+      'salary': locale === 'ar' ? '50,000 ريال' : '$50,000'
     };
     
     // Determine data type based on field type
@@ -630,12 +633,12 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
     if (!value || !canvas) return;
     
     const fieldTexts = {
-      'name': 'أحمد محمد',
+      'name': locale === 'ar' ? 'أحمد محمد' : 'Ahmed Mohammed',
       'id': '263.7487.1278B',
-      'date': new Date().toLocaleDateString('ar-SA'),
-      'department': 'علوم الحاسوب',
+      'date': new Date().toLocaleDateString(locale === 'ar' ? 'ar-SA' : 'en-US'),
+      'department': locale === 'ar' ? 'علوم الحاسوب' : 'Computer Science',
       'age': '25',
-      'salary': '50,000 ريال'
+      'salary': locale === 'ar' ? '50,000 ريال' : '$50,000'
     };
     
     // Determine data type based on field type
@@ -1271,7 +1274,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
         }}>
           <Box p="lg">
             <Group justify="space-between" align="center" mb="lg">
-              <Text size="lg" fw={700} c="#212529">نص</Text>
+              <Text size="lg" fw={700} c="#212529">{t('panels.objects')}</Text>
               <ActionIcon 
                 variant="subtle" 
                 size="sm" 
@@ -1284,7 +1287,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
             <Stack gap="lg">
               {/* Static Text Section */}
               <div>
-                <Text size="md" fw={600} c="#495057" mb="md">نص ثابت</Text>
+                <Text size="md" fw={600} c="#495057" mb="md">{t('addText')}</Text>
                 <Stack gap="sm">
                   <Button 
                     variant="light" 
@@ -1301,7 +1304,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     }}
                   >
                     <div style={{ textAlign: 'left' }}>
-                      <Text size="sm" fw={500}>سطر واحد</Text>
+                      <Text size="sm" fw={500}>{t('textTypes.singleLine')}</Text>
                     </div>
                   </Button>
                   <Button 
@@ -1319,7 +1322,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     }}
                   >
                     <div style={{ textAlign: 'left' }}>
-                      <Text size="sm" fw={500}>نص متعدد الأسطر</Text>
+                      <Text size="sm" fw={500}>{t('textTypes.multiLine')}</Text>
                     </div>
                   </Button>
                 </Stack>
@@ -1328,7 +1331,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
               {/* Variable Text Section */}
               <div>
                 <Group gap="xs" mb="md">
-                  <Text size="md" fw={600} c="#495057">نص متغير</Text>
+                  <Text size="md" fw={600} c="#495057">{t('textTypes.smartFields')}</Text>
                   <ActionIcon size="xs" variant="subtle">
                     <Text size="xs" c="#6c757d">?</Text>
                   </ActionIcon>
@@ -1348,7 +1351,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     }}
                   >
                     <div style={{ textAlign: 'left' }}>
-                      <Text size="sm" fw={500}>الاسم</Text>
+                      <Text size="sm" fw={500}>{t('smartFields.name')}</Text>
                     </div>
                   </Button>
                   <Button 
@@ -1365,7 +1368,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     }}
                   >
                     <div style={{ textAlign: 'left' }}>
-                      <Text size="sm" fw={500}>الهوية</Text>
+                      <Text size="sm" fw={500}>{t('smartFields.id')}</Text>
                     </div>
                   </Button>
                   <Button 
@@ -1382,7 +1385,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     }}
                   >
                     <div style={{ textAlign: 'left' }}>
-                      <Text size="sm" fw={500}>التاريخ</Text>
+                      <Text size="sm" fw={500}>{t('smartFields.date')}</Text>
                     </div>
                   </Button>
                   <Button 
@@ -1399,7 +1402,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     }}
                   >
                     <div style={{ textAlign: 'left' }}>
-                      <Text size="sm" fw={500}>القسم</Text>
+                      <Text size="sm" fw={500}>{t('smartFields.department')}</Text>
                     </div>
                   </Button>
                 </Stack>
@@ -1420,7 +1423,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
         }}>
           <Box p="lg">
             <Group justify="space-between" align="center" mb="lg">
-              <Text size="lg" fw={700} c="#212529">الحقول المتغيرة</Text>
+              <Text size="lg" fw={700} c="#212529">{t('panels.smartFields')}</Text>
               <ActionIcon 
                 variant="subtle" 
                 size="sm" 
@@ -1432,10 +1435,10 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
             
             <Stack gap="sm">
               {[
-                { value: 'name', label: 'الاسم الكامل', icon: '👤' },
-                { value: 'id', label: 'رقم الهوية', icon: '🆔' },
-                { value: 'date', label: 'التاريخ', icon: '📅' },
-                { value: 'department', label: 'القسم', icon: '🏢' }
+                { value: 'name', label: t('smartFields.name'), icon: '👤' },
+                { value: 'id', label: t('smartFields.id'), icon: '🆔' },
+                { value: 'date', label: t('smartFields.date'), icon: '📅' },
+                { value: 'department', label: t('smartFields.department'), icon: '🏢' }
               ].map((field) => (
                 <Button 
                   key={field.value}
@@ -1476,7 +1479,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
         }}>
           <Box p="lg">
             <Group justify="space-between" align="center" mb="lg">
-              <Text size="lg" fw={700} c="#212529">الأشكال</Text>
+              <Text size="lg" fw={700} c="#212529">{t('panels.shapes')}</Text>
               <ActionIcon 
                 variant="subtle" 
                 size="sm" 
@@ -1489,7 +1492,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
             <Stack gap="lg">
               {/* Basic Shapes */}
               <div>
-                <Text size="md" fw={600} c="#495057" mb="md">الأشكال الأساسية</Text>
+                <Text size="md" fw={600} c="#495057" mb="md">{t('shapes.basicShapes')}</Text>
                 <Stack gap="sm">
                   <Button 
                     variant="light" 
@@ -1506,7 +1509,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     }}
                   >
                     <div style={{ textAlign: 'left' }}>
-                      <Text size="sm" fw={500}>مربع</Text>
+                      <Text size="sm" fw={500}>{t('shapes.square')}</Text>
                     </div>
                   </Button>
                   <Button 
@@ -1524,7 +1527,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     }}
                   >
                     <div style={{ textAlign: 'left' }}>
-                      <Text size="sm" fw={500}>مستطيل</Text>
+                      <Text size="sm" fw={500}>{t('shapes.rectangle')}</Text>
                     </div>
                   </Button>
                   <Button 
@@ -1542,7 +1545,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     }}
                   >
                     <div style={{ textAlign: 'left' }}>
-                      <Text size="sm" fw={500}>مثلث</Text>
+                      <Text size="sm" fw={500}>{t('shapes.triangle')}</Text>
                     </div>
                   </Button>
                   <Button 
@@ -1560,7 +1563,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     }}
                   >
                     <div style={{ textAlign: 'left' }}>
-                      <Text size="sm" fw={500}>دائرة</Text>
+                      <Text size="sm" fw={500}>{t('shapes.circle')}</Text>
                     </div>
                   </Button>
                   <Button 
@@ -1578,7 +1581,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     }}
                   >
                     <div style={{ textAlign: 'left' }}>
-                      <Text size="sm" fw={500}>نجمة</Text>
+                      <Text size="sm" fw={500}>{t('shapes.star')}</Text>
                     </div>
                   </Button>
                   <Button 
@@ -1596,7 +1599,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     }}
                   >
                     <div style={{ textAlign: 'left' }}>
-                      <Text size="sm" fw={500}>خط</Text>
+                      <Text size="sm" fw={500}>{t('shapes.line')}</Text>
                     </div>
                   </Button>
                 </Stack>
@@ -1640,21 +1643,21 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
             {/* Canvas Orientation Controls */}
             <Divider orientation="vertical" />
             <Group gap="xs">
-              <Text size="xs" c="#6c757d">الاتجاه:</Text>
+              <Text size="xs" c="#6c757d">{t('canvas.orientation')}:</Text>
               <Button.Group>
                 <Button
                   variant={canvasOrientation === 'horizontal' ? 'filled' : 'outline'}
                   size="xs"
                   onClick={() => setCanvasOrientation('horizontal')}
                 >
-                  أفقي
+                  {t('canvas.horizontal')}
                 </Button>
                 <Button
                   variant={canvasOrientation === 'vertical' ? 'filled' : 'outline'}
                   size="xs"
                   onClick={() => setCanvasOrientation('vertical')}
                 >
-                  عمودي
+                  {t('canvas.vertical')}
                 </Button>
               </Button.Group>
             </Group>
@@ -1662,14 +1665,14 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
              {/* Zoom Controls */}
              <Divider orientation="vertical" />
              <Group gap="xs">
-               <Text size="xs" c="#6c757d">التكبير:</Text>
+               <Text size="xs" c="#6c757d">{t('canvas.zoom')}:</Text>
                <ActionIcon
                  variant="subtle"
                  size="md"
                  radius="sm"
                  onClick={() => setZoomLevel(prev => Math.max(25, prev - 25))}
                  disabled={zoomLevel <= 25}
-                 title="Zoom Out"
+                 title={t('canvas.zoomOut')}
                >
                  <IconZoomOut size={16} />
                </ActionIcon>
@@ -1682,7 +1685,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                  radius="sm"
                  onClick={() => setZoomLevel(prev => Math.min(200, prev + 25))}
                  disabled={zoomLevel >= 200}
-                 title="Zoom In"
+                 title={t('canvas.zoomIn')}
                >
                  <IconZoomIn size={16} />
                </ActionIcon>
@@ -1691,7 +1694,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                  size="md"
                  radius="sm"
                  onClick={() => setZoomLevel(100)}
-                 title="Reset Zoom"
+                 title={t('canvas.resetZoom')}
                >
                  <IconZoom size={16} />
                </ActionIcon>
@@ -1702,13 +1705,13 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
               <>
                 <Divider orientation="vertical" />
                 <Group gap="xs">
-                  <Text size="xs" c="#6c757d">المحاذاة:</Text>
+                  <Text size="xs" c="#6c757d">{t('alignment.title')}:</Text>
                   <ActionIcon
                     variant="subtle"
                     size="md"
                     radius="sm"
                     onClick={() => alignObjects('left')}
-                    title="Align Left"
+                    title={t('alignment.left')}
                   >
                     <IconAlignLeft size={16} />
                   </ActionIcon>
@@ -1717,7 +1720,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     size="md"
                     radius="sm"
                     onClick={() => alignObjects('center')}
-                    title="Align Center"
+                    title={t('alignment.center')}
                   >
                     <IconAlignCenter size={16} />
                   </ActionIcon>
@@ -1726,7 +1729,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     size="md"
                     radius="sm"
                     onClick={() => alignObjects('right')}
-                    title="Align Right"
+                    title={t('alignment.right')}
                   >
                     <IconAlignRight size={16} />
                   </ActionIcon>
@@ -1735,7 +1738,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     size="md"
                     radius="sm"
                     onClick={() => alignObjects('top')}
-                    title="Align Top"
+                    title={t('alignment.top')}
                   >
                     <IconAlignBoxTopCenter size={16} />
                   </ActionIcon>
@@ -1744,7 +1747,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     size="md"
                     radius="sm"
                     onClick={() => alignObjects('middle')}
-                    title="Align Middle"
+                    title={t('alignment.middle')}
                   >
                     <IconAlignBoxCenterMiddle size={16} />
                   </ActionIcon>
@@ -1753,7 +1756,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     size="md"
                     radius="sm"
                     onClick={() => alignObjects('bottom')}
-                    title="Align Bottom"
+                    title={t('alignment.bottom')}
                   >
                     <IconAlignBoxBottomCenter size={16} />
                   </ActionIcon>
@@ -1764,7 +1767,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                         size="md"
                         radius="sm"
                         onClick={() => distributeObjects('horizontal')}
-                        title="Distribute Horizontally"
+                        title={t('alignment.distributeHorizontal')}
                       >
                         <IconLayoutDistributeHorizontal size={16} />
                       </ActionIcon>
@@ -1773,7 +1776,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                         size="md"
                         radius="sm"
                         onClick={() => distributeObjects('vertical')}
-                        title="Distribute Vertically"
+                        title={t('alignment.distributeVertical')}
                       >
                         <IconLayoutDistributeVertical size={16} />
                       </ActionIcon>
@@ -1790,7 +1793,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
               size="md"
               radius="sm"
               onClick={importTemplate}
-              title="Import Template"
+              title={t('actions.importTemplate')}
               color="green"
             >
               <IconUpload size={16} />
@@ -1874,7 +1877,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     border: currentSide !== 'front' ? '1px solid #dee2e6' : undefined
                   }}
                 >
-                  Front
+                  {t('canvas.front')}
                 </Button>
                 <Button 
                   variant={currentSide === 'back' ? 'gradient' : 'subtle'} 
@@ -1888,7 +1891,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                     border: currentSide !== 'back' ? '1px solid #dee2e6' : undefined
                   }}
                 >
-                  Back
+                  {t('canvas.back')}
                 </Button>
               </Group>
             </Box>
@@ -1907,7 +1910,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           overflowY: 'auto'
         }}>
         <Box p="xl">
-          <Text size="lg" fw={700} mb="xl" c="#212529">Properties</Text>
+          <Text size="lg" fw={700} mb="xl" c="#212529">{t('panels.properties')}</Text>
           
           {/* Canvas Selection Indicator */}
           {canvasSelected && (
@@ -1942,7 +1945,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                   }}
                 />
                 <Text size="xs" c="#1976d2" mt={4}>
-                  🔒 حقل ذكي: {(selectedObject as fabric.Text & { smartFieldType?: string }).smartFieldType || 'غير معروف'}
+                  🔒 {t('smartFields.indicator')}: {(selectedObject as fabric.Text & { smartFieldType?: string }).smartFieldType || t('smartFields.unknown')}
                 </Text>
               </Box>
             ) : (

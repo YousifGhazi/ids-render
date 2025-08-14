@@ -23,5 +23,87 @@
   "customer": {
     "customers": "المستخدمين",
     "customer": "المستخدم"
+  },
+  "idsDesigner": {
+    "addText": "إضافة نص",
+    "addShape": "إضافة شكل",
+    "addImage": "إضافة صورة",
+    "delete": "حذف",
+    "duplicate": "نسخ",
+    "flipHorizontal": "قلب أفقي",
+    "flipVertical": "قلب عمودي",
+    "undo": "تراجع",
+    "redo": "إعادة",
+    "save": "حفظ",
+    "download": "تحميل",
+    "front": "الوجه الأمامي",
+    "back": "الوجه الخلفي",
+    "horizontal": "أفقي",
+    "vertical": "عمودي",
+    "zoomIn": "تكبير",
+    "zoomOut": "تصغير",
+    "resetZoom": "إعادة تعيين التكبير",
+    "transparency": "الشفافية",
+    "rotation": "الدوران",
+    "width": "العرض",
+    "height": "الارتفاع",
+    "backgroundColor": "لون الخلفية",
+    "backgroundImage": "صورة الخلفية",
+    "removeBackground": "إزالة الخلفية",
+    "textTypes": {
+      "singleLine": "نص من سطر واحد",
+      "multiLine": "نص متعدد الأسطر",
+      "smartFields": "الحقول الذكية"
+    },
+    "smartFields": {
+      "name": "الاسم",
+      "id": "رقم الهوية",
+      "date": "التاريخ",
+      "department": "القسم",
+      "age": "العمر",
+      "salary": "الراتب",
+      "indicator": "حقل ذكي",
+      "unknown": "غير معروف"
+    },
+    "shapes": {
+      "square": "مربع",
+      "rectangle": "مستطيل",
+      "circle": "دائرة",
+      "triangle": "مثلث",
+      "star": "نجمة",
+      "line": "خط"
+    },
+    "textFormatting": {
+      "bold": "عريض",
+      "italic": "مائل",
+      "underline": "تحته خط",
+      "alignLeft": "محاذاة يسار",
+      "alignCenter": "محاذاة وسط",
+      "alignRight": "محاذاة يمين",
+      "rtl": "من اليمين إلى اليسار"
+    },
+    "alignment": {
+      "alignObjects": "محاذاة الكائنات",
+      "distributeObjects": "توزيع الكائنات",
+      "alignTop": "محاذاة علوية",
+      "alignMiddle": "محاذاة وسطية",
+      "alignBottom": "محاذاة سفلية",
+      "distributeHorizontal": "توزيع أفقي",
+      "distributeVertical": "توزيع عمودي"
+    },
+    "panels": {
+      "smartFields": "الحقول الذكية",
+      "objects": "الكائنات",
+      "properties": "الخصائص"
+    },
+    "canvas": {
+      "selectCanvas": "اختر اللوحة لتغيير الخلفية",
+      "orientation": "الاتجاه",
+      "zoom": "التكبير"
+    },
+    "actions": {
+      "importTemplate": "استيراد قالب",
+      "saveBothSides": "حفظ الوجهين"
+    }
   }
 }
