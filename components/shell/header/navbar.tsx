@@ -26,7 +26,7 @@ export function Navbar() {
         icon={<IconUsersGroup size={18} />}
       />
       <ShellLink
-        section="/ids"
+        section="/ids-templates"
         label={t("sidebar.ids")}
         icon={<IconIdBadge size={18} />}
       />
