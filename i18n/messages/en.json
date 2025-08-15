@@ -25,6 +25,8 @@
     "customer": "Customer"
   },
   "idsDesigner": {
+    "title": "ID Card Designer",
+    "subtitle": "Create professional ID cards with our intuitive designer",
     "addText": "Add Text",
     "addShape": "Add Shape",
     "addImage": "Add Image",
@@ -50,6 +52,17 @@
     "backgroundColor": "Background Color",
     "backgroundImage": "Background Image",
     "removeBackground": "Remove Background",
+    "templates": {
+      "title": "ID Card Templates",
+      "subtitle": "Choose from our collection of professional ID card templates or create your own from scratch",
+      "createNew": "Create New",
+      "popular": "Popular",
+      "preview": "Preview",
+      "useTemplate": "Use Template",
+      "createCustom": "Create Custom Template",
+      "createCustomDescription": "Start with a blank canvas and design your unique ID card from scratch",
+      "startFromScratch": "Start from Scratch"
+    },
     "textTypes": {
       "singleLine": "Single Line Text",
       "multiLine": "Multi Line Text",
@@ -57,6 +70,7 @@
     },
     "smartFields": {
       "name": "Name",
+      "Title": "Smart Field",
       "id": "ID Number",
       "date": "Date",
       "department": "Department",
@@ -99,11 +113,70 @@
     "canvas": {
       "selectCanvas": "Select canvas to change background",
       "orientation": "Orientation",
-      "zoom": "Zoom"
+      "zoom": "Zoom",
+      "back": "Back",
+      "front": "Front",
+      "horizontal": "Horizontal",
+      "vertical": "Vertical",
+      "zoomOut": "Zoom Out",
+      "zoomIn": "Zoom In",
+      "resetZoom": "Reset Zoom"
     },
     "actions": {
       "importTemplate": "Import Template",
       "saveBothSides": "Save Both Sides"
+    },
+    "placeholders": {
+      "smartField": "Smart Field",
+      "enterTextHere": "Enter text here...",
+      "selectSmartField": "Select a field to insert...",
+      "fontFamily": "Font Family",
+      "fontSize": "Size",
+      "selectDataType": "Select data type",
+      "enterVariableName": "Enter variable name",
+      "backgroundColor": "Background Color",
+      "fillColor": "Choose fill color",
+      "strokeColor": "Choose stroke color",
+      "strokeWidth": "Stroke width"
+    },
+    "labels": {
+      "textContent": "Text Content",
+      "typography": "Typography",
+      "dataType": "Data Type",
+      "variableSettings": "Variable Settings",
+      "markAsVariable": "Mark as Variable",
+      "canvasBackground": "Canvas Background",
+      "fillColor": "Fill Color",
+      "strokeColor": "Stroke Color",
+      "strokeWidth": "Stroke Width",
+      "transparency": "Transparency",
+      "rotation": "Rotation",
+      "dimensions": "Dimensions",
+      "objectActions": "Object Actions",
+      "width": "W",
+      "height": "H"
+    },
+    "buttons": {
+      "setImage": "Set Image",
+      "clear": "Clear"
+    },
+    "dataTypes": {
+      "text": "Text",
+      "number": "Number",
+      "date": "Date"
+    },
+    "messages": {
+      "backgroundImageApplied": "Background image applied",
+      "toggleRTL": "Toggle RTL (Right-to-Left)"
+    },
+    "shapes": {
+      "basicShapes": "Basic Shapes",
+      "square": "Square",
+      "rectangle": "Rectangle",
+      "circle": "Circle",
+      "triangle": "Triangle",
+      "star": "Star",
+      "line": "Line"
     }
   }
 }

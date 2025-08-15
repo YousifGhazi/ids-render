@@ -577,26 +577,40 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
   }, [selectedObject, canvas]);
 
   const handleSmartFieldSelect = useCallback((value: string | null) => {
-    if (!value || !canvas) return;
+    if (!canvas) return;
     
-    // If there's a selected text object, convert it to a smart field
+    // If there's a selected text object
     if (selectedObject && (selectedObject.type === 'i-text' || selectedObject.type === 'text')) {
       const textObj = selectedObject as fabric.Text;
       
-      textObj.set({
-        isSmartField: true,
-        smartFieldType: value,
-        dataType: getDataType(value),
-        objectType: getObjectType(value),
-        backgroundColor: '#e3f2fd',
-        padding: 4,
-        editable: false
-      });
+      if (value) {
+        // Convert to smart field
+        textObj.set({
+          isSmartField: true,
+          smartFieldType: value,
+          dataType: getDataType(value),
+          objectType: getObjectType(value),
+          backgroundColor: '#e3f2fd',
+          padding: 4,
+          editable: false
+        });
+      } else {
+        // Clear smart field (convert back to regular text)
+        textObj.set({
+          isSmartField: false,
+          smartFieldType: '',
+          dataType: 'text',
+          objectType: 'general',
+          backgroundColor: 'transparent',
+          padding: 0,
+          editable: true
+        });
+      }
       
       canvas.renderAll();
       setObjectUpdateTrigger(prev => prev + 1);
-    } else {
-      // If no text object is selected, create a new smart field
+    } else if (value) {
+      // If no text object is selected and value is provided, create a new smart field
       const text = new fabric.IText(fieldTexts[value as keyof typeof fieldTexts] || value, {
         ...DEFAULT_OBJECT_POSITION,
         fontFamily: 'Arial',
@@ -1784,7 +1798,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           {canvasSelected && (
             <Paper p="sm" mb="xl" style={{ backgroundColor: '#e3f2fd', border: '1px solid #2196f3' }}>
               <Group gap="xs">
-                <Text size="sm" fw={600} c="#1976d2">🎨 تم تحديد اللوحة</Text>
+                <Text size="sm" fw={600} c="#1976d2">🎨 {t('canvas.selectCanvas')}</Text>
               </Group>
               <Text size="xs" c="#1976d2" mt={4}>
 انقر على عنصر لتحرير خصائصه، أو قم بتعديل خلفية اللوحة أدناه.
@@ -1794,11 +1808,11 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           
           {/* Add Text Section */}
           <Stack gap="md" mb="xl">
-            <Text size="sm" fw={600} c="#495057">محتوى النص</Text>
+            <Text size="sm" fw={600} c="#495057">{t('labels.textContent')}</Text>
             {selectedObject && (selectedObject as fabric.Text & { isSmartField?: boolean; smartFieldType?: string }).isSmartField ? (
               <Box>
                 <TextInput
-                  placeholder="حقل ذكي"
+                  placeholder={t('placeholders.smartField')}
                   size="xs"
                   radius="xs"
                   value={(selectedObject as fabric.Text).text || ''}
@@ -1818,7 +1832,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
               </Box>
             ) : (
               <TextInput
-                placeholder="أدخل النص هنا..."
+                placeholder={t('placeholders.enterTextHere')}
                 size="xs"
                 radius="xs"
                 value={selectedObject?.type === 'i-text' ? (selectedObject as fabric.IText).text : ''}
@@ -1845,13 +1859,13 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           {/* Smart Field Section */}
           <Stack gap="md" mb="xl">
             <Group justify="space-between" align="center">
-              <Text size="sm" fw={600} c="#495057">الحقول الذكية</Text>
+              <Text size="sm" fw={600} c="#495057">{t('smartFields.title')}</Text>
               <ActionIcon size="sm" variant="subtle" radius="md">
                 <Text size="sm" c="#6c757d">?</Text>
               </ActionIcon>
             </Group>
             <Select
-              placeholder="اختر حقلاً لإدراجه..."
+              placeholder={t('placeholders.selectSmartField')}
               size="xs"
               radius="xs"
               data={[
@@ -1862,7 +1876,11 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                 { value: 'age', label: '🔢 العمر' },
                 { value: 'salary', label: '💰 الراتب' }
               ]}
+              value={(selectedObject && (selectedObject.type === 'i-text' || selectedObject.type === 'text') && (selectedObject as fabric.Text & { isSmartField?: boolean; smartFieldType?: string })?.isSmartField) 
+                ? (selectedObject as fabric.Text & { smartFieldType?: string })?.smartFieldType || null 
+                : null}
               onChange={handleSmartFieldSelect}
+              clearable
               styles={{
                 input: {
                   backgroundColor: '#ffffff',
@@ -1877,10 +1895,10 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
 
           {/* Text Style Section */}
           <Stack gap="md" mb="xl">
-            <Text size="sm" fw={600} c="#495057">Typography</Text>
+            <Text size="sm" fw={600} c="#495057">{t('labels.typography')}</Text>
             <Group gap="md">
               <Select
-                placeholder="Font Family"
+                placeholder={t('placeholders.fontFamily')}
                 size="xs"
                 radius="xs"
                 style={{ flex: 1 }}
@@ -1911,7 +1929,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                 size="xs"
                 radius="xs"
                 w={60}
-                placeholder="الحجم"
+                placeholder={t('placeholders.fontSize')}
                 value={(selectedObject?.type === 'i-text' || selectedObject?.type === 'text') ? (selectedObject as fabric.Text).fontSize : undefined}
                 onChange={(value) => {
                   if ((selectedObject?.type === 'i-text' || selectedObject?.type === 'text') && canvas && value) {
@@ -2007,7 +2025,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                 radius="sm"
                 onClick={toggleRTL}
                 disabled={selectedObject?.type !== 'i-text' && selectedObject?.type !== 'text'}
-                title="Toggle RTL (Right-to-Left)"
+                title={t('messages.toggleRTL')}
               >
                 <Text size="xs" fw={600}>RTL</Text>
               </ActionIcon>
@@ -2017,15 +2035,15 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           {/* Data Type Section */}
           {(selectedObject?.type === 'i-text' || selectedObject?.type === 'text') && (
             <Stack gap="md" mb="xl">
-              <Text size="sm" fw={600} c="#495057">Data Type</Text>
+              <Text size="sm" fw={600} c="#495057">{t('labels.dataType')}</Text>
               <Select
-                placeholder="Select data type"
+                placeholder={t('placeholders.selectDataType')}
                 size="xs"
                 radius="xs"
                 data={[
-                  { value: 'text', label: '📝 Text' },
-                  { value: 'number', label: '🔢 Number' },
-                  { value: 'date', label: '📅 Date' }
+                  { value: 'text', label: `📝 ${t('dataTypes.text')}` },
+                  { value: 'number', label: `🔢 ${t('dataTypes.number')}` },
+                  { value: 'date', label: `📅 ${t('dataTypes.date')}` }
                 ]}
                 value={(selectedObject as fabric.Text & { dataType?: string })?.dataType || 'text'}
                 onChange={(value) => {
@@ -2049,18 +2067,43 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           {/* Variable Section */}
           {(selectedObject?.type === 'i-text' || selectedObject?.type === 'text') && (
             <Stack gap="md" mb="xl">
-              <Text size="sm" fw={600} c="#495057">Variable Settings</Text>
+              <Text size="sm" fw={600} c="#495057">{t('labels.variableSettings')}</Text>
               <Checkbox
-                 label="Mark as Variable"
+                 label={t('labels.markAsVariable')}
                  size="xs"
-                 checked={(selectedObject as fabric.Text & { isSmartField?: boolean })?.isSmartField || false}
+                 checked={(() => {
+                   // Force re-evaluation when objectUpdateTrigger changes
+                   const _ = objectUpdateTrigger;
+                   return (selectedObject as fabric.Text & { isSmartField?: boolean })?.isSmartField || false;
+                 })()}
                  onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                    if ((selectedObject?.type === 'i-text' || selectedObject?.type === 'text') && canvas) {
                      const isVariable = event.currentTarget.checked;
-                     updateObjectProperty('isSmartField', isVariable);
-                     if (!isVariable) {
-                       updateObjectProperty('smartFieldType', '');
+                     const textObj = selectedObject as fabric.Text;
+                     
+                     if (isVariable) {
+                       // Mark as smart field with default styling
+                       textObj.set({
+                         isSmartField: true,
+                         backgroundColor: '#e3f2fd',
+                         padding: 4,
+                         editable: false
+                       });
+                     } else {
+                       // Remove smart field properties
+                       textObj.set({
+                         isSmartField: false,
+                         smartFieldType: '',
+                         dataType: 'text',
+                         objectType: 'general',
+                         backgroundColor: 'transparent',
+                         padding: 0,
+                         editable: true
+                       });
                      }
+                     
+                     canvas.renderAll();
+                     setObjectUpdateTrigger(prev => prev + 1);
                    }
                  }}
                 styles={{
@@ -2070,12 +2113,20 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                   }
                 }}
               />
-              {(selectedObject as fabric.Text & { isSmartField?: boolean })?.isSmartField && (
+              {(() => {
+                // Force re-evaluation when objectUpdateTrigger changes
+                const _ = objectUpdateTrigger;
+                return (selectedObject as fabric.Text & { isSmartField?: boolean })?.isSmartField;
+              })() && (
                 <TextInput
-                  placeholder="Enter variable name"
+                  placeholder={t('placeholders.enterVariableName')}
                   size="xs"
                   radius="xs"
-                  value={(selectedObject as fabric.Text & { smartFieldType?: string })?.smartFieldType || ''}
+                  value={(() => {
+                    // Force re-evaluation when objectUpdateTrigger changes
+                    const _ = objectUpdateTrigger;
+                    return (selectedObject as fabric.Text & { smartFieldType?: string })?.smartFieldType || '';
+                  })()}
                   onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                      if ((selectedObject?.type === 'i-text' || selectedObject?.type === 'text') && canvas) {
                        updateObjectProperty('smartFieldType', event.currentTarget.value);
@@ -2100,10 +2151,10 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           {/* Canvas Background Section */}
           {canvasSelected && (
             <Stack gap="md" mb="xl">
-              <Text size="sm" fw={600} c="#495057">خلفية اللوحة</Text>
+              <Text size="sm" fw={600} c="#495057">{t('labels.canvasBackground')}</Text>
               <Group gap="xs">
                 <ColorInput
-                  placeholder="لون الخلفية"
+                  placeholder={t('placeholders.backgroundColor')}
                   size="xs"
                   radius="xs"
                   value={canvasBackgroundColor}
@@ -2128,7 +2179,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                   onClick={changeCanvasBackgroundImage}
                   style={{ flex: 1 }}
                 >
-                  تعيين صورة
+                  {t('buttons.setImage')}
                 </Button>
                 <Button
                   size="xs"
@@ -2137,12 +2188,12 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                   leftSection={<IconTrash size={14} />}
                   onClick={removeCanvasBackground}
                 >
-                  مسح
+                  {t('buttons.clear')}
                 </Button>
               </Group>
               {canvasBackgroundImage && (
                 <Text size="xs" c="#6c757d">
-                  📷 تم تطبيق صورة الخلفية
+                  📷 {t('messages.backgroundImageApplied')}
                 </Text>
               )}
             </Stack>
@@ -2152,10 +2203,10 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           <Stack gap="xs" mb="sm">
             <Group gap="xs">
               <IconColorPicker size={12} color="#495057" />
-              <Text size="xs" fw={600} c="#495057">لون التعبئة</Text>
+              <Text size="xs" fw={600} c="#495057">{t('labels.fillColor')}</Text>
             </Group>
             <ColorInput
-              placeholder="اختر لون التعبئة"
+              placeholder={t('placeholders.fillColor')}
               size="xs"
               radius="xs"
               value={selectedObject ? (
@@ -2193,10 +2244,10 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
             <Stack gap="xs" mb="sm">
               <Group gap="xs">
                 <IconColorPicker size={12} color="#495057" />
-                <Text size="xs" fw={600} c="#495057">لون الحدود</Text>
+                <Text size="xs" fw={600} c="#495057">{t('labels.strokeColor')}</Text>
               </Group>
               <ColorInput
-                placeholder="اختر لون الحدود"
+                placeholder={t('placeholders.strokeColor')}
                 size="xs"
                 radius="xs"
                 value={selectedObject ? (selectedObject.stroke as string || '#000000') : '#000000'}
@@ -2225,10 +2276,10 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           {selectedObject && selectedObject.type !== 'i-text' && selectedObject.type !== 'text' && selectedObject.type !== 'image' && (
             <Stack gap="xs" mb="sm">
               <Group gap="xs">
-                <Text size="xs" fw={600} c="#495057">عرض الحدود</Text>
+                <Text size="xs" fw={600} c="#495057">{t('labels.strokeWidth')}</Text>
               </Group>
               <NumberInput
-                placeholder="عرض الحدود"
+                placeholder={t('placeholders.strokeWidth')}
                 size="xs"
                 radius="xs"
                 value={selectedObject ? (selectedObject.strokeWidth || 0) : 0}
@@ -2258,7 +2309,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           <Stack gap="xs" mb="sm">
             <Group gap="xs">
               <IconEye size={12} color="#495057" />
-              <Text size="xs" fw={600} c="#495057">الشفافية</Text>
+              <Text size="xs" fw={600} c="#495057">{t('labels.transparency')}</Text>
             </Group>
             <Slider
               size="xs"
@@ -2286,7 +2337,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           <Stack gap="xs" mb="sm">
             <Group gap="xs">
               <IconRotate size={12} color="#495057" />
-              <Text size="xs" fw={600} c="#495057">Rotation</Text>
+              <Text size="xs" fw={600} c="#495057">{t('labels.rotation')}</Text>
             </Group>
             <Slider
               size="xs"
@@ -2312,10 +2363,10 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
 
           {/* Dimensions Section */}
           <Stack gap="xs" mb="sm">
-            <Text size="xs" fw={600} c="#495057">Dimensions</Text>
+            <Text size="xs" fw={600} c="#495057">{t('labels.dimensions')}</Text>
             <Group gap="xs">
               <NumberInput
-                label="W"
+                label={t('labels.width')}
                 size="xs"
                 radius="xs"
                 value={objectWidth}
@@ -2340,7 +2391,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
                 }}
               />
               <NumberInput
-                label="H"
+                label={t('labels.height')}
                 size="xs"
                 radius="xs"
                 value={objectHeight}
@@ -2371,7 +2422,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           <Stack gap="xs">
             <Group gap="xs">
               <IconSettings size={12} color="#495057" />
-              <Text size="xs" fw={600} c="#495057">Actions</Text>
+              <Text size="xs" fw={600} c="#495057">{t('labels.objectActions')}</Text>
             </Group>
             <Group gap="xs">
               <ActionIcon

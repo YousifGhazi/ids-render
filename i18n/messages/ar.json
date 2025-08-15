@@ -25,6 +25,8 @@
     "customer": "المستخدم"
   },
   "idsDesigner": {
+    "title": "مصمم بطاقات الهوية",
+    "subtitle": "أنشئ بطاقات هوية احترافية باستخدام مصممنا البديهي",
     "addText": "إضافة نص",
     "addShape": "إضافة شكل",
     "addImage": "إضافة صورة",
@@ -50,12 +52,24 @@
     "backgroundColor": "لون الخلفية",
     "backgroundImage": "صورة الخلفية",
     "removeBackground": "إزالة الخلفية",
+    "templates": {
+      "title": "قوالب بطاقات الهوية",
+      "subtitle": "اختر من مجموعتنا من قوالب بطاقات الهوية الاحترافية أو أنشئ قالبك الخاص من الصفر",
+      "createNew": "إنشاء جديد",
+      "popular": "شائع",
+      "preview": "معاينة",
+      "useTemplate": "استخدام القالب",
+      "createCustom": "إنشاء قالب مخصص",
+      "createCustomDescription": "ابدأ بلوحة فارغة وصمم بطاقة هويتك الفريدة من الصفر",
+      "startFromScratch": "البدء من الصفر"
+    },
     "textTypes": {
       "singleLine": "نص من سطر واحد",
       "multiLine": "نص متعدد الأسطر",
       "smartFields": "الحقول الذكية"
     },
     "smartFields": {
+      "title": "تعيين كـ حقل ذكي",
       "name": "الاسم",
       "id": "رقم الهوية",
       "date": "التاريخ",
@@ -97,13 +111,72 @@
       "properties": "الخصائص"
     },
     "canvas": {
-      "selectCanvas": "اختر اللوحة لتغيير الخلفية",
+      "selectCanvas": "تم تحديد اللوحة",
       "orientation": "الاتجاه",
-      "zoom": "التكبير"
+      "zoom": "التكبير",
+      "back": "الوجه الخلفي",
+      "front": "الوجه الأمامي",
+      "horizontal": "أفقي",
+      "vertical": "عامودي",
+      "zoomOut": "تصغير",
+      "zoomIn": "تكبير",
+      "resetZoom": "إعادة تعيين التكبير"
     },
     "actions": {
       "importTemplate": "استيراد قالب",
       "saveBothSides": "حفظ الوجهين"
+    },
+    "placeholders": {
+      "smartField": "حقل ذكي",
+      "enterTextHere": "أدخل النص هنا...",
+      "selectSmartField": "اختر حقلاً لإدراجه...",
+      "fontFamily": "نوع الخط",
+      "fontSize": "الحجم",
+      "selectDataType": "اختر نوع البيانات",
+      "enterVariableName": "أدخل اسم المتغير",
+      "backgroundColor": "لون الخلفية",
+      "fillColor": "اختر لون التعبئة",
+      "strokeColor": "اختر لون الحدود",
+      "strokeWidth": "عرض الحدود"
+    },
+    "labels": {
+      "textContent": "محتوى النص",
+      "typography": "اعدادات الخط",
+      "dataType": "نوع البيانات",
+      "variableSettings": "إعدادات المتغير",
+      "markAsVariable": "تحديد كمتغير",
+      "canvasBackground": "خلفية اللوحة",
+      "fillColor": "لون التعبئة",
+      "strokeColor": "لون الحدود",
+      "strokeWidth": "عرض الحدود",
+      "transparency": "الشفافية",
+      "rotation": "الدوران",
+      "dimensions": "الأبعاد",
+      "objectActions": "إجراءات الكائن",
+      "width": "عرض",
+      "height": "ارتفاع"
+    },
+    "buttons": {
+      "setImage": "تعيين صورة",
+      "clear": "مسح"
+    },
+    "dataTypes": {
+      "text": "نص",
+      "number": "رقم",
+      "date": "تاريخ"
+    },
+    "messages": {
+      "backgroundImageApplied": "تم تطبيق صورة الخلفية",
+      "toggleRTL": "تبديل الاتجاه (من اليمين إلى اليسار)"
+    },
+    "shapes": {
+      "basicShapes": "الأشكال الأساسية",
+      "square": "مربع",
+      "rectangle": "مستطيل",
+      "circle": "دائرة",
+      "triangle": "مثلث",
+      "star": "نجمة",
+      "line": "خط"
     }
   }
 }
