@@ -1,4 +1,35 @@
 {
+  "add": "اضافة",
+  "edit": "تعديل",
+  "delete": "حذف",
+  "view": "عرض",
+  "cancel": "إلغاء",
+
+  "id": "المعرف",
+  "createdAt": "تاريخ الإنشاء",
+  "updatedAt": "تاريخ التحديث",
+  "name": "الاسم",
+  "password": "كلمة المرور",
+  "phoneNumber": "رقم الهاتف",
+  "gender": "الجنس",
+  "type": "النوع",
+  "email": "البريد الإلكتروني",
+  "dateOfBirth": "تاريخ الميلاد",
+  "logout": "تسجيل الخروج",
+
+  "item": "العنصر",
+
+  "messages": {
+    "confirmDeletion": "تأكيد الحذف",
+    "confirmDeletionMessage": "هل أنت متأكد أنك تريد حذف {entity}؟ هذه العملية لا يمكن التراجع عنها.",
+    "success": "نجح",
+    "error": "خطأ",
+    "createdSuccessfully": "تم الإنشاء بنجاح",
+    "updatedSuccessfully": "تم التحديث بنجاح",
+    "failedToCreate": "فشل في الإنشاء",
+    "failedToUpdate": "فشل في التحديث"
+  },
+
   "sidebar": {
     "home": "الرئيسية",
     "ids": "اصدار الهويات",
@@ -6,23 +37,29 @@
     "management": "الادارة",
     "printer": "الطابعة",
     "delivery": "التوصيل",
-    "customers": "المستخدمين"
+    "users": "المستخدمين والمؤسسات"
   },
-  "name": "الاسم",
-  "phoneNumber": "رقم الهاتف",
-  "gender": "الجنس",
-  "organization": "الجهة",
-  "department": "القسم",
-  "dateOfBirth": "تاريخ الميلاد",
-  "logout": "تسجيل الخروج",
 
-  "add": "اضافة",
-  "edit": "تعديل",
-  "delete": "حذف",
-  "view": "عرض",
-  "customer": {
-    "customers": "المستخدمين",
-    "customer": "المستخدم"
+  "login": {
+    "title": "مرحباً بعودتك",
+    "subtitle": "قم بتسجيل الدخول إلى حسابك للمتابعة",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "submitButton": "تسجيل الدخول",
+    "signingIn": "جاري تسجيل الدخول...",
+    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    "loginError": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
+    "emailRequired": "البريد الإلكتروني مطلوب",
+    "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح",
+    "passwordRequired": "كلمة المرور مطلوبة",
+    "passwordMinLength": "كلمة المرور يجب أن تكون 6 أحرف على الأقل"
+  },
+
+  "user": {
+    "users": "المستخدمين",
+    "user": "المستخدم"
   },
   "idsDesigner": {
     "title": "مصمم بطاقات الهوية",
@@ -168,15 +205,47 @@
     "messages": {
       "backgroundImageApplied": "تم تطبيق صورة الخلفية",
       "toggleRTL": "تبديل الاتجاه (من اليمين إلى اليسار)"
+    }
+  },
+
+  "stats": {
+    "title": "إحصائيات لوحة المعلومات",
+    "idsIssuedOverYear": "الهويات المُصدرة خلال العام",
+    "topOrganizations": "أفضل 5 مؤسسات",
+    "departmentsSpecializations": "الأقسام والتخصصات",
+    "userGrowthOverYear": "نمو المستخدمين خلال العام",
+    "totalIds": "إجمالي الهويات",
+    "totalOrganizations": "إجمالي المؤسسات",
+    "totalDepartments": "إجمالي الأقسام",
+    "totalUsers": "إجمالي المستخدمين",
+    "months": {
+      "jan": "يناير",
+      "feb": "فبراير",
+      "mar": "مارس",
+      "apr": "أبريل",
+      "may": "مايو",
+      "jun": "يونيو",
+      "jul": "يوليو",
+      "aug": "أغسطس",
+      "sep": "سبتمبر",
+      "oct": "أكتوبر",
+      "nov": "نوفمبر",
+      "dec": "ديسمبر"
     },
-    "shapes": {
-      "basicShapes": "الأشكال الأساسية",
-      "square": "مربع",
-      "rectangle": "مستطيل",
-      "circle": "دائرة",
-      "triangle": "مثلث",
-      "star": "نجمة",
-      "line": "خط"
+    "organizations": {
+      "ministryOfHealth": "وزارة الصحة",
+      "universityOfBaghdad": "جامعة بغداد",
+      "centralBank": "البنك المركزي",
+      "ministryOfEducation": "وزارة التربية",
+      "oilCompany": "شركة النفط"
+    },
+    "departments": {
+      "healthcare": "الرعاية الصحية",
+      "education": "التعليم",
+      "finance": "المالية",
+      "engineering": "الهندسة",
+      "government": "الحكومة",
+      "other": "أخرى"
     }
   }
 }

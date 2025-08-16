@@ -1,4 +1,37 @@
 {
+  "add": "Add",
+  "edit": "Edit",
+  "delete": "Delete",
+  "view": "View",
+  "cancel": "Cancel",
+
+  "id": "ID",
+  "createdAt": "created At",
+  "updatedAt": "updated At",
+  "name": "name",
+  "password": "password",
+
+  "phoneNumber": "phone number",
+  "gender": "gender",
+  "type": "type",
+  "email": "email",
+  "organization": "organization",
+  "department": "department",
+  "dateOfBirth": "date of birth",
+  "logout": "Logout",
+  "item": "Item",
+
+  "messages": {
+    "confirmDeletion": "Confirm Deletion",
+    "confirmDeletionMessage": "Are you sure you want to delete {entity}? This action cannot be undone.",
+    "success": "Success",
+    "error": "Error",
+    "createdSuccessfully": "created successfully",
+    "updatedSuccessfully": "updated successfully",
+    "failedToCreate": "Failed to create",
+    "failedToUpdate": "Failed to update"
+  },
+
   "sidebar": {
     "home": "Home",
     "ids": "ID Issuance",
@@ -6,23 +39,30 @@
     "management": "Management",
     "printer": "Printer",
     "delivery": "Delivery",
-    "customers": "Customers"
-  },
-  "name": "name",
-  "phoneNumber": "phone number",
-  "gender": "gender",
-  "organization": "organization",
-  "department": "department",
-  "dateOfBirth": "date of birth",
-  "logout": "Logout",
-
-  "add": "Add",
-  "edit": "Edit",
-  "delete": "Delete",
-  "view": "View",
-  "customer": {
     "customers": "Customers",
-    "customer": "Customer"
+    "users": "Users and Organizations"
+  },
+
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Sign in to your account to continue",
+    "email": "Email",
+    "password": "Password",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "submitButton": "Sign In",
+    "signingIn": "Signing in...",
+    "invalidCredentials": "Invalid email or password",
+    "loginError": "Login failed. Please try again.",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Please enter a valid email",
+    "passwordRequired": "Password is required",
+    "passwordMinLength": "Password must be at least 6 characters"
+  },
+
+  "user": {
+    "users": "users",
+    "user": "user"
   },
   "idsDesigner": {
     "title": "ID Card Designer",
@@ -168,15 +208,47 @@
     "messages": {
       "backgroundImageApplied": "Background image applied",
       "toggleRTL": "Toggle RTL (Right-to-Left)"
+    }
+  },
+
+  "stats": {
+    "title": "Dashboard Statistics",
+    "idsIssuedOverYear": "IDs Issued Over the Year",
+    "topOrganizations": "Top 5 Organizations",
+    "departmentsSpecializations": "Departments & Specializations",
+    "userGrowthOverYear": "User Growth Over the Year",
+    "totalIds": "Total IDs",
+    "totalOrganizations": "Total Organizations",
+    "totalDepartments": "Total Departments",
+    "totalUsers": "Total Users",
+    "months": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Dec"
     },
-    "shapes": {
-      "basicShapes": "Basic Shapes",
-      "square": "Square",
-      "rectangle": "Rectangle",
-      "circle": "Circle",
-      "triangle": "Triangle",
-      "star": "Star",
-      "line": "Line"
+    "organizations": {
+      "ministryOfHealth": "Ministry of Health",
+      "universityOfBaghdad": "University of Baghdad",
+      "centralBank": "Central Bank",
+      "ministryOfEducation": "Ministry of Education",
+      "oilCompany": "Oil Company"
+    },
+    "departments": {
+      "healthcare": "Healthcare",
+      "education": "Education",
+      "finance": "Finance",
+      "engineering": "Engineering",
+      "government": "Government",
+      "other": "Other"
     }
   }
 }

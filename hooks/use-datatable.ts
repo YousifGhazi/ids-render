@@ -53,7 +53,7 @@ export function useDataTable<T>({
       withColumnBorders: true,
       verticalSpacing: "sm",
       fetching: query?.isPending,
-      minHeight: query?.data?.data?.length ? undefined : 200,
+      minHeight: query?.data?.data?.data?.length ? undefined : 200,
       columns: [],
       records: [],
     };
@@ -61,7 +61,7 @@ export function useDataTable<T>({
     if (isPagination) {
       props = {
         ...props,
-        totalRecords: query?.data?.total ?? 0,
+        totalRecords: query?.data?.data?.meta?.total ?? 0,
         recordsPerPageOptions: PAGE_SIZE_OPTIONS,
         page: pagination.page,
         onPageChange: (page) => setPagination({ page }),

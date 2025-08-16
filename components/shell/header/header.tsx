@@ -23,6 +23,7 @@ import {
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Navbar } from "./navbar";
+import { useAuthStore } from "@/features/auth/store";
 
 export function Header() {
   const t = useTranslations();
@@ -30,6 +31,7 @@ export function Header() {
   const pathname = usePathname();
   const locale = useLocale();
   const { toggleColorScheme, colorScheme } = useMantineColorScheme();
+  const { user } = useAuthStore();
 
   const switchLocale = (nextLocale: "en" | "ar") => {
     if (nextLocale === locale) return;
@@ -94,9 +96,9 @@ export function Header() {
                 <Group>
                   <Avatar src="/assets/profile.png" alt="it's me" />
                   <Stack gap={0}>
-                    <Text fw={700}>محمد فلاح</Text>
+                    <Text fw={700}>{user?.name}</Text>
                     <Text size="xs" c="dimmed">
-                      مدير
+                      {user?.type}
                     </Text>
                   </Stack>
                 </Group>
