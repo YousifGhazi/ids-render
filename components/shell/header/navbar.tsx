@@ -14,7 +14,6 @@ import {
   IconTournament,
   IconUsersGroup,
   IconIdBadge,
-  IconBuilding,
 } from "@tabler/icons-react";
 import { ShellLink } from "./navbar-link";
 import { useTranslations } from "next-intl";
@@ -54,16 +53,9 @@ export function Navbar() {
         <MenuDropdown>
           <MenuItem>
             <ShellLink
-              section="/customers"
-              label={t("sidebar.customers")}
+              section="/users"
+              label={t("sidebar.users")}
               icon={<IconUsersGroup size={18} />}
-            />
-          </MenuItem>
-          <MenuItem>
-            <ShellLink
-              section="/organizations"
-              label={t("sidebar.organizations")}
-              icon={<IconBuilding size={18} />}
             />
           </MenuItem>
         </MenuDropdown>

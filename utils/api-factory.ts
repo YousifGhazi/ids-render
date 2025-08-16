@@ -129,12 +129,12 @@ export function createApiFactory<
 
   // Delete Hook
   const useDelete = (
-    options?: Omit<UseMutationOptions<void, Error, string>, "mutationFn">
+    options?: Omit<UseMutationOptions<void, Error, number>, "mutationFn">
   ) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: async (id: string): Promise<void> => {
+      mutationFn: async (id: number): Promise<void> => {
         await api.delete(`${endpoint}/${id}`);
       },
       onSuccess: (data, variables, context) => {

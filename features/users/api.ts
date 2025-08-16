@@ -2,8 +2,8 @@ import { createApiFactory } from "@/utils/api-factory";
 import type { User, CreateUsersInput, UpdateUsersInput } from "./types";
 
 const usersApi = createApiFactory<User, CreateUsersInput, UpdateUsersInput>({
-  entityName: "users",
-  endpoint: "/users",
+  entityName: "user",
+  endpoint: "/user",
 });
 
 // Export the query keys for use in other parts of the app

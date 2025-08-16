@@ -1,11 +1,34 @@
 {
+  "add": "اضافة",
+  "edit": "تعديل",
+  "delete": "حذف",
+  "view": "عرض",
+  "cancel": "إلغاء",
+
+  "id": "المعرف",
+  "createdAt": "تاريخ الإنشاء",
+  "updatedAt": "تاريخ التحديث",
   "name": "الاسم",
+  "password": "كلمة المرور",
   "phoneNumber": "رقم الهاتف",
   "gender": "الجنس",
-  "organization": "الجهة",
-  "department": "القسم",
+  "type": "النوع",
+  "email": "البريد الإلكتروني",
   "dateOfBirth": "تاريخ الميلاد",
   "logout": "تسجيل الخروج",
+
+  "item": "العنصر",
+
+  "messages": {
+    "confirmDeletion": "تأكيد الحذف",
+    "confirmDeletionMessage": "هل أنت متأكد أنك تريد حذف {entity}؟ هذه العملية لا يمكن التراجع عنها.",
+    "success": "نجح",
+    "error": "خطأ",
+    "createdSuccessfully": "تم الإنشاء بنجاح",
+    "updatedSuccessfully": "تم التحديث بنجاح",
+    "failedToCreate": "فشل في الإنشاء",
+    "failedToUpdate": "فشل في التحديث"
+  },
 
   "sidebar": {
     "home": "الرئيسية",
@@ -14,8 +37,7 @@
     "management": "الادارة",
     "printer": "الطابعة",
     "delivery": "التوصيل",
-    "customers": "المستخدمين",
-    "organizations": "المؤسسات"
+    "users": "المستخدمين والمؤسسات"
   },
 
   "login": {
@@ -35,13 +57,9 @@
     "passwordMinLength": "كلمة المرور يجب أن تكون 6 أحرف على الأقل"
   },
 
-  "add": "اضافة",
-  "edit": "تعديل",
-  "delete": "حذف",
-  "view": "عرض",
-  "customer": {
-    "customers": "المستخدمين",
-    "customer": "المستخدم"
+  "user": {
+    "users": "المستخدمين",
+    "user": "المستخدم"
   },
   "idsDesigner": {
     "title": "مصمم بطاقات الهوية",

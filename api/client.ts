@@ -27,7 +27,8 @@ api.interceptors.request.use((config) => {
   // Add authorization token if available
   if (typeof window !== "undefined") {
     try {
-      const authStorage = localStorage.getItem("auth-storage");
+      const authStorage = localStorage.getItem("auth");
+
       if (authStorage) {
         const { state } = JSON.parse(authStorage);
         if (state?.token) {

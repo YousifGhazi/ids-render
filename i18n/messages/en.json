@@ -1,11 +1,36 @@
 {
+  "add": "Add",
+  "edit": "Edit",
+  "delete": "Delete",
+  "view": "View",
+  "cancel": "Cancel",
+
+  "id": "ID",
+  "createdAt": "created At",
+  "updatedAt": "updated At",
   "name": "name",
+  "password": "password",
+
   "phoneNumber": "phone number",
   "gender": "gender",
+  "type": "type",
+  "email": "email",
   "organization": "organization",
   "department": "department",
   "dateOfBirth": "date of birth",
   "logout": "Logout",
+  "item": "Item",
+
+  "messages": {
+    "confirmDeletion": "Confirm Deletion",
+    "confirmDeletionMessage": "Are you sure you want to delete {entity}? This action cannot be undone.",
+    "success": "Success",
+    "error": "Error",
+    "createdSuccessfully": "created successfully",
+    "updatedSuccessfully": "updated successfully",
+    "failedToCreate": "Failed to create",
+    "failedToUpdate": "Failed to update"
+  },
 
   "sidebar": {
     "home": "Home",
@@ -15,7 +40,7 @@
     "printer": "Printer",
     "delivery": "Delivery",
     "customers": "Customers",
-    "organizations": "Organizations"
+    "users": "Users and Organizations"
   },
 
   "login": {
@@ -35,13 +60,9 @@
     "passwordMinLength": "Password must be at least 6 characters"
   },
 
-  "add": "Add",
-  "edit": "Edit",
-  "delete": "Delete",
-  "view": "View",
-  "customer": {
-    "customers": "Customers",
-    "customer": "Customer"
+  "user": {
+    "users": "users",
+    "user": "user"
   },
   "idsDesigner": {
     "title": "ID Card Designer",

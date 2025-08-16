@@ -1,18 +1,24 @@
+import { Role } from "@/features/roles/types";
+
 export type User = {
   id: number;
   name: string;
   email: string;
-  type: UserType;
-  created_at: string;
-  updated_at: string;
+  type: string;
+  createdAt: string;
+  updatedAt: string;
+  roles?: Role[];
 };
-
-export type UserType = "Admin" | "Organization";
 
 export type CreateUsersInput = {
   name: string;
+  email: string;
+  password: string;
+  roleId?: number;
 };
 
 export type UpdateUsersInput = {
-  name?: string | undefined;
+  name?: string;
+  email?: string;
+  roleId?: number;
 };
