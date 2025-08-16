@@ -1,4 +1,11 @@
-import { Group } from "@mantine/core";
+import {
+  Button,
+  Group,
+  Menu,
+  MenuDropdown,
+  MenuItem,
+  MenuTarget,
+} from "@mantine/core";
 import {
   IconClipboardText,
   IconHome,
@@ -7,6 +14,7 @@ import {
   IconTournament,
   IconUsersGroup,
   IconIdBadge,
+  IconBuilding,
 } from "@tabler/icons-react";
 import { ShellLink } from "./navbar-link";
 import { useTranslations } from "next-intl";
@@ -20,11 +28,7 @@ export function Navbar() {
         label={t("sidebar.home")}
         icon={<IconHome size={18} />}
       />
-      <ShellLink
-        section="/customers"
-        label={t("sidebar.customers")}
-        icon={<IconUsersGroup size={18} />}
-      />
+
       <ShellLink
         section="/ids-templates"
         label={t("sidebar.ids")}
@@ -35,11 +39,35 @@ export function Navbar() {
         label={t("sidebar.surveies")}
         icon={<IconClipboardText size={18} />}
       />
-      <ShellLink
-        section="/management"
-        label={t("sidebar.management")}
-        icon={<IconTournament size={18} />}
-      />
+
+      <Menu>
+        <MenuTarget>
+          <Button
+            leftSection={<IconTournament size={18} />}
+            variant="subtle"
+            color="dark"
+          >
+            {t("sidebar.management")}
+          </Button>
+        </MenuTarget>
+
+        <MenuDropdown>
+          <MenuItem>
+            <ShellLink
+              section="/customers"
+              label={t("sidebar.customers")}
+              icon={<IconUsersGroup size={18} />}
+            />
+          </MenuItem>
+          <MenuItem>
+            <ShellLink
+              section="/organizations"
+              label={t("sidebar.organizations")}
+              icon={<IconBuilding size={18} />}
+            />
+          </MenuItem>
+        </MenuDropdown>
+      </Menu>
       <ShellLink
         section="/printer"
         label={t("sidebar.printer")}

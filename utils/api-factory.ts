@@ -10,7 +10,7 @@ import { serializeQuery } from "@/utils/api";
 import type { BaseQuery, GetResponse } from "@/types/api";
 
 export type BaseEntity = {
-  id: string;
+  id: number;
 };
 
 export type ApiFactoryConfig = {

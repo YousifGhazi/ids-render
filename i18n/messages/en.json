@@ -1,13 +1,4 @@
 {
-  "sidebar": {
-    "home": "Home",
-    "ids": "ID Issuance",
-    "surveies": "Create Surveys",
-    "management": "Management",
-    "printer": "Printer",
-    "delivery": "Delivery",
-    "customers": "Customers"
-  },
   "name": "name",
   "phoneNumber": "phone number",
   "gender": "gender",
@@ -15,6 +6,34 @@
   "department": "department",
   "dateOfBirth": "date of birth",
   "logout": "Logout",
+
+  "sidebar": {
+    "home": "Home",
+    "ids": "ID Issuance",
+    "surveies": "Create Surveys",
+    "management": "Management",
+    "printer": "Printer",
+    "delivery": "Delivery",
+    "customers": "Customers",
+    "organizations": "Organizations"
+  },
+
+  "login": {
+    "title": "Welcome Back",
+    "subtitle": "Sign in to your account to continue",
+    "email": "Email",
+    "password": "Password",
+    "emailPlaceholder": "Enter your email",
+    "passwordPlaceholder": "Enter your password",
+    "submitButton": "Sign In",
+    "signingIn": "Signing in...",
+    "invalidCredentials": "Invalid email or password",
+    "loginError": "Login failed. Please try again.",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Please enter a valid email",
+    "passwordRequired": "Password is required",
+    "passwordMinLength": "Password must be at least 6 characters"
+  },
 
   "add": "Add",
   "edit": "Edit",
@@ -168,15 +187,6 @@
     "messages": {
       "backgroundImageApplied": "Background image applied",
       "toggleRTL": "Toggle RTL (Right-to-Left)"
-    },
-    "shapes": {
-      "basicShapes": "Basic Shapes",
-      "square": "Square",
-      "rectangle": "Rectangle",
-      "circle": "Circle",
-      "triangle": "Triangle",
-      "star": "Star",
-      "line": "Line"
     }
   }
 }
