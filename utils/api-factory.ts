@@ -10,7 +10,7 @@ import { serializeQuery } from "@/utils/api";
 import type { BaseQuery, GetResponse } from "@/types/api";
 
 export type BaseEntity = {
-  id: string;
+  id: number;
 };
 
 export type ApiFactoryConfig = {
@@ -129,12 +129,12 @@ export function createApiFactory<
 
   // Delete Hook
   const useDelete = (
-    options?: Omit<UseMutationOptions<void, Error, string>, "mutationFn">
+    options?: Omit<UseMutationOptions<void, Error, number>, "mutationFn">
   ) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: async (id: string): Promise<void> => {
+      mutationFn: async (id: number): Promise<void> => {
         await api.delete(`${endpoint}/${id}`);
       },
       onSuccess: (data, variables, context) => {

@@ -9,9 +9,12 @@ export type BaseQuery<
 };
 
 export type GetResponse<T> = {
-  data: T;
-  total: number;
-  totalPages: number;
-  currentPage: number;
-  pageSize: number;
+  data: {
+    data: T;
+    meta: {
+      total: number;
+      currentPage: number;
+      perPage: number;
+    };
+  };
 };

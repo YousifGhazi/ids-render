@@ -1,7 +1,7 @@
 "use client";
 
 import { Container, Paper } from "@mantine/core";
-import { UsersTable } from "../users/_components/users-table";
+import { UsersTable } from "./_components/users-table";
 
 export default function Home() {
   return (
