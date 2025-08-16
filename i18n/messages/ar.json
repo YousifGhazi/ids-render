@@ -206,5 +206,46 @@
       "backgroundImageApplied": "تم تطبيق صورة الخلفية",
       "toggleRTL": "تبديل الاتجاه (من اليمين إلى اليسار)"
     }
+  },
+
+  "stats": {
+    "title": "إحصائيات لوحة المعلومات",
+    "idsIssuedOverYear": "الهويات المُصدرة خلال العام",
+    "topOrganizations": "أفضل 5 مؤسسات",
+    "departmentsSpecializations": "الأقسام والتخصصات",
+    "userGrowthOverYear": "نمو المستخدمين خلال العام",
+    "totalIds": "إجمالي الهويات",
+    "totalOrganizations": "إجمالي المؤسسات",
+    "totalDepartments": "إجمالي الأقسام",
+    "totalUsers": "إجمالي المستخدمين",
+    "months": {
+      "jan": "يناير",
+      "feb": "فبراير",
+      "mar": "مارس",
+      "apr": "أبريل",
+      "may": "مايو",
+      "jun": "يونيو",
+      "jul": "يوليو",
+      "aug": "أغسطس",
+      "sep": "سبتمبر",
+      "oct": "أكتوبر",
+      "nov": "نوفمبر",
+      "dec": "ديسمبر"
+    },
+    "organizations": {
+      "ministryOfHealth": "وزارة الصحة",
+      "universityOfBaghdad": "جامعة بغداد",
+      "centralBank": "البنك المركزي",
+      "ministryOfEducation": "وزارة التربية",
+      "oilCompany": "شركة النفط"
+    },
+    "departments": {
+      "healthcare": "الرعاية الصحية",
+      "education": "التعليم",
+      "finance": "المالية",
+      "engineering": "الهندسة",
+      "government": "الحكومة",
+      "other": "أخرى"
+    }
   }
 }
