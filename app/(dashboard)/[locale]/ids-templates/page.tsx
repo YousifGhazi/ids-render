@@ -41,11 +41,8 @@ export default function IdCardsTemplates() {
             </Text>
           </div>
           <Button
-            size="lg"
             leftSection={<IconPlus size={20} />}
             onClick={handleCreateNew}
-            gradient={{ from: 'blue', to: 'cyan' }}
-            variant="gradient"
             radius="md"
           >
             {t('idsDesigner.templates.createNew')}
@@ -58,7 +55,6 @@ export default function IdCardsTemplates() {
         {templates.map((template) => (
           <Grid.Col key={template.id} span={{ base: 12, sm: 6, md: 4, lg: 3 }}>
             <Card
-              shadow="sm"
               padding="lg"
               radius="md"
               withBorder
@@ -68,7 +64,6 @@ export default function IdCardsTemplates() {
                 cursor: 'pointer',
                 '&:hover': {
                   transform: 'translateY(-4px)',
-                  boxShadow: '0 8px 25px rgba(0, 0, 0, 0.1)'
                 }
               }}
             >

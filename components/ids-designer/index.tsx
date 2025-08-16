@@ -1712,17 +1712,8 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
           overflow: 'auto'
         }}>
           <Paper 
-              shadow="xl" 
               style={{ 
-                display: 'inline-block', 
                 position: 'relative',
-                padding: '16px',
-                borderRadius: '8px',
-                backgroundColor: '#ffffff',
-                border: '1px solid #e9ecef',
-                transform: `scale(${zoomLevel / 100})`,
-                transformOrigin: 'center',
-                transition: 'transform 0.2s ease-in-out'
               }}
             >
             <canvas 
@@ -1737,7 +1728,7 @@ export default function IDCardDesigner({ width = 800, height = 500 }: IDCardDesi
             {/* Canvas Tabs */}
             <Box style={{ 
               position: 'absolute', 
-              bottom: -40, 
+              bottom: -60, 
               left: '50%', 
               transform: 'translateX(-50%)',
               backgroundColor: '#ffffff',
