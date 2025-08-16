@@ -14,6 +14,7 @@ import {
   IconTournament,
   IconUsersGroup,
   IconIdBadge,
+  IconUsers,
 } from "@tabler/icons-react";
 import { ShellLink } from "./navbar-link";
 import { useTranslations } from "next-intl";
@@ -50,10 +51,18 @@ export function Navbar() {
       </Menu>
 
       <ShellLink
+        section="/members"
+        label={t("members.plural_title")}
+        icon={<IconUsers size={18} />}
+      />
+
+      <ShellLink
         section="/forms"
         label={t("sidebar.surveies")}
         icon={<IconClipboardText size={18} />}
       />
+
+      
 
       <Menu>
         <MenuTarget>

@@ -8,7 +8,6 @@ import {
   Stack,
   Group,
   Title,
-  Paper,
   Grid,
   Container,
   Loader,
@@ -17,24 +16,36 @@ import {
   Card,
   Divider,
   Badge,
-  ActionIcon,
-  Tooltip
+  Tooltip,
 } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
-import { IconId, IconFileText, IconCalendar, IconPhoto, IconSend } from "@tabler/icons-react";
-import { useGetTemplate } from '@/features/templates/api';
-import { useParams } from 'next/navigation';
-import type { Template } from '@/features/templates/types';
+import {
+  IconId,
+  IconFileText,
+  IconCalendar,
+  IconPhoto,
+  IconDeviceFloppy,
+} from "@tabler/icons-react";
+import { useGetTemplate } from "@/features/templates/api";
+import { useCreateId } from "@/features/ids/api";
+import { useParams, useRouter } from "next/navigation";
+import type { CreateIDCardInput } from "@/features/ids/types";
 
-type FieldType = 'text' | 'date' | 'file' | 'textarea';
+type FieldType = "text" | "date" | "file" | "textarea";
 type FormValue = string | File | Date | null;
+type FormData = {
+  phone: string;
+  name: string;
+  template_id: string;
+  identity: Record<string, FormValue>;
+};
 
 interface SmartField {
   id: string;
   label: string;
   type: FieldType;
   placeholder: string;
-  side: 'front' | 'back';
+  side: "front" | "back";
   required: boolean;
 }
 
@@ -56,61 +67,91 @@ interface TemplateStructure {
 }
 
 const FIELD_TYPE_MAP: Record<string, FieldType> = {
-  date: 'date',
-  file: 'file',
-  textarea: 'textarea'
+  date: "date",
+  file: "file",
+  textarea: "textarea",
 };
 
 const FIELD_ICONS = {
   text: IconFileText,
   date: IconCalendar,
   file: IconPhoto,
-  textarea: IconFileText
+  textarea: IconFileText,
 };
 
 export default function IdCardsTemplates() {
-  const [formData, setFormData] = useState<Record<string, FormValue>>({});
   const params = useParams();
   const templateId = params.id as string;
-  
-  const { data: template, isLoading: templateLoading, error } = useGetTemplate(templateId);
+  const [formData, setFormData] = useState<FormData>({
+    phone: "",
+    name: "",
+    template_id: templateId,
+    identity: {},
+  });
+
+  const {
+    data: template,
+    isLoading: templateLoading,
+    error,
+  } = useGetTemplate(templateId);
   const [isFormLoading, setIsFormLoading] = useState(true);
+  const router = useRouter();
+  const createIdMutation = useCreateId();
 
-  const getFieldLabel = useCallback((smartFieldType: string, text?: string): string => {
-    return text?.replace(/:/g, '').trim() || smartFieldType;
-  }, []);
+  const getFieldLabel = useCallback(
+    (smartFieldType: string, text?: string): string => {
+      return text?.replace(/:/g, "").trim() || smartFieldType;
+    },
+    []
+  );
 
-  const getFieldType = useCallback((smartFieldType: string, dataType?: string): FieldType => {
-    if (dataType && FIELD_TYPE_MAP[dataType]) return FIELD_TYPE_MAP[dataType];
-    
-    const lowerType = smartFieldType.toLowerCase();
-    if (lowerType.includes('date')) return 'date';
-    if (lowerType.includes('photo') || lowerType.includes('signature')) return 'file';
-    if (lowerType.includes('text') && lowerType.includes('back')) return 'textarea';
-    
-    return 'text';
-  }, []);
+  const getFieldType = useCallback(
+    (smartFieldType: string, dataType?: string): FieldType => {
+      if (dataType && FIELD_TYPE_MAP[dataType]) return FIELD_TYPE_MAP[dataType];
 
-  const getFieldPlaceholder = useCallback((smartFieldType: string, fieldType: FieldType): string => {
-    const placeholders = {
-      date: `اختر ${smartFieldType}`,
-      file: `رفع ${smartFieldType}`,
-      textarea: `أدخل تفاصيل ${smartFieldType}`,
-      text: `أدخل ${smartFieldType}`
-    };
-    return placeholders[fieldType];
-  }, []);
+      const lowerType = smartFieldType.toLowerCase();
+      if (lowerType.includes("date")) return "date";
+      if (lowerType.includes("photo") || lowerType.includes("signature"))
+        return "file";
+      if (lowerType.includes("text") && lowerType.includes("back"))
+        return "textarea";
+
+      return "text";
+    },
+    []
+  );
+
+  const getFieldPlaceholder = useCallback(
+    (smartFieldType: string, fieldType: FieldType): string => {
+      const placeholders = {
+        date: `اختر ${smartFieldType}`,
+        file: `رفع ${smartFieldType}`,
+        textarea: `أدخل تفاصيل ${smartFieldType}`,
+        text: `أدخل ${smartFieldType}`,
+      };
+      return placeholders[fieldType];
+    },
+    []
+  );
 
   const smartFields = useMemo(() => {
     if (!template?.template) return [];
-    
+
     const templateData = template.template as TemplateStructure;
     const fields: SmartField[] = [];
     const seenFields = new Set<string>();
 
-    const processObjects = (objects: TemplateObject[], side: 'front' | 'back') => {
-      objects?.forEach(obj => {
-        if (obj.isSmartField && obj.smartFieldType && !seenFields.has(obj.smartFieldType)) {
+    const processObjects = (
+      objects: TemplateObject[],
+      side: "front" | "back"
+    ) => {
+      objects?.forEach((obj) => {
+        if (
+          obj.isSmartField &&
+          obj.smartFieldType &&
+          !seenFields.has(obj.smartFieldType) &&
+          obj.smartFieldType.toLowerCase() !== "name"
+        ) {
           seenFields.add(obj.smartFieldType);
           const type = getFieldType(obj.smartFieldType, obj.dataType);
           fields.push({
@@ -119,92 +160,137 @@ export default function IdCardsTemplates() {
             type,
             placeholder: getFieldPlaceholder(obj.smartFieldType, type),
             side,
-            required: true
+            required: true,
           });
         }
       });
     };
 
-    processObjects(templateData.frontCanvas?.objects || [], 'front');
-    processObjects(templateData.backCanvas?.objects || [], 'back');
-    
+    processObjects(templateData.frontCanvas?.objects || [], "front");
+    processObjects(templateData.backCanvas?.objects || [], "back");
+
     return fields;
   }, [template?.template, getFieldType, getFieldLabel, getFieldPlaceholder]);
 
   useEffect(() => {
-    const initialData = smartFields.reduce((acc, field) => {
-      acc[field.id] = field.type === 'date' || field.type === 'file' ? null : '';
+    const identityData = smartFields.reduce((acc, field) => {
+      acc[field.id] =
+        field.type === "date" || field.type === "file" ? null : "";
       return acc;
     }, {} as Record<string, FormValue>);
-    
-    setFormData(initialData);
+
+    // Store dynamic fields in identity object
+    setFormData((prev) => ({
+      ...prev,
+      identity: identityData,
+    }));
     setIsFormLoading(false);
   }, [smartFields]);
 
   const handleInputChange = useCallback((fieldId: string, value: FormValue) => {
-    setFormData(prev => ({ ...prev, [fieldId]: value }));
+    if (fieldId === "phone" || fieldId === "name") {
+      // Store phone and name at root level
+      setFormData((prev) => ({ ...prev, [fieldId]: value as string }));
+    } else {
+      // Store dynamic fields in identity object
+      setFormData((prev) => ({
+        ...prev,
+        identity: {
+          ...prev.identity,
+          [fieldId]: value,
+        },
+      }));
+    }
   }, []);
 
-  const handleSubmit = useCallback((event: React.FormEvent) => {
-    event.preventDefault();
-    console.log('Form Data:', formData);
-    // TODO: Implement form submission logic
-  }, [formData]);
+  const handleSubmit = useCallback(
+    async (event: React.FormEvent) => {
+      event.preventDefault();
+      
+      // Validate required fields
+      if (!formData.phone.trim() || !formData.name.trim()) {
+        return;
+      }
 
-  const renderField = useCallback((field: SmartField) => {
-    const value = formData[field.id];
-    const Icon = FIELD_ICONS[field.type];
-    const commonProps = {
-      label: field.label,
-      placeholder: field.placeholder,
-      required: field.required,
-      leftSection: <Icon size={16} />
-    };
+      const submitData: CreateIDCardInput = {
+        name: formData.name,
+        phone: formData.phone,
+        identity: formData.identity,
+        template_id: Number(templateId),
+      };
 
-    switch (field.type) {
-      case 'text':
-        return (
-          <TextInput
-            key={field.id}
-            {...commonProps}
-            value={value as string || ''}
-            onChange={(e) => handleInputChange(field.id, e.currentTarget.value)}
-          />
-        );
-      case 'textarea':
-        return (
-          <Textarea
-            key={field.id}
-            {...commonProps}
-            value={value as string || ''}
-            onChange={(e) => handleInputChange(field.id, e.currentTarget.value)}
-            minRows={3}
-            autosize
-          />
-        );
-      case 'date':
-        return (
-          <DateInput
-            key={field.id}
-            {...commonProps}
-            value={value as Date || null}
-            onChange={(date) => handleInputChange(field.id, date)}
-          />
-        );
-      case 'file':
-        return (
-          <FileInput
-            key={field.id}
-            {...commonProps}
-            value={value as File || null}
-            onChange={(file) => handleInputChange(field.id, file)}
-            accept="image/*"
-          />
-        );
-      default:
-        return null;
-    }
-  }, [formData, handleInputChange]);
+      try {
+        await createIdMutation.mutateAsync(submitData);
+        // Redirect to success page or IDs list
+        router.push('/ids');
+      } catch (error) {
+        console.error('Error creating ID card:', error);
+      }
+    },
+    [formData, createIdMutation, router]
+  );
+
+  const renderField = useCallback(
+    (field: SmartField) => {
+      const value = formData.identity[field.id];
+      const Icon = FIELD_ICONS[field.type];
+      const commonProps = {
+        label: field.label,
+        placeholder: field.placeholder,
+        required: field.required,
+        leftSection: <Icon size={16} />,
+      };
+
+      switch (field.type) {
+        case "text":
+          return (
+            <TextInput
+              key={field.id}
+              {...commonProps}
+              value={(value as string) || ""}
+              onChange={(e) =>
+                handleInputChange(field.id, e.currentTarget.value)
+              }
+            />
+          );
+        case "textarea":
+          return (
+            <Textarea
+              key={field.id}
+              {...commonProps}
+              value={(value as string) || ""}
+              onChange={(e) =>
+                handleInputChange(field.id, e.currentTarget.value)
+              }
+              minRows={3}
+              autosize
+            />
+          );
+        case "date":
+          return (
+            <DateInput
+              key={field.id}
+              {...commonProps}
+              value={(value as Date) || null}
+              onChange={(date) => handleInputChange(field.id, date)}
+            />
+          );
+        case "file":
+          return (
+            <FileInput
+              key={field.id}
+              {...commonProps}
+              value={(value as File) || null}
+              onChange={(file) => handleInputChange(field.id, file)}
+              accept="image/*"
+            />
+          );
+        default:
+          return null;
+      }
+    },
+    [formData, handleInputChange]
+  );
 
   if (templateLoading || isFormLoading) {
     return (
@@ -223,7 +309,11 @@ export default function IdCardsTemplates() {
         <Card withBorder radius="md" p="xl">
           <Center>
             <Stack align="center" gap="md">
-              <IconFileText size={48} stroke={1} color="var(--mantine-color-red-5)" />
+              <IconFileText
+                size={48}
+                stroke={1}
+                color="var(--mantine-color-red-5)"
+              />
               <Text size="lg" fw={500} c="red">
                 خطأ في تحميل القالب
               </Text>
@@ -237,8 +327,8 @@ export default function IdCardsTemplates() {
     );
   }
 
-  const frontFields = smartFields.filter(field => field.side === 'front');
-  const backFields = smartFields.filter(field => field.side === 'back');
+  const frontFields = smartFields.filter((field) => field.side === "front");
+  const backFields = smartFields.filter((field) => field.side === "back");
   const hasFields = smartFields.length > 0;
 
   return (
@@ -247,7 +337,9 @@ export default function IdCardsTemplates() {
         <Group justify="space-between" align="center">
           <Group gap="sm">
             <IconId size={32} stroke={1.5} />
-            <Title order={1} size="h2">انشاء الهوية</Title>
+            <Title order={1} size="h2">
+              انشاء الهوية
+            </Title>
           </Group>
           <Badge variant="light" size="lg">
             {smartFields.length} حقل
@@ -258,7 +350,11 @@ export default function IdCardsTemplates() {
           <Card withBorder radius="md" p="xl">
             <Center>
               <Stack align="center" gap="md">
-                <IconFileText size={48} stroke={1} color="var(--mantine-color-gray-5)" />
+                <IconFileText
+                  size={48}
+                  stroke={1}
+                  color="var(--mantine-color-gray-5)"
+                />
                 <Text size="lg" fw={500} c="dimmed">
                   لم يتم العثور على حقول ذكية
                 </Text>
@@ -271,10 +367,49 @@ export default function IdCardsTemplates() {
         ) : (
           <form onSubmit={handleSubmit}>
             <Stack gap="lg">
+              <Card withBorder radius="md" p="lg">
+                <Group justify="space-between" mb="md">
+                  <Title order={3} size="h4">
+                    معلومات المنتسب
+                  </Title>
+                  <Badge variant="outline">{frontFields.length} حقل</Badge>
+                </Group>
+                <Divider mb="md" />
+                <Grid>
+                  <Grid.Col span={{ base: 12, sm: 6 }}>
+                    <TextInput
+                      label="رقم الهاتف"
+                      placeholder="أدخل رقم الهاتف"
+                      value={(formData.phone as string) || ""}
+                      onChange={(e) =>
+                        handleInputChange("phone", e.currentTarget.value)
+                      }
+                      required
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={{ base: 12, sm: 6 }}>
+                    <TextInput
+                      label="اسم المنتسب"
+                      placeholder="أدخل اسم المنتسب"
+                      value={(formData.name as string) || ""}
+                      onChange={(e) =>
+                        handleInputChange("name", e.currentTarget.value)
+                      }
+                      disabled={
+                        !formData.phone ||
+                        (formData.phone as string).trim() === ""
+                      }
+                      required
+                    />
+                  </Grid.Col>
+                </Grid>
+              </Card>
               {frontFields.length > 0 && (
                 <Card withBorder radius="md" p="lg">
                   <Group justify="space-between" mb="md">
-                    <Title order={3} size="h4">الوجه الأمامي</Title>
+                    <Title order={3} size="h4">
+                      الوجه الأمامي
+                    </Title>
                     <Badge variant="outline">{frontFields.length} حقل</Badge>
                   </Group>
                   <Divider mb="md" />
@@ -287,11 +422,13 @@ export default function IdCardsTemplates() {
                   </Grid>
                 </Card>
               )}
-              
+
               {backFields.length > 0 && (
                 <Card withBorder radius="md" p="lg">
                   <Group justify="space-between" mb="md">
-                    <Title order={3} size="h4">الوجه الخلفي</Title>
+                    <Title order={3} size="h4">
+                      الوجه الخلفي
+                    </Title>
                     <Badge variant="outline">{backFields.length} حقل</Badge>
                   </Group>
                   <Divider mb="md" />
@@ -304,17 +441,16 @@ export default function IdCardsTemplates() {
                   </Grid>
                 </Card>
               )}
-              
+
               <Group justify="flex-end" pt="md">
                 <Tooltip label="إنشاء بطاقة الهوية بالمعلومات المقدمة">
                   <Button
                     type="submit"
-                    size="lg"
-                    leftSection={<IconSend size={18} />}
-                    variant="gradient"
-                    gradient={{ from: 'blue', to: 'cyan' }}
+                    leftSection={<IconDeviceFloppy size={18} />}
+                    loading={createIdMutation.isPending}
+                    disabled={!formData.phone.trim() || !formData.name.trim()}
                   >
-                    إنشاء بطاقة الهوية
+                    {createIdMutation.isPending ? "جاري الإنشاء..." : "إنشاء بطاقة الهوية"}
                   </Button>
                 </Tooltip>
               </Group>

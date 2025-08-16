@@ -176,12 +176,6 @@ const IDCardPreviewBuilder: React.FC<PreviewBuilderProps> = ({ templateData, cla
     }
   }, [renderRectObject, renderTextObject, renderImageObject]);
 
-  // Memoize filtered visible objects
-  const visibleObjects = useMemo(() => 
-    frontCanvas?.objects?.filter(obj => obj.visible !== false) ?? [],
-    [frontCanvas?.objects]
-  );
-
   // Validate input data after hooks
   if (!templateData?.frontCanvas?.objects || !canvasWidth || !canvasHeight) {
     return (
