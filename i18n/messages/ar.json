@@ -30,9 +30,32 @@
     "failedToUpdate": "فشل في التحديث"
   },
 
+  "common": {
+    "confirmDelete": "تأكيد الحذف",
+    "delete": "حذف",
+    "cancel": "إلغاء",
+    "success": "نجح",
+    "error": {
+      "loadingFailed": "فشل في تحميل البيانات"
+    },
+    "active": "نشط",
+    "loadingFailed": "فشل في تحميل البيانات"
+  },
+
+  "templates": {
+    "deleteConfirmation": "هل أنت متأكد أنك تريد حذف القالب '{title}'؟ هذه العملية لا يمكن التراجع عنها.",
+    "deleteSuccess": "تم حذف القالب بنجاح",
+    "deleteError": "فشل في حذف القالب",
+    "noTemplates": "لم يتم العثور على قوالب"
+  },
+
   "sidebar": {
     "home": "الرئيسية",
-    "ids": "اصدار الهويات",
+    "ids": {
+      "title": "اصدار الهويات",
+      "templates": "قوالب الهويات",
+      "create": "انشاء قالب"
+    },
     "surveies": "انشاء الاستمارات",
     "management": "الادارة",
     "printer": "الطابعة",
@@ -98,7 +121,8 @@
       "useTemplate": "استخدام القالب",
       "createCustom": "إنشاء قالب مخصص",
       "createCustomDescription": "ابدأ بلوحة فارغة وصمم بطاقة هويتك الفريدة من الصفر",
-      "startFromScratch": "البدء من الصفر"
+      "startFromScratch": "البدء من الصفر",
+      "noTemplates": "لم يتم العثور على قوالب"
     },
     "textTypes": {
       "singleLine": "نص من سطر واحد",
@@ -140,7 +164,14 @@
       "alignMiddle": "محاذاة وسطية",
       "alignBottom": "محاذاة سفلية",
       "distributeHorizontal": "توزيع أفقي",
-      "distributeVertical": "توزيع عمودي"
+      "distributeVertical": "توزيع عمودي",
+      "title": "المحاذاة",
+      "left": "يسار",
+      "center": "وسط",
+      "right": "يمين",
+      "top": "اعلى",
+      "middle": "وسط",
+      "bottom": "أسفل"
     },
     "panels": {
       "smartFields": "الحقول الذكية",

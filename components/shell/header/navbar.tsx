@@ -27,12 +27,28 @@ export function Navbar() {
         label={t("sidebar.home")}
         icon={<IconHome size={18} />}
       />
+      <Menu>
+        <MenuTarget>
+          <Button
+            leftSection={<IconIdBadge size={18} />}
+            variant="subtle"
+            color="dark"
+          >
+            {t("sidebar.ids.title")}
+          </Button>
+        </MenuTarget>
 
-      <ShellLink
-        section="/ids-templates"
-        label={t("sidebar.ids")}
-        icon={<IconIdBadge size={18} />}
-      />
+        <MenuDropdown>
+          <MenuItem>
+            <ShellLink
+              section="/ids-templates"
+              label={t("sidebar.ids.templates")}
+              icon={<IconUsersGroup size={18} />}
+            />
+          </MenuItem>
+        </MenuDropdown>
+      </Menu>
+
       <ShellLink
         section="/forms"
         label={t("sidebar.surveies")}

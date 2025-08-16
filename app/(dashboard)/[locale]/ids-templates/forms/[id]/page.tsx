@@ -22,7 +22,9 @@ import {
 } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import { IconId, IconFileText, IconCalendar, IconPhoto, IconSend } from "@tabler/icons-react";
-import TemplateData from "../../../../../id-card-template.json";
+import { useGetTemplate } from '@/features/templates/api';
+import { useParams } from 'next/navigation';
+import type { Template } from '@/features/templates/types';
 
 type FieldType = 'text' | 'date' | 'file' | 'textarea';
 type FormValue = string | File | Date | null;
@@ -68,7 +70,11 @@ const FIELD_ICONS = {
 
 export default function IdCardsTemplates() {
   const [formData, setFormData] = useState<Record<string, FormValue>>({});
-  const [isLoading, setIsLoading] = useState(true);
+  const params = useParams();
+  const templateId = params.id as string;
+  
+  const { data: template, isLoading: templateLoading, error } = useGetTemplate(templateId);
+  const [isFormLoading, setIsFormLoading] = useState(true);
 
   const getFieldLabel = useCallback((smartFieldType: string, text?: string): string => {
     return text?.replace(/:/g, '').trim() || smartFieldType;
@@ -96,7 +102,9 @@ export default function IdCardsTemplates() {
   }, []);
 
   const smartFields = useMemo(() => {
-    const templateData = TemplateData as TemplateStructure;
+    if (!template?.template) return [];
+    
+    const templateData = template.template as TemplateStructure;
     const fields: SmartField[] = [];
     const seenFields = new Set<string>();
 
@@ -121,7 +129,7 @@ export default function IdCardsTemplates() {
     processObjects(templateData.backCanvas?.objects || [], 'back');
     
     return fields;
-  }, [getFieldType, getFieldLabel, getFieldPlaceholder]);
+  }, [template?.template, getFieldType, getFieldLabel, getFieldPlaceholder]);
 
   useEffect(() => {
     const initialData = smartFields.reduce((acc, field) => {
@@ -130,7 +138,7 @@ export default function IdCardsTemplates() {
     }, {} as Record<string, FormValue>);
     
     setFormData(initialData);
-    setIsLoading(false);
+    setIsFormLoading(false);
   }, [smartFields]);
 
   const handleInputChange = useCallback((fieldId: string, value: FormValue) => {
@@ -147,7 +155,6 @@ export default function IdCardsTemplates() {
     const value = formData[field.id];
     const Icon = FIELD_ICONS[field.type];
     const commonProps = {
-      key: field.id,
       label: field.label,
       placeholder: field.placeholder,
       required: field.required,
@@ -158,6 +165,7 @@ export default function IdCardsTemplates() {
       case 'text':
         return (
           <TextInput
+            key={field.id}
             {...commonProps}
             value={value as string || ''}
             onChange={(e) => handleInputChange(field.id, e.currentTarget.value)}
@@ -166,6 +174,7 @@ export default function IdCardsTemplates() {
       case 'textarea':
         return (
           <Textarea
+            key={field.id}
             {...commonProps}
             value={value as string || ''}
             onChange={(e) => handleInputChange(field.id, e.currentTarget.value)}
@@ -176,6 +185,7 @@ export default function IdCardsTemplates() {
       case 'date':
         return (
           <DateInput
+            key={field.id}
             {...commonProps}
             value={value as Date || null}
             onChange={(date) => handleInputChange(field.id, date)}
@@ -184,6 +194,7 @@ export default function IdCardsTemplates() {
       case 'file':
         return (
           <FileInput
+            key={field.id}
             {...commonProps}
             value={value as File || null}
             onChange={(file) => handleInputChange(field.id, file)}
@@ -195,7 +206,7 @@ export default function IdCardsTemplates() {
     }
   }, [formData, handleInputChange]);
 
-  if (isLoading) {
+  if (templateLoading || isFormLoading) {
     return (
       <Center h={400}>
         <Stack align="center" gap="md">
@@ -203,6 +214,26 @@ export default function IdCardsTemplates() {
           <Text c="dimmed">جاري تحميل حقول القالب...</Text>
         </Stack>
       </Center>
+    );
+  }
+
+  if (error || !template) {
+    return (
+      <Container size="md" py="xl">
+        <Card withBorder radius="md" p="xl">
+          <Center>
+            <Stack align="center" gap="md">
+              <IconFileText size={48} stroke={1} color="var(--mantine-color-red-5)" />
+              <Text size="lg" fw={500} c="red">
+                خطأ في تحميل القالب
+              </Text>
+              <Text size="sm" c="dimmed" ta="center">
+                لم يتم العثور على القالب المطلوب أو حدث خطأ أثناء التحميل.
+              </Text>
+            </Stack>
+          </Center>
+        </Card>
+      </Container>
     );
   }
 
