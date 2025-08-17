@@ -89,11 +89,12 @@ export function createApiFactory<
         const response = await api.post(endpoint, data);
         return response.data;
       },
+
+      ...options,
       onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries({ queryKey: QueryKeys.all() });
         options?.onSuccess?.(data, variables, context);
       },
-      ...options,
     });
   };
 
@@ -121,13 +122,13 @@ export function createApiFactory<
         const response = await api.put(`${endpoint}/${id}`, data);
         return response.data;
       },
+      ...options,
       onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries({
           queryKey: QueryKeys.all(),
         });
         options?.onSuccess?.(data, variables, context);
       },
-      ...options,
     });
   };
 
@@ -141,13 +142,13 @@ export function createApiFactory<
       mutationFn: async (id: number): Promise<void> => {
         await api.delete(`${endpoint}/${id}`);
       },
+      ...options,
       onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries({
           queryKey: QueryKeys.all(),
         });
         options?.onSuccess?.(data, variables, context);
       },
-      ...options,
     });
   };
 
