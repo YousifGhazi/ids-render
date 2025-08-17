@@ -1,4 +1,5 @@
 import { Role } from "@/features/roles/types";
+import { Organization } from "@/features/organizations/types";
 
 export type User = {
   id: number;
@@ -8,6 +9,7 @@ export type User = {
   createdAt: string;
   updatedAt: string;
   roles?: Role[];
+  organization?: Organization;
 };
 
 export type CreateUsersInput = {
