@@ -16,11 +16,13 @@ export type CreateUsersInput = {
   name: string;
   email: string;
   password: string;
-  roleId?: number[];
+  organizationId: number;
+  roleIds?: number[];
 };
 
 export type UpdateUsersInput = {
   name?: string;
   email?: string;
-  roleId?: number[];
+  organizationId: number;
+  roleIds?: number[];
 };

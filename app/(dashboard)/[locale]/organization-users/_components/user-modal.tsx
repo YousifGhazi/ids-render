@@ -42,6 +42,12 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
   const roles = useGetRoles({
     page: 1,
     pageSize: 100,
+    filter: [
+      {
+        field: "type",
+        value: "organization",
+      },
+    ],
   });
   const isEditing = !!user;
 
