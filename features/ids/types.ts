@@ -4,6 +4,12 @@ export type IDCard = {
   phone: string;
   identity: Record<string, any>;
   template_id: number;
+  createdAt: string;
+  updatedAt: string;
+  template: {
+    id: number,
+    template: Record<string, any>
+  }
 };
 
 export type CreateIDCardInput = {

@@ -215,8 +215,8 @@ export default function IdCardsTemplates() {
       const submitData: CreateIDCardInput = {
         name: formData.name,
         phone: formData.phone,
-        identity: formData.identity,
         template_id: Number(templateId),
+        ...formData.identity
       };
 
       try {

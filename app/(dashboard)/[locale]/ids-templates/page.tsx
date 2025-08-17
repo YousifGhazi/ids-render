@@ -8,7 +8,7 @@ import { useGetTemplates, useDeleteTemplate } from '@/features/templates/api';
 import type { Template } from '@/features/templates/types';
 import { modals } from '@mantine/modals';
 import { notifications } from '@mantine/notifications';
-import IDCardPreviewBuilder from '@/components/ids-designer/id-card-preview-builder';
+import IDCardPreviewBuilder from '@/components/ids-designer/id-card-template-preview-builder';
 
 // Skeleton loader component for template cards
 const TemplateSkeleton = () => (

@@ -75,7 +75,7 @@ const DEFAULT_VALUES = {
   STROKE_WIDTH: 1,
 } as const;
 
-const IDCardPreviewBuilder: React.FC<PreviewBuilderProps> = ({ templateData, className = '' }) => {
+const IDCardTemplatePreviewBuilder: React.FC<PreviewBuilderProps> = ({ templateData, className = '' }) => {
   const { canvasWidth, canvasHeight, frontCanvas } = templateData;
 
   // Memoize scale calculation for performance
@@ -201,4 +201,4 @@ const IDCardPreviewBuilder: React.FC<PreviewBuilderProps> = ({ templateData, cla
   );
 };
 
-export default IDCardPreviewBuilder;
+export default IDCardTemplatePreviewBuilder;
