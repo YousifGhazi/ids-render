@@ -12,11 +12,10 @@ import {
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
-import { modals } from "@mantine/modals";
 import { useTranslations } from "next-intl";
-import { notifications } from "@mantine/notifications";
 import { useEffect } from "react";
 import { useGetPermissions } from "@/features/permissions/api";
+import { useMutationNotifications } from "@/hooks/use-mutation-notifications";
 
 interface RoleModalProps {
   role?: Role;
@@ -39,24 +38,9 @@ export function RoleModal({ role, opened, onClose }: RoleModalProps) {
   });
 
   const t = useTranslations();
-  const createRole = useCreateRole({
-    onSuccess: () => {
-      notifications.show({
-        title: t("messages.success"),
-        message: `${t("role.role")} ${t("messages.createdSuccessfully")}`,
-        color: "green",
-      });
-    },
-  });
-  const updateRole = useUpdateRole({
-    onSuccess: () => {
-      notifications.show({
-        title: t("messages.success"),
-        message: `${t("role.role")} ${t("messages.updatedSuccessfully")}`,
-        color: "green",
-      });
-    },
-  });
+  const { notify } = useMutationNotifications();
+  const createRole = useCreateRole(notify("create"));
+  const updateRole = useUpdateRole(notify("update"));
 
   const permissions = useGetPermissions({
     page: 1,

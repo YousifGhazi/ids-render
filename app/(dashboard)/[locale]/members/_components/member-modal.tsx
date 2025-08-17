@@ -11,12 +11,12 @@ import {
 import { useForm } from "@mantine/form";
 import { modals } from "@mantine/modals";
 import { useTranslations } from "next-intl";
-import { notifications } from "@mantine/notifications";
 import { useEffect } from "react";
 import { Member } from "@/features/members/types";
 import { useCreateMember, useUpdateMember } from "@/features/members/api";
 import { useGetOrganizations } from "@/features/organizations/api";
 import { useAuthStore } from "@/features/auth/store";
+import { useMutationNotifications } from "@/hooks/use-mutation-notifications";
 
 interface MemberModalProps {
   member?: Member;
@@ -26,8 +26,10 @@ interface MemberModalProps {
 
 export function MemberModal({ member, opened, onClose }: MemberModalProps) {
   const t = useTranslations();
-  const createMember = useCreateMember();
-  const updateMember = useUpdateMember();
+  const { notify } = useMutationNotifications();
+
+  const createMember = useCreateMember(notify("create"));
+  const updateMember = useUpdateMember(notify("update"));
   const { user } = useAuthStore();
   const organizations = useGetOrganizations({
     page: 1,
@@ -49,49 +51,12 @@ export function MemberModal({ member, opened, onClose }: MemberModalProps) {
 
   const handleSubmit = form.onSubmit(async (values) => {
     if (isEditing) {
-      await updateMember.mutateAsync(
-        {
-          id: member.id.toString(),
-          data: values,
-        },
-        {
-          onError: () => {
-            notifications.show({
-              title: t("messages.error"),
-              message: `${t("members.singular_title")} ${t(
-                "messages.failedToUpdate"
-              )}`,
-              color: "red",
-            });
-          },
-        }
-      );
-      notifications.show({
-        title: t("messages.success"),
-        message: `${t("members.singular_title")} ${t(
-          "messages.updatedSuccessfully"
-        )}`,
-        color: "green",
+      await updateMember.mutateAsync({
+        id: member.id.toString(),
+        data: values,
       });
     } else {
-      await createMember.mutateAsync(values, {
-        onError: () => {
-          notifications.show({
-            title: t("messages.error"),
-            message: `${t("members.singular_title")} ${t(
-              "messages.failedToCreate"
-            )}`,
-            color: "red",
-          });
-        },
-      });
-      notifications.show({
-        title: t("messages.success"),
-        message: `${t("members.singular_title")} ${t(
-          "messages.createdSuccessfully"
-        )}`,
-        color: "green",
-      });
+      await createMember.mutateAsync(values);
     }
     form.reset();
     onClose();

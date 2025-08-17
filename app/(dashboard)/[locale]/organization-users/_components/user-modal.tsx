@@ -13,13 +13,13 @@ import {
 import { useForm } from "@mantine/form";
 import { useTranslations } from "next-intl";
 import { IconLock } from "@tabler/icons-react";
-import { notifications } from "@mantine/notifications";
 import { useGetRoles } from "@/features/roles/api";
 import { useEffect } from "react";
 import {
   useCreateOrganizationUser,
   useUpdateOrganizationUser,
 } from "@/features/organization-users/api";
+import { useMutationNotifications } from "@/hooks/use-mutation-notifications";
 
 interface UserModalProps {
   user?: User;
@@ -29,8 +29,9 @@ interface UserModalProps {
 
 export function UserModal({ user, opened, onClose }: UserModalProps) {
   const t = useTranslations();
-  const createUser = useCreateOrganizationUser();
-  const updateUser = useUpdateOrganizationUser();
+  const { notify } = useMutationNotifications();
+  const createUser = useCreateOrganizationUser(notify("create"));
+  const updateUser = useUpdateOrganizationUser(notify("update"));
 
   const roles = useGetRoles({
     page: 1,
@@ -49,48 +50,19 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
       name: user?.name || "",
       password: "",
       email: user?.email || "",
-      type: "admin",
+      type: "organization_user",
       roleIds: [],
     },
   });
 
   const handleSubmit = form.onSubmit(async (values) => {
     if (isEditing && user) {
-      await updateUser.mutateAsync(
-        {
-          id: user.id.toString(),
-          data: values,
-        },
-        {
-          onError: () => {
-            notifications.show({
-              title: t("messages.error"),
-              message: `${t("user.user")} ${t("messages.failedToUpdate")}`,
-              color: "red",
-            });
-          },
-        }
-      );
-      notifications.show({
-        title: t("messages.success"),
-        message: `${t("user.user")} ${t("messages.updatedSuccessfully")}`,
-        color: "green",
+      await updateUser.mutateAsync({
+        id: user.id.toString(),
+        data: values,
       });
     } else {
-      await createUser.mutateAsync(values, {
-        onError: () => {
-          notifications.show({
-            title: t("messages.error"),
-            message: `${t("user.user")} ${t("messages.failedToCreate")}`,
-            color: "red",
-          });
-        },
-      });
-      notifications.show({
-        title: t("messages.success"),
-        message: `${t("user.user")} ${t("messages.createdSuccessfully")}`,
-        color: "green",
-      });
+      await createUser.mutateAsync(values);
     }
     form.reset();
     onClose();

@@ -15,8 +15,8 @@ import {
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useTranslations } from "next-intl";
-import { notifications } from "@mantine/notifications";
 import { useEffect } from "react";
+import { useMutationNotifications } from "@/hooks/use-mutation-notifications";
 
 interface OrganizationModalProps {
   organization?: Organization;
@@ -42,35 +42,13 @@ export function OrganizationModal({
       website: organization?.website || "",
       logo: organization?.logo || "",
     },
-    validate: {
-      name: (value) => (!value ? "Name is required" : null),
-      description: (value) => (!value ? "Description is required" : null),
-    },
   });
 
   const t = useTranslations();
-  const createOrganization = useCreateOrganization({
-    onSuccess: () => {
-      notifications.show({
-        title: t("messages.success"),
-        message: `${t("organization.organization")} ${t(
-          "messages.createdSuccessfully"
-        )}`,
-        color: "green",
-      });
-    },
-  });
-  const updateOrganization = useUpdateOrganization({
-    onSuccess: () => {
-      notifications.show({
-        title: t("messages.success"),
-        message: `${t("organization.organization")} ${t(
-          "messages.updatedSuccessfully"
-        )}`,
-        color: "green",
-      });
-    },
-  });
+  const { notify } = useMutationNotifications();
+
+  const createOrganization = useCreateOrganization(notify("create"));
+  const updateOrganization = useUpdateOrganization(notify("update"));
 
   const handleSubmit = form.onSubmit(async (values) => {
     const data = {
