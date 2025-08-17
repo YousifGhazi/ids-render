@@ -85,7 +85,7 @@ export function RoleModal({ role, opened, onClose }: RoleModalProps) {
     } else {
       form.reset();
     }
-  }, [role]);
+  }, [role, currentRole?.data]);
 
   return (
     <Modal

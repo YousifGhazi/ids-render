@@ -78,7 +78,7 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
     } else {
       form.reset();
     }
-  }, [user]);
+  }, [user, roles?.data]);
 
   return (
     <Modal
