@@ -2,29 +2,32 @@
 
 import { DeleteButton } from "@/components/buttons/delete-button";
 import { EditButton } from "@/components/buttons/edit-button";
+import {
+  useDeleteOrganization,
+  useGetOrganizations,
+} from "@/features/organizations/api";
+import { Organization } from "@/features/organizations/types";
 import { useDataTable } from "@/hooks/use-datatable";
 import { useModals } from "@/hooks/use-modals";
 import { Button, Group } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { DataTable } from "mantine-datatable";
 import { useTranslations } from "next-intl";
-import { formatDate } from "@/utils/format";
-import { useDeleteId, useGetIds } from "@/features/ids/api";
-import { IDCard } from "@/features/ids/types";
-import { IdCardModal } from "./id-modal";
 import { useState } from "react";
-import { useDisclosure } from "@mantine/hooks";
+import { OrganizationModal } from "./organization-modal";
+import { formatDate } from "@/utils/format";
 
-export function IdsTable() {
+export function OrganizationsTable() {
   const t = useTranslations();
-  const deleteUser = useDeleteId();
+  const deleteOrganization = useDeleteOrganization();
+  const [selectedRow, setSelectedRow] = useState<Organization | undefined>();
   const modals = useModals();
-  const [selectedRow, setSelectedRow] = useState<IDCard | undefined>();
   const [opened, { open, close }] = useDisclosure(false, {
     onClose: () => setSelectedRow(undefined),
   });
 
-  const { pagination, sorting, getTableProps } = useDataTable<IDCard>();
-  const query = useGetIds({
+  const { pagination, sorting, getTableProps } = useDataTable<Organization>();
+  const query = useGetOrganizations({
     page: pagination.page,
     pageSize: pagination.pageSize,
     sort: sorting,
@@ -33,54 +36,53 @@ export function IdsTable() {
   return (
     <>
       <Group justify="flex-end" mb="md">
-        <Button
-          onClick={() => {
-            console.log("users");
-          }}
-        >
-          {t("add")} {t("user.user")}
+        <Button onClick={open}>
+          {t("add")} {t("organization.organization")}
         </Button>
       </Group>
 
       <DataTable
         {...getTableProps({ query })}
         columns={[
-          { accessor: "id", title: t("id") },
-          { accessor: "member.name", title: t("members.name"), sortable: true },
+          { accessor: "name", title: t("name"), sortable: true },
           {
-            accessor: "member.phone",
-            title: t("members.phone"),
+            accessor: "description",
+            title: t("organization.description"),
             sortable: true,
           },
-          { accessor: "type", title: t("type"), sortable: true },
           {
-            accessor: "createdAt",
+            accessor: "website",
+            title: t("organization.website"),
+            sortable: true,
+          },
+          {
+            accessor: "created_at",
             title: t("createdAt"),
             sortable: true,
-            render: (user) => formatDate(user.createdAt),
+            render: (organization) => formatDate(organization.created_at),
           },
           {
-            accessor: "updatedAt",
+            accessor: "updated_at",
             title: t("updatedAt"),
             sortable: true,
-            render: (user) => formatDate(user.updatedAt),
+            render: (organization) => formatDate(organization.updated_at),
           },
           {
             accessor: "actions",
             title: "",
-            render: (card) => (
+            render: (organization) => (
               <Group gap={4} wrap="nowrap" justify="center">
                 <EditButton
                   onClick={() => {
-                    setSelectedRow(card);
+                    setSelectedRow(organization);
                     open();
                   }}
                 />
                 <DeleteButton
                   onClick={() =>
                     modals.delete(async () => {
-                      await deleteUser.mutateAsync(user.id);
-                    }, t("user.user"))
+                      await deleteOrganization.mutateAsync(organization.id);
+                    }, t("organization.organization"))
                   }
                 />
               </Group>
@@ -90,7 +92,11 @@ export function IdsTable() {
         records={query?.data?.data?.data ?? []}
       />
 
-      <IdCardModal idCard={selectedRow} opened={opened} onClose={close} />
+      <OrganizationModal
+        organization={selectedRow}
+        opened={opened}
+        onClose={close}
+      />
     </>
   );
 }

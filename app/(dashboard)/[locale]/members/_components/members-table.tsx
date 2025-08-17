@@ -2,8 +2,6 @@
 
 import { DeleteButton } from "@/components/buttons/delete-button";
 import { EditButton } from "@/components/buttons/edit-button";
-import { useDeleteUser, useGetUsers } from "@/features/users/api";
-import { User } from "@/features/users/types";
 import { useDataTable } from "@/hooks/use-datatable";
 import { useModals } from "@/hooks/use-modals";
 import { Button, Group } from "@mantine/core";
@@ -48,7 +46,6 @@ export function MembersTable() {
       <DataTable
         {...getTableProps({ query })}
         columns={[
-          { accessor: "id", title: t("id") },
           { accessor: "name", title: t("members.name"), sortable: true },
           { accessor: "phone", title: t("members.phone"), sortable: true },
           {

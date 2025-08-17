@@ -4,13 +4,11 @@ export type User = {
   id: number;
   name: string;
   email: string;
-  type: UserType;
+  type: string;
   createdAt: string;
   updatedAt: string;
   roles?: Role[];
 };
-
-type UserType = "admin" | "organization_user";
 
 export type CreateUsersInput = {
   name: string;

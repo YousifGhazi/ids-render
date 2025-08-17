@@ -1,6 +1,5 @@
 "use client";
 
-import { useCreateUser, useUpdateUser } from "@/features/users/api";
 import { User } from "@/features/users/types";
 import {
   Button,
@@ -17,6 +16,10 @@ import { IconLock } from "@tabler/icons-react";
 import { notifications } from "@mantine/notifications";
 import { useGetRoles } from "@/features/roles/api";
 import { useEffect } from "react";
+import {
+  useCreateOrganizationUser,
+  useUpdateOrganizationUser,
+} from "@/features/organization-users/api";
 
 interface UserModalProps {
   user?: User;
@@ -26,18 +29,12 @@ interface UserModalProps {
 
 export function UserModal({ user, opened, onClose }: UserModalProps) {
   const t = useTranslations();
-  const createUser = useCreateUser();
-  const updateUser = useUpdateUser();
+  const createUser = useCreateOrganizationUser();
+  const updateUser = useUpdateOrganizationUser();
 
   const roles = useGetRoles({
     page: 1,
     pageSize: 100,
-    filter: [
-      {
-        field: "type",
-        value: "admin",
-      },
-    ],
   });
   const isEditing = !!user;
 
@@ -52,7 +49,7 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
       name: user?.name || "",
       password: "",
       email: user?.email || "",
-      type: "organization_user",
+      type: "admin",
       roleIds: [],
     },
   });

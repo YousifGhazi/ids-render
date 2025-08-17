@@ -2,29 +2,33 @@
 
 import { DeleteButton } from "@/components/buttons/delete-button";
 import { EditButton } from "@/components/buttons/edit-button";
+import { User } from "@/features/users/types";
 import { useDataTable } from "@/hooks/use-datatable";
 import { useModals } from "@/hooks/use-modals";
 import { Button, Group } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { DataTable } from "mantine-datatable";
 import { useTranslations } from "next-intl";
-import { formatDate } from "@/utils/format";
-import { useDeleteId, useGetIds } from "@/features/ids/api";
-import { IDCard } from "@/features/ids/types";
-import { IdCardModal } from "./id-modal";
 import { useState } from "react";
-import { useDisclosure } from "@mantine/hooks";
+import { UserModal } from "./user-modal";
+import { formatDate } from "@/utils/format";
+import {
+  useDeleteOrganizationUser,
+  useGetOrganizationUsers,
+} from "@/features/organization-users/api";
 
-export function IdsTable() {
+export function UsersTable() {
   const t = useTranslations();
-  const deleteUser = useDeleteId();
+  const [selectedRow, setSelectedRow] = useState<User | undefined>();
   const modals = useModals();
-  const [selectedRow, setSelectedRow] = useState<IDCard | undefined>();
   const [opened, { open, close }] = useDisclosure(false, {
     onClose: () => setSelectedRow(undefined),
   });
 
-  const { pagination, sorting, getTableProps } = useDataTable<IDCard>();
-  const query = useGetIds({
+  const { pagination, sorting, getTableProps } = useDataTable<User>();
+
+  const deleteUser = useDeleteOrganizationUser();
+  const query = useGetOrganizationUsers({
     page: pagination.page,
     pageSize: pagination.pageSize,
     sort: sorting,
@@ -35,7 +39,8 @@ export function IdsTable() {
       <Group justify="flex-end" mb="md">
         <Button
           onClick={() => {
-            console.log("users");
+            setSelectedRow(undefined);
+            open();
           }}
         >
           {t("add")} {t("user.user")}
@@ -45,13 +50,7 @@ export function IdsTable() {
       <DataTable
         {...getTableProps({ query })}
         columns={[
-          { accessor: "id", title: t("id") },
-          { accessor: "member.name", title: t("members.name"), sortable: true },
-          {
-            accessor: "member.phone",
-            title: t("members.phone"),
-            sortable: true,
-          },
+          { accessor: "name", title: t("name"), sortable: true },
           { accessor: "type", title: t("type"), sortable: true },
           {
             accessor: "createdAt",
@@ -68,11 +67,11 @@ export function IdsTable() {
           {
             accessor: "actions",
             title: "",
-            render: (card) => (
+            render: (user) => (
               <Group gap={4} wrap="nowrap" justify="center">
                 <EditButton
                   onClick={() => {
-                    setSelectedRow(card);
+                    setSelectedRow(user);
                     open();
                   }}
                 />
@@ -90,7 +89,7 @@ export function IdsTable() {
         records={query?.data?.data?.data ?? []}
       />
 
-      <IdCardModal idCard={selectedRow} opened={opened} onClose={close} />
+      <UserModal user={selectedRow} opened={opened} onClose={close} />
     </>
   );
 }

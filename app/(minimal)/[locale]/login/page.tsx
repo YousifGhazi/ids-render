@@ -1,8 +1,6 @@
 "use client";
 
 import { useForm } from "@mantine/form";
-import { zodResolver } from "mantine-form-zod-resolver";
-import { z } from "zod";
 import {
   Container,
   Paper,

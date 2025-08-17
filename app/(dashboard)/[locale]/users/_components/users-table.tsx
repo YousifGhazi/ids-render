@@ -46,10 +46,8 @@ export function UsersTable() {
       <DataTable
         {...getTableProps({ query })}
         columns={[
-          { accessor: "id", title: t("id") },
           { accessor: "name", title: t("name"), sortable: true },
           { accessor: "email", title: t("email"), sortable: true },
-          { accessor: "type", title: t("type"), sortable: true },
           {
             accessor: "createdAt",
             title: t("createdAt"),

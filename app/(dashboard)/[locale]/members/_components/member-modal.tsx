@@ -1,22 +1,22 @@
 "use client";
 
-import { usecreateMember, useupdateMember } from "@/features/users/api";
 import {
   Button,
   Group,
   Modal,
+  MultiSelect,
   Stack,
   TextInput,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { modals } from "@mantine/modals";
 import { useTranslations } from "next-intl";
-import { z } from "zod";
 import { notifications } from "@mantine/notifications";
-import { useGetRoles } from "@/features/roles/api";
 import { useEffect } from "react";
 import { Member } from "@/features/members/types";
 import { useCreateMember, useUpdateMember } from "@/features/members/api";
+import { useGetOrganizations } from "@/features/organizations/api";
+import { useAuthStore } from "@/features/auth/store";
 
 interface MemberModalProps {
   member?: Member;
@@ -28,27 +28,27 @@ export function MemberModal({ member, opened, onClose }: MemberModalProps) {
   const t = useTranslations();
   const createMember = useCreateMember();
   const updateMember = useUpdateMember();
+  const { user } = useAuthStore();
+  const organizations = useGetOrganizations({
+    page: 1,
+    pageSize: 100,
+  });
   const isEditing = !!member;
 
-  //   const userFormSchema = z.object({
-  //     name: z.string().min(1, "Name is required"),
-  //     email: z.string().min(1, "Please enter a valid email"),
-  //     password:
-  //       !isEditing &&
-  //       z.string().min(6, "Password must be at least 6 characters long"),
-  //     roleId: z.number("Role is required"),
-  //   });
-
-  const form = useForm({
-    // validate: zodResolver(),
+  const form = useForm<{
+    name: string;
+    phone: string;
+    organizationIds: string[];
+  }>({
     initialValues: {
       name: member?.name ?? "",
       phone: member?.phone ?? "",
+      organizationIds: [],
     },
   });
 
   const handleSubmit = form.onSubmit(async (values) => {
-    if (isEditing && member) {
+    if (isEditing) {
       await updateMember.mutateAsync(
         {
           id: member.id.toString(),
@@ -58,7 +58,9 @@ export function MemberModal({ member, opened, onClose }: MemberModalProps) {
           onError: () => {
             notifications.show({
               title: t("messages.error"),
-              message: `${t("members.singular_title")} ${t("messages.failedToUpdate")}`,
+              message: `${t("members.singular_title")} ${t(
+                "messages.failedToUpdate"
+              )}`,
               color: "red",
             });
           },
@@ -66,7 +68,9 @@ export function MemberModal({ member, opened, onClose }: MemberModalProps) {
       );
       notifications.show({
         title: t("messages.success"),
-        message: `${t("members.singular_title")} ${t("messages.updatedSuccessfully")}`,
+        message: `${t("members.singular_title")} ${t(
+          "messages.updatedSuccessfully"
+        )}`,
         color: "green",
       });
     } else {
@@ -74,14 +78,18 @@ export function MemberModal({ member, opened, onClose }: MemberModalProps) {
         onError: () => {
           notifications.show({
             title: t("messages.error"),
-            message: `${t("members.singular_title")} ${t("messages.failedToCreate")}`,
+            message: `${t("members.singular_title")} ${t(
+              "messages.failedToCreate"
+            )}`,
             color: "red",
           });
         },
       });
       notifications.show({
         title: t("messages.success"),
-        message: `${t("members.singular_title")} ${t("messages.createdSuccessfully")}`,
+        message: `${t("members.singular_title")} ${t(
+          "messages.createdSuccessfully"
+        )}`,
         color: "green",
       });
     }
@@ -94,6 +102,7 @@ export function MemberModal({ member, opened, onClose }: MemberModalProps) {
       form.setValues({
         name: member.name,
         phone: member.phone,
+        organizationIds: member?.organizations?.map((org) => String(org.id)),
       });
     } else {
       form.reset();
@@ -121,12 +130,27 @@ export function MemberModal({ member, opened, onClose }: MemberModalProps) {
             {...form.getInputProps("name")}
           />
 
-          <TextInput
-            label={t("members.phone")}
-            placeholder={`${t("members.phone")}...`}
-            required
-            {...form.getInputProps("phone")}
-          />
+          {!isEditing && (
+            <TextInput
+              label={t("members.phone")}
+              placeholder={`${t("members.phone")}...`}
+              required
+              {...form.getInputProps("phone")}
+            />
+          )}
+
+          {user?.type === "admin" && (
+            <MultiSelect
+              required
+              data={organizations?.data?.data?.data?.map((org) => ({
+                value: String(org.id),
+                label: org.name,
+              }))}
+              label={t("organization.organizations")}
+              placeholder={`${t("organization.organizations")}...`}
+              {...form.getInputProps("organizationIds")}
+            />
+          )}
 
           <Group justify="flex-end" mt="md">
             <Button

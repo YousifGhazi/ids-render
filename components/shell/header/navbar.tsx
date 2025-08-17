@@ -15,6 +15,8 @@ import {
   IconUsersGroup,
   IconIdBadge,
   IconUsers,
+  IconUserShield,
+  IconBuilding,
 } from "@tabler/icons-react";
 import { ShellLink } from "./navbar-link";
 import { useTranslations } from "next-intl";
@@ -35,7 +37,7 @@ export function Navbar() {
             variant="subtle"
             color="dark"
           >
-            {t("sidebar.ids.title")}
+            {t("sidebar.ids.ids")}
           </Button>
         </MenuTarget>
 
@@ -62,8 +64,6 @@ export function Navbar() {
         icon={<IconClipboardText size={18} />}
       />
 
-      
-
       <Menu>
         <MenuTarget>
           <Button
@@ -71,7 +71,7 @@ export function Navbar() {
             variant="subtle"
             color="dark"
           >
-            {t("sidebar.management")}
+            {t("sidebar.management.management")}
           </Button>
         </MenuTarget>
 
@@ -79,8 +79,29 @@ export function Navbar() {
           <MenuItem>
             <ShellLink
               section="/users"
-              label={t("sidebar.users")}
+              label={t("sidebar.management.users")}
               icon={<IconUsersGroup size={18} />}
+            />
+          </MenuItem>
+          <MenuItem>
+            <ShellLink
+              section="/organization-users"
+              label={t("sidebar.management.organizationUsers")}
+              icon={<IconUsersGroup size={18} />}
+            />
+          </MenuItem>
+          <MenuItem>
+            <ShellLink
+              section="/organizations"
+              label={t("sidebar.management.organizations")}
+              icon={<IconBuilding size={18} />}
+            />
+          </MenuItem>
+          <MenuItem>
+            <ShellLink
+              section="/roles"
+              label={t("role.roles")}
+              icon={<IconUserShield size={18} />}
             />
           </MenuItem>
         </MenuDropdown>
