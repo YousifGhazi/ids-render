@@ -70,7 +70,7 @@
     "delivery": "التوصيل",
     "management": {
       "management": "الادارة",
-      "users": "المستخدمين",
+      "users": "المدراء",
       "organizationUsers": "مستخدمين المؤسسة",
       "organizations": "المؤسسات",
       "roles": "الأدوار"
@@ -95,8 +95,8 @@
   },
 
   "user": {
-    "users": "المستخدمين",
-    "user": "المستخدم"
+    "users": "المدراء",
+    "user": "المدير"
   },
   "organizationUser": {
     "users": "مستخدمين المؤسسة",

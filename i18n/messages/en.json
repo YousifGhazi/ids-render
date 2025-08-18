@@ -71,7 +71,7 @@
     "customers": "Customers",
     "management": {
       "management": "Management",
-      "users": "Users",
+      "users": "admins",
       "organizationUsers": "Organization Users",
       "organizations": "Organizations",
       "roles": "Roles"
@@ -96,8 +96,8 @@
   },
 
   "user": {
-    "users": "users",
-    "user": "user"
+    "users": "admins",
+    "user": "admin"
   },
   "role": {
     "roles": "roles",
