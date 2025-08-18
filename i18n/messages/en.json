@@ -4,6 +4,10 @@
   "delete": "Delete",
   "view": "View",
   "cancel": "Cancel",
+  "create": "Create",
+  "update": "Update",
+  "list": "View List",
+  "show": "View details",
 
   "id": "ID",
   "createdAt": "created At",
@@ -101,7 +105,19 @@
   },
   "role": {
     "roles": "roles",
-    "role": "role"
+    "role": "role",
+    "rolesList": {
+      "advertisement": "Advertisement",
+      "identity": "Identity",
+      "member": "Member",
+      "news": "News",
+      "organization": "Organization",
+      "organization-user": "Organization User",
+      "permissions": "Permission",
+      "role": "Role",
+      "template": "Template",
+      "user": "User"
+    }
   },
   "permission": {
     "permissions": "permissions",
@@ -111,6 +127,7 @@
     "singular_title": "member",
     "plural_title": "members"
   },
+
   "ID": {
     "ids": "IDs",
     "id": "ID"

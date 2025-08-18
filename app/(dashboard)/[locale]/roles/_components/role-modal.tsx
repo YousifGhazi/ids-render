@@ -10,12 +10,16 @@ import {
   Select,
   Stack,
   TextInput,
+  Tree,
+  useTree,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useTranslations } from "next-intl";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useGetPermissions } from "@/features/permissions/api";
 import { useMutationNotifications } from "@/hooks/use-mutation-notifications";
+import { permissionsToNestedTree } from "@/features/permissions/utils";
+import { TreeCheckbox } from "@/components/tree-checkbox";
 
 interface RoleModalProps {
   role?: Role;
@@ -24,7 +28,10 @@ interface RoleModalProps {
 }
 
 export function RoleModal({ role, opened, onClose }: RoleModalProps) {
+  const t = useTranslations();
+
   const isEditing = !!role;
+
   const form = useForm<{
     name: string;
     type: RoleType;
@@ -37,11 +44,11 @@ export function RoleModal({ role, opened, onClose }: RoleModalProps) {
     },
   });
 
-  const t = useTranslations();
+  const tree = useTree();
+
   const { notify } = useMutationNotifications();
   const createRole = useCreateRole(notify("create"));
   const updateRole = useUpdateRole(notify("update"));
-
   const permissions = useGetPermissions({
     page: 1,
     pageSize: 100,
@@ -52,10 +59,14 @@ export function RoleModal({ role, opened, onClose }: RoleModalProps) {
       },
     ],
   });
-
   const currentRole = useGetRole(role?.id ?? "", {
     enabled: !!role?.id,
   });
+
+  const permissionsTree = useMemo(
+    () => permissionsToNestedTree(permissions.data?.data?.data || [], t) ?? [],
+    [permissions.data]
+  );
 
   const handleSubmit = form.onSubmit(async (values) => {
     const data = {
@@ -76,16 +87,22 @@ export function RoleModal({ role, opened, onClose }: RoleModalProps) {
 
   useEffect(() => {
     if (role) {
+      const permissions =
+        currentRole?.data?.permissions?.map((p) => String(p.id)) ?? [];
       form.setValues({
         name: role.name,
         type: role.type,
-        permissions:
-          currentRole?.data?.permissions?.map((p) => String(p.id)) ?? [],
       });
+      tree.setCheckedState(permissions);
     } else {
       form.reset();
+      tree.setCheckedState([]);
     }
   }, [role, currentRole?.data]);
+
+  useEffect(() => {
+    form.setFieldValue("permissions", tree.checkedState);
+  }, [tree.checkedState]);
 
   return (
     <Modal
@@ -118,18 +135,14 @@ export function RoleModal({ role, opened, onClose }: RoleModalProps) {
             required
             {...form.getInputProps("type")}
           />
-          <MultiSelect
-            multiple={true}
-            label={t("permission.permissions")}
-            placeholder={`${t("permission.permissions")}...`}
-            data={permissions?.data?.data?.data.map((permission) => ({
-              value: String(permission.id),
-              label: permission.name,
-            }))}
-            required
-            {...form.getInputProps("permissions")}
-          />
 
+          <Tree
+            tree={tree}
+            data={permissionsTree}
+            levelOffset={30}
+            expandOnClick={false}
+            renderNode={TreeCheckbox}
+          />
           <Group justify="flex-end" mt="md">
             <Button
               variant="filled"
