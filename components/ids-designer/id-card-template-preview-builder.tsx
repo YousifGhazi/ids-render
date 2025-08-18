@@ -1,61 +1,13 @@
 import React, { useMemo, useCallback } from 'react';
-
-// Type definitions for better type safety
-type ObjectType = 'Rect' | 'IText' | 'Image';
-type TextAlign = 'left' | 'center' | 'right' | 'justify';
-type Direction = 'ltr' | 'rtl';
-type FontWeight = 'normal' | 'bold' | 'lighter' | 'bolder' | number;
-type FontStyle = 'normal' | 'italic' | 'oblique';
-
-interface BaseCanvasObject {
-  type: ObjectType;
-  left: number;
-  top: number;
-  width: number;
-  height: number;
-  scaleX?: number;
-  scaleY?: number;
-  angle?: number;
-  fill?: string;
-  stroke?: string;
-  strokeWidth?: number;
-  opacity?: number;
-  visible?: boolean;
-}
-
-interface TextObject extends BaseCanvasObject {
-  type: 'IText';
-  text?: string;
-  fontSize?: number;
-  fontFamily?: string;
-  fontWeight?: FontWeight;
-  fontStyle?: FontStyle;
-  textAlign?: TextAlign;
-  direction?: Direction;
-}
-
-interface ImageObject extends BaseCanvasObject {
-  type: 'Image';
-  src?: string;
-}
-
-interface RectObject extends BaseCanvasObject {
-  type: 'Rect';
-  rx?: number;
-  ry?: number;
-}
-
-type CanvasObject = TextObject | ImageObject | RectObject;
-
-interface FrontCanvas {
-  objects: CanvasObject[];
-}
-
-interface TemplateData {
-  canvasWidth: number;
-  canvasHeight: number;
-  frontCanvas: FrontCanvas;
-}
+import {
+  CanvasObject,
+  Canvas,
+  TemplateData,
+  TextAlign,
+  TextObject,
+  ImageObject,
+  RectObject
+} from '../../features/templates/interfaces';
 
 interface PreviewBuilderProps {
   templateData: TemplateData;
@@ -195,7 +147,7 @@ const IDCardTemplatePreviewBuilder: React.FC<PreviewBuilderProps> = ({ templateD
           height: PREVIEW_DIMENSIONS.HEIGHT,
         }}
       >
-        {frontCanvas.objects.map((obj, index) => renderObject(obj, index))}
+        {frontCanvas.objects.map((obj: CanvasObject, index: number) => renderObject(obj, index))}
       </div>
     </div>
   );
