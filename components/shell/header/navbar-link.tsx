@@ -1,8 +1,15 @@
 "use client";
 
-import { NavLink } from "@mantine/core";
+import { NavLink, NavLinkProps } from "@mantine/core";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+
+interface ShellLinkProps extends NavLinkProps {
+  section: string;
+  icon: React.ReactNode;
+  toggle?: () => void;
+  visible?: boolean;
+}
 
 export function ShellLink({
   label,
@@ -10,18 +17,10 @@ export function ShellLink({
   section,
   toggle,
   visible = true,
-}: {
-  label: string;
-  section: string;
-  icon: React.ReactNode;
-  toggle?: () => void;
-  visible?: boolean;
-}) {
+  ...props
+}: ShellLinkProps) {
   const pathname = usePathname();
-  const filteredPathname =
-    pathname.split("/").slice(2).join("/") === ""
-      ? "/"
-      : pathname.split("/").slice(2).join("/");
+  const filteredPathname = pathname.slice(3) === "" ? "/" : pathname.slice(3);
 
   const active = filteredPathname === section;
 
@@ -43,6 +42,7 @@ export function ShellLink({
       onClick={toggle}
       component={Link}
       style={{ borderRadius: 5 }}
+      {...props}
     />
   );
 }

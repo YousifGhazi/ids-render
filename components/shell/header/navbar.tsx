@@ -44,6 +44,7 @@ export function Navbar() {
         <MenuDropdown>
           <MenuItem>
             <ShellLink
+              w="100%"
               section="/ids-templates"
               label={t("sidebar.ids.templates")}
               icon={<IconUsersGroup size={18} />}
@@ -78,6 +79,7 @@ export function Navbar() {
         <MenuDropdown>
           <MenuItem>
             <ShellLink
+              w="100%"
               section="/users"
               label={t("sidebar.management.users")}
               icon={<IconUsersGroup size={18} />}
@@ -85,6 +87,7 @@ export function Navbar() {
           </MenuItem>
           <MenuItem>
             <ShellLink
+              w="100%"
               section="/organization-users"
               label={t("sidebar.management.organizationUsers")}
               icon={<IconUsersGroup size={18} />}
@@ -92,6 +95,7 @@ export function Navbar() {
           </MenuItem>
           <MenuItem>
             <ShellLink
+              w="100%"
               section="/organizations"
               label={t("sidebar.management.organizations")}
               icon={<IconBuilding size={18} />}
@@ -99,6 +103,7 @@ export function Navbar() {
           </MenuItem>
           <MenuItem>
             <ShellLink
+              w="100%"
               section="/roles"
               label={t("role.roles")}
               icon={<IconUserShield size={18} />}
