@@ -1,7 +1,7 @@
 import { Role } from "@/features/roles/types";
 import { Organization } from "@/features/organizations/types";
 
-export type User = {
+export type OrganizationUser = {
   id: number;
   name: string;
   email: string;
@@ -12,7 +12,7 @@ export type User = {
   organization?: Organization;
 };
 
-export type CreateUsersInput = {
+export type CreateOrganizationUsersInput = {
   name: string;
   email: string;
   password: string;
@@ -20,7 +20,7 @@ export type CreateUsersInput = {
   roleIds?: number[];
 };
 
-export type UpdateUsersInput = {
+export type UpdateOrganizationUsersInput = {
   name?: string;
   email?: string;
   organizationId: number;

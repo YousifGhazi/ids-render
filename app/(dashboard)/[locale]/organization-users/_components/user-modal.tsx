@@ -1,6 +1,6 @@
 "use client";
 
-import { User } from "@/features/organization-users/types";
+import { OrganizationUser } from "@/features/organization-users/types";
 import {
   Button,
   Group,
@@ -24,7 +24,7 @@ import { useMutationNotifications } from "@/hooks/use-mutation-notifications";
 import { useGetOrganizations } from "@/features/organizations/api";
 
 interface UserModalProps {
-  user?: User;
+  user?: OrganizationUser;
   opened: boolean;
   onClose: () => void;
 }
@@ -144,8 +144,8 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
               value: String(org.id),
               label: org.name,
             }))}
-            label={t("organization.organizations")}
-            placeholder={`${t("organization.organizations")}...`}
+            label={t("organization.organization")}
+            placeholder={`${t("organization.organization")}...`}
             {...form.getInputProps("organizationId")}
           />
           <MultiSelect

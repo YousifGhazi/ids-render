@@ -2,7 +2,7 @@
 
 import { DeleteButton } from "@/components/buttons/delete-button";
 import { EditButton } from "@/components/buttons/edit-button";
-import { User } from "@/features/users/types";
+import { OrganizationUser } from "@/features/organization-users/types";
 import { useDataTable } from "@/hooks/use-datatable";
 import { useModals } from "@/hooks/use-modals";
 import { Button, Group } from "@mantine/core";
@@ -19,13 +19,16 @@ import {
 
 export function UsersTable() {
   const t = useTranslations();
-  const [selectedRow, setSelectedRow] = useState<User | undefined>();
+  const [selectedRow, setSelectedRow] = useState<
+    OrganizationUser | undefined
+  >();
   const modals = useModals();
   const [opened, { open, close }] = useDisclosure(false, {
     onClose: () => setSelectedRow(undefined),
   });
 
-  const { pagination, sorting, getTableProps } = useDataTable<User>();
+  const { pagination, sorting, getTableProps } =
+    useDataTable<OrganizationUser>();
 
   const deleteUser = useDeleteOrganizationUser();
   const query = useGetOrganizationUsers({
@@ -51,7 +54,12 @@ export function UsersTable() {
         {...getTableProps({ query })}
         columns={[
           { accessor: "name", title: t("name"), sortable: true },
-          { accessor: "type", title: t("type"), sortable: true },
+          { accessor: "email", title: t("email"), sortable: true },
+          {
+            accessor: "organization.name",
+            title: t("organization.organization"),
+            sortable: true,
+          },
           {
             accessor: "createdAt",
             title: t("createdAt"),

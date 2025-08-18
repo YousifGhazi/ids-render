@@ -49,6 +49,12 @@ export function UsersTable() {
           { accessor: "name", title: t("name"), sortable: true },
           { accessor: "email", title: t("email"), sortable: true },
           {
+            accessor: "roles",
+            title: t("role.roles"),
+            render: (user) => user?.roles?.map((role) => role.name).join(", "),
+            sortable: true,
+          },
+          {
             accessor: "createdAt",
             title: t("createdAt"),
             sortable: true,

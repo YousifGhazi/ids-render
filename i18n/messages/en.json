@@ -107,6 +107,10 @@
     "permissions": "permissions",
     "permission": "permission"
   },
+  "members": {
+    "singular_title": "member",
+    "plural_title": "members"
+  },
   "ID": {
     "ids": "IDs",
     "id": "ID"

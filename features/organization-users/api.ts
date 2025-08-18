@@ -1,7 +1,15 @@
 import { createApiFactory } from "@/utils/api-factory";
-import type { User, CreateUsersInput, UpdateUsersInput } from "./types";
+import type {
+  OrganizationUser,
+  CreateOrganizationUsersInput,
+  UpdateOrganizationUsersInput,
+} from "./types";
 
-const usersApi = createApiFactory<User, CreateUsersInput, UpdateUsersInput>({
+const usersApi = createApiFactory<
+  OrganizationUser,
+  CreateOrganizationUsersInput,
+  UpdateOrganizationUsersInput
+>({
   entityName: "organization-user",
   endpoint: "/organization_user",
 });

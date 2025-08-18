@@ -112,9 +112,7 @@
   },
   "members": {
     "singular_title": "المنتسب",
-    "plural_title": "المنتسبين",
-    "name": "اسم المنتسب",
-    "phone": "رقم الهاتف"
+    "plural_title": "المنتسبين"
   },
   "ID": {
     "ids": "الهويات",

@@ -97,8 +97,8 @@ export function MemberModal({ member, opened, onClose }: MemberModalProps) {
 
           {!isEditing && (
             <TextInput
-              label={t("members.phone")}
-              placeholder={`${t("members.phone")}...`}
+              label={t("phoneNumber")}
+              placeholder={`${t("phoneNumber")}...`}
               required
               {...form.getInputProps("phone")}
             />

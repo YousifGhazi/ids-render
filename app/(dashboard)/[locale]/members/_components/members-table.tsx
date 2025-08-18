@@ -46,8 +46,8 @@ export function MembersTable() {
       <DataTable
         {...getTableProps({ query })}
         columns={[
-          { accessor: "name", title: t("members.name"), sortable: true },
-          { accessor: "phone", title: t("members.phone"), sortable: true },
+          { accessor: "name", title: t("name"), sortable: true },
+          { accessor: "phone", title: t("phoneNumber"), sortable: true },
           {
             accessor: "createdAt",
             title: t("createdAt"),
