@@ -13,6 +13,7 @@ import { IDCard } from "@/features/ids/types";
 import { IdCardModal } from "./id-modal";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
+import { ViewButton } from "@/components/buttons/view-button";
 
 export function IdsTable() {
   const t = useTranslations();
@@ -32,14 +33,17 @@ export function IdsTable() {
 
   return (
     <>
+      <Group justify="flex-start" mb="md">
+            {t("ids.plural_title")}
+      </Group>
       <Group justify="flex-end" mb="md">
-        <Button
+        {/* <Button
           onClick={() => {
             console.log("users");
           }}
         >
           {t("add")} {t("user.user")}
-        </Button>
+        </Button> */}
       </Group>
 
       <DataTable
@@ -50,6 +54,11 @@ export function IdsTable() {
           {
             accessor: "member.phone",
             title: t("members.phone"),
+            sortable: true,
+          },
+          {
+            accessor: "template.title",
+            title: t("templates.singular_title"),
             sortable: true,
           },
           { accessor: "type", title: t("type"), sortable: true },
@@ -70,7 +79,7 @@ export function IdsTable() {
             title: "",
             render: (card) => (
               <Group gap={4} wrap="nowrap" justify="center">
-                <EditButton
+                <ViewButton
                   onClick={() => {
                     setSelectedRow(card);
                     open();
