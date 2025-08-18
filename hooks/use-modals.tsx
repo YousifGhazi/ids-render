@@ -6,7 +6,7 @@ export function useModals() {
   const t = useTranslations();
   const deleteModal = (onDelete: () => void, entity: string = t("item")) => {
     modals.openConfirmModal({
-      title: <Title order={4}>{t("messages.confirmDeletion")}</Title>,
+      title: t("messages.confirmDeletion"),
       centered: true,
       children: (
         <Text size="sm">

@@ -1,13 +1,13 @@
 "use client";
 
-import { useCreateUser, useUpdateUser } from "@/features/users/api";
-import { User } from "@/features/users/types";
+import { OrganizationUser } from "@/features/organization-users/types";
 import {
   Button,
   Group,
   Modal,
   MultiSelect,
   PasswordInput,
+  Select,
   Stack,
   TextInput,
 } from "@mantine/core";
@@ -16,10 +16,15 @@ import { useTranslations } from "next-intl";
 import { IconLock } from "@tabler/icons-react";
 import { useGetRoles } from "@/features/roles/api";
 import { useEffect } from "react";
+import {
+  useCreateOrganizationUser,
+  useUpdateOrganizationUser,
+} from "@/features/organization-users/api";
 import { useMutationNotifications } from "@/hooks/use-mutation-notifications";
+import { useGetOrganizations } from "@/features/organizations/api";
 
 interface UserModalProps {
-  user?: User;
+  user?: OrganizationUser;
   opened: boolean;
   onClose: () => void;
 }
@@ -27,8 +32,12 @@ interface UserModalProps {
 export function UserModal({ user, opened, onClose }: UserModalProps) {
   const t = useTranslations();
   const { notify } = useMutationNotifications();
-  const createUser = useCreateUser(notify("create"));
-  const updateUser = useUpdateUser(notify("update"));
+  const createUser = useCreateOrganizationUser(notify("create"));
+  const updateUser = useUpdateOrganizationUser(notify("update"));
+  const organizations = useGetOrganizations({
+    page: 1,
+    pageSize: 100,
+  });
 
   const roles = useGetRoles({
     page: 1,
@@ -36,7 +45,7 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
     filter: [
       {
         field: "type",
-        value: "admin",
+        value: "organization",
       },
     ],
   });
@@ -48,24 +57,31 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
     password: string;
     type: string;
     roleIds: string[];
+    organizationId: string;
   }>({
     initialValues: {
       name: user?.name || "",
       password: "",
       email: user?.email || "",
-      type: "admin",
+      type: "organization_user",
       roleIds: [],
+      organizationId: "",
     },
   });
 
   const handleSubmit = form.onSubmit(async (values) => {
+    const data = {
+      ...values,
+      organizationId: Number(values.organizationId),
+      roleIds: values.roleIds.map(Number),
+    };
     if (isEditing && user) {
       await updateUser.mutateAsync({
         id: user.id.toString(),
-        data: values,
+        data,
       });
     } else {
-      await createUser.mutateAsync(values);
+      await createUser.mutateAsync(data);
     }
     form.reset();
     onClose();
@@ -77,6 +93,7 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
         name: user.name,
         email: user.email,
         roleIds: user.roles?.map((role) => String(role.id)) || [],
+        organizationId: String(user.organization?.id || ""),
       });
     } else {
       form.reset();
@@ -103,7 +120,6 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
             required
             {...form.getInputProps("name")}
           />
-
           <TextInput
             label={t("email")}
             placeholder={`${t("email")}...`}
@@ -111,7 +127,6 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
             required
             {...form.getInputProps("email")}
           />
-
           {!isEditing && (
             <PasswordInput
               key={form.key("password")}
@@ -123,6 +138,16 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
             />
           )}
 
+          <Select
+            required
+            data={organizations?.data?.data?.data?.map((org) => ({
+              value: String(org.id),
+              label: org.name,
+            }))}
+            label={t("organization.organization")}
+            placeholder={`${t("organization.organization")}...`}
+            {...form.getInputProps("organizationId")}
+          />
           <MultiSelect
             label={t("role.roles")}
             placeholder={`${t("role.roles")}...`}
@@ -132,7 +157,6 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
             required
             {...form.getInputProps("roleIds")}
           />
-
           <Group justify="flex-end" mt="md">
             <Button
               variant="filled"

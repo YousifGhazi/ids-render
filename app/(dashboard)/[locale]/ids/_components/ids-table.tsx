@@ -10,7 +10,7 @@ import { useTranslations } from "next-intl";
 import { formatDate } from "@/utils/format";
 import { useDeleteId, useGetIds } from "@/features/ids/api";
 import { IDCard } from "@/features/ids/types";
-import {  IdCardModal } from "./id-modal";
+import { IdCardModal } from "./id-modal";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 
@@ -47,7 +47,11 @@ export function IdsTable() {
         columns={[
           { accessor: "id", title: t("id") },
           { accessor: "member.name", title: t("members.name"), sortable: true },
-          { accessor: "member.phone", title: t("members.phone"), sortable: true },
+          {
+            accessor: "member.phone",
+            title: t("members.phone"),
+            sortable: true,
+          },
           { accessor: "type", title: t("type"), sortable: true },
           {
             accessor: "createdAt",

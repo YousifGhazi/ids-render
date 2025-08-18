@@ -2,8 +2,7 @@
 
 import { DeleteButton } from "@/components/buttons/delete-button";
 import { EditButton } from "@/components/buttons/edit-button";
-import { useDeleteUser, useGetUsers } from "@/features/users/api";
-import { User } from "@/features/users/types";
+import { OrganizationUser } from "@/features/organization-users/types";
 import { useDataTable } from "@/hooks/use-datatable";
 import { useModals } from "@/hooks/use-modals";
 import { Button, Group } from "@mantine/core";
@@ -13,18 +12,26 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { UserModal } from "./user-modal";
 import { formatDate } from "@/utils/format";
+import {
+  useDeleteOrganizationUser,
+  useGetOrganizationUsers,
+} from "@/features/organization-users/api";
 
 export function UsersTable() {
   const t = useTranslations();
-  const deleteUser = useDeleteUser();
-  const [selectedRow, setSelectedRow] = useState<User | undefined>();
+  const [selectedRow, setSelectedRow] = useState<
+    OrganizationUser | undefined
+  >();
   const modals = useModals();
   const [opened, { open, close }] = useDisclosure(false, {
     onClose: () => setSelectedRow(undefined),
   });
 
-  const { pagination, sorting, getTableProps } = useDataTable<User>();
-  const query = useGetUsers({
+  const { pagination, sorting, getTableProps } =
+    useDataTable<OrganizationUser>();
+
+  const deleteUser = useDeleteOrganizationUser();
+  const query = useGetOrganizationUsers({
     page: pagination.page,
     pageSize: pagination.pageSize,
     sort: sorting,
@@ -49,9 +56,8 @@ export function UsersTable() {
           { accessor: "name", title: t("name"), sortable: true },
           { accessor: "email", title: t("email"), sortable: true },
           {
-            accessor: "roles",
-            title: t("role.roles"),
-            render: (user) => user?.roles?.map((role) => role.name).join(", "),
+            accessor: "organization.name",
+            title: t("organization.organization"),
             sortable: true,
           },
           {

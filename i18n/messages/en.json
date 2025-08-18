@@ -15,11 +15,17 @@
   "gender": "gender",
   "type": "type",
   "email": "email",
-  "organization": "organization",
-  "department": "department",
   "dateOfBirth": "date of birth",
   "logout": "Logout",
   "item": "Item",
+
+  "organization": {
+    "organizations": "organizations",
+    "organization": "organization",
+    "description": "description",
+    "website": "website",
+    "logo": "logo"
+  },
 
   "messages": {
     "confirmDeletion": "Confirm Deletion",
@@ -53,13 +59,23 @@
 
   "sidebar": {
     "home": "Home",
-    "ids": "ID Issuance",
+    "ids": {
+      "ids": "ID Issuance",
+      "title": "ID Issuance",
+      "templates": "ID Templates",
+      "create": "Create Template"
+    },
     "surveies": "Create Surveys",
-    "management": "Management",
     "printer": "Printer",
     "delivery": "Delivery",
     "customers": "Customers",
-    "users": "Users and Organizations"
+    "management": {
+      "management": "Management",
+      "users": "Users",
+      "organizationUsers": "Organization Users",
+      "organizations": "Organizations",
+      "roles": "Roles"
+    }
   },
 
   "login": {
@@ -82,6 +98,22 @@
   "user": {
     "users": "users",
     "user": "user"
+  },
+  "role": {
+    "roles": "roles",
+    "role": "role"
+  },
+  "permission": {
+    "permissions": "permissions",
+    "permission": "permission"
+  },
+  "members": {
+    "singular_title": "member",
+    "plural_title": "members"
+  },
+  "ID": {
+    "ids": "IDs",
+    "id": "ID"
   },
   "idsDesigner": {
     "title": "ID Card Designer",

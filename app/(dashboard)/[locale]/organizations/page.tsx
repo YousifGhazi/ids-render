@@ -1,13 +1,13 @@
 "use client";
 
 import { Container, Paper } from "@mantine/core";
-import { UsersTable } from "../users/_components/users-table";
+import { OrganizationsTable } from "./_components/organizations-table";
 
-export default function Home() {
+export default function OrganizationsPage() {
   return (
     <Paper bg="#f8f9fa" mih={"100%"} p="xl">
       <Container size="xl">
-        <UsersTable />
+        <OrganizationsTable />
       </Container>
     </Paper>
   );

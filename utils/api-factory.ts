@@ -10,7 +10,7 @@ import { serializeQuery } from "@/utils/api";
 import type { BaseQuery, GetResponse } from "@/types/api";
 
 export type BaseEntity = {
-  id: number;
+  id: number | string;
 };
 
 export type ApiFactoryConfig = {
@@ -20,8 +20,8 @@ export type ApiFactoryConfig = {
 
 export function createApiFactory<
   TEntity extends BaseEntity,
-  TCreateInput,
-  TUpdateInput
+  TCreateInput = unknown,
+  TUpdateInput = unknown
 >(config: ApiFactoryConfig) {
   const { entityName, endpoint } = config;
 
@@ -29,7 +29,7 @@ export function createApiFactory<
   const QueryKeys = {
     all: () => [entityName],
     list: (filter: BaseQuery) => [...QueryKeys.all(), filter],
-    byId: (id: string) => [...QueryKeys.all(), id],
+    byId: (id: BaseEntity["id"]) => [...QueryKeys.all(), id],
   };
 
   // Get List Hook
@@ -61,8 +61,8 @@ export function createApiFactory<
 
   // Get Single Item Hook
   const useGetById = (
-    id: string,
-    options?: Omit<UseQueryOptions<TEntity>, "queryKey" | "queryFn" | "enabled">
+    id: BaseEntity["id"],
+    options?: Omit<UseQueryOptions<TEntity>, "queryKey" | "queryFn">
   ) => {
     return useQuery({
       queryKey: QueryKeys.byId(id),
@@ -89,18 +89,23 @@ export function createApiFactory<
         const response = await api.post(endpoint, data);
         return response.data;
       },
+
+      ...options,
       onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries({ queryKey: QueryKeys.all() });
         options?.onSuccess?.(data, variables, context);
       },
-      ...options,
     });
   };
 
   // Update Hook
   const useUpdate = (
     options?: Omit<
-      UseMutationOptions<TEntity, Error, { id: string; data: TUpdateInput }>,
+      UseMutationOptions<
+        TEntity,
+        Error,
+        { id: BaseEntity["id"]; data: TUpdateInput }
+      >,
       "mutationFn"
     >
   ) => {
@@ -111,19 +116,19 @@ export function createApiFactory<
         id,
         data,
       }: {
-        id: string;
+        id: BaseEntity["id"];
         data: TUpdateInput;
       }): Promise<TEntity> => {
         const response = await api.put(`${endpoint}/${id}`, data);
         return response.data;
       },
+      ...options,
       onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries({
           queryKey: QueryKeys.all(),
         });
         options?.onSuccess?.(data, variables, context);
       },
-      ...options,
     });
   };
 
@@ -137,13 +142,13 @@ export function createApiFactory<
       mutationFn: async (id: number): Promise<void> => {
         await api.delete(`${endpoint}/${id}`);
       },
+      ...options,
       onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries({
           queryKey: QueryKeys.all(),
         });
         options?.onSuccess?.(data, variables, context);
       },
-      ...options,
     });
   };
 

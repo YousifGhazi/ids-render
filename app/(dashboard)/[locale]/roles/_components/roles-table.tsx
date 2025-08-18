@@ -2,8 +2,8 @@
 
 import { DeleteButton } from "@/components/buttons/delete-button";
 import { EditButton } from "@/components/buttons/edit-button";
-import { useDeleteUser, useGetUsers } from "@/features/users/api";
-import { User } from "@/features/users/types";
+import { useDeleteRole, useGetRoles } from "@/features/roles/api";
+import { Role } from "@/features/roles/types";
 import { useDataTable } from "@/hooks/use-datatable";
 import { useModals } from "@/hooks/use-modals";
 import { Button, Group } from "@mantine/core";
@@ -11,20 +11,20 @@ import { useDisclosure } from "@mantine/hooks";
 import { DataTable } from "mantine-datatable";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { UserModal } from "./user-modal";
+import { RoleModal } from "./role-modal";
 import { formatDate } from "@/utils/format";
 
-export function UsersTable() {
+export function RolesTable() {
   const t = useTranslations();
-  const deleteUser = useDeleteUser();
-  const [selectedRow, setSelectedRow] = useState<User | undefined>();
+  const deleteRole = useDeleteRole();
+  const [selectedRow, setSelectedRow] = useState<Role | undefined>();
   const modals = useModals();
   const [opened, { open, close }] = useDisclosure(false, {
     onClose: () => setSelectedRow(undefined),
   });
 
-  const { pagination, sorting, getTableProps } = useDataTable<User>();
-  const query = useGetUsers({
+  const { pagination, sorting, getTableProps } = useDataTable<Role>();
+  const query = useGetRoles({
     page: pagination.page,
     pageSize: pagination.pageSize,
     sort: sorting,
@@ -33,13 +33,8 @@ export function UsersTable() {
   return (
     <>
       <Group justify="flex-end" mb="md">
-        <Button
-          onClick={() => {
-            setSelectedRow(undefined);
-            open();
-          }}
-        >
-          {t("add")} {t("user.user")}
+        <Button onClick={open}>
+          {t("add")} {t("role.role")}
         </Button>
       </Group>
 
@@ -47,41 +42,35 @@ export function UsersTable() {
         {...getTableProps({ query })}
         columns={[
           { accessor: "name", title: t("name"), sortable: true },
-          { accessor: "email", title: t("email"), sortable: true },
-          {
-            accessor: "roles",
-            title: t("role.roles"),
-            render: (user) => user?.roles?.map((role) => role.name).join(", "),
-            sortable: true,
-          },
+          { accessor: "type", title: t("type"), sortable: true },
           {
             accessor: "createdAt",
             title: t("createdAt"),
             sortable: true,
-            render: (user) => formatDate(user.createdAt),
+            render: (role) => formatDate(role.createdAt),
           },
           {
             accessor: "updatedAt",
             title: t("updatedAt"),
             sortable: true,
-            render: (user) => formatDate(user.updatedAt),
+            render: (role) => formatDate(role.updatedAt),
           },
           {
             accessor: "actions",
             title: "",
-            render: (user) => (
+            render: (role) => (
               <Group gap={4} wrap="nowrap" justify="center">
                 <EditButton
                   onClick={() => {
-                    setSelectedRow(user);
+                    setSelectedRow(role);
                     open();
                   }}
                 />
                 <DeleteButton
                   onClick={() =>
                     modals.delete(async () => {
-                      await deleteUser.mutateAsync(user.id);
-                    }, t("user.user"))
+                      await deleteRole.mutateAsync(role.id);
+                    }, t("role.role"))
                   }
                 />
               </Group>
@@ -91,7 +80,7 @@ export function UsersTable() {
         records={query?.data?.data?.data ?? []}
       />
 
-      <UserModal user={selectedRow} opened={opened} onClose={close} />
+      <RoleModal role={selectedRow} opened={opened} onClose={close} />
     </>
   );
 }

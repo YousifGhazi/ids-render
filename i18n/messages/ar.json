@@ -19,6 +19,14 @@
 
   "item": "العنصر",
 
+  "organization": {
+    "organizations": "المؤسسات",
+    "organization": "المؤسسة",
+    "description": "الوصف",
+    "website": "الموقع الإلكتروني",
+    "logo": "الشعار"
+  },
+
   "messages": {
     "confirmDeletion": "تأكيد الحذف",
     "confirmDeletionMessage": "هل أنت متأكد أنك تريد حذف {entity}؟ هذه العملية لا يمكن التراجع عنها.",
@@ -52,15 +60,21 @@
   "sidebar": {
     "home": "الرئيسية",
     "ids": {
+      "ids": "إصدار الهويات",
       "title": "اصدار الهويات",
       "templates": "قوالب الهويات",
       "create": "انشاء قالب"
     },
     "surveies": "انشاء الاستمارات",
-    "management": "الادارة",
     "printer": "الطابعة",
     "delivery": "التوصيل",
-    "users": "المستخدمين والمؤسسات"
+    "management": {
+      "management": "الادارة",
+      "users": "المستخدمين",
+      "organizationUsers": "مستخدمين المؤسسة",
+      "organizations": "المؤسسات",
+      "roles": "الأدوار"
+    }
   },
 
   "login": {
@@ -84,11 +98,25 @@
     "users": "المستخدمين",
     "user": "المستخدم"
   },
+  "organizationUser": {
+    "users": "مستخدمين المؤسسة",
+    "user": "مستخدم المؤسسة"
+  },
+  "role": {
+    "roles": "الأدوار",
+    "role": "الدور"
+  },
+  "permission": {
+    "permissions": "الأذونات",
+    "permission": "إذن"
+  },
   "members": {
     "singular_title": "المنتسب",
-    "plural_title": "المنتسبين",
-    "name": "اسم المنتسب",
-    "phone": "رقم الهاتف"
+    "plural_title": "المنتسبين"
+  },
+  "ID": {
+    "ids": "الهويات",
+    "id": "هوية"
   },
   "idsDesigner": {
     "title": "مصمم بطاقات الهوية",
