@@ -15,7 +15,7 @@ export type IDCard = {
 export type CreateIDCardInput = {
   name: string;
   phone: string;
-  identity: Record<string, any>;
+  identity: string;
   template_id: number;
 };
 

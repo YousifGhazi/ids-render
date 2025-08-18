@@ -216,6 +216,7 @@ export default function IdCardsTemplates() {
         name: formData.name,
         phone: formData.phone,
         template_id: Number(templateId),
+        identity: 'by system',
         ...formData.identity
       };
 
