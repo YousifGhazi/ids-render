@@ -6,13 +6,14 @@ import { useDeleteUser, useGetUsers } from "@/features/users/api";
 import { User } from "@/features/users/types";
 import { useDataTable } from "@/hooks/use-datatable";
 import { useModals } from "@/hooks/use-modals";
-import { Button, Group } from "@mantine/core";
+import { Button, Center, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { DataTable } from "mantine-datatable";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { UserModal } from "./user-modal";
 import { formatDate } from "@/utils/format";
+import { IconCircleCheck, IconCircleX } from "@tabler/icons-react";
 
 export function UsersTable() {
   const t = useTranslations();
@@ -30,6 +31,14 @@ export function UsersTable() {
     sort: sorting,
   });
 
+  const fakeIraqiPhoneNumbers = [
+    "07502324323",
+    "07804332222",
+    "07901334354",
+    "07805332822",
+    "07905332821",
+  ];
+
   return (
     <>
       <Group justify="flex-end" mb="md">
@@ -46,7 +55,33 @@ export function UsersTable() {
       <DataTable
         {...getTableProps({ query })}
         columns={[
+          {
+            accessor: "logo",
+            title: t("verified"),
+            render: (member) => {
+              // TODO: Replace with actual verification from backend
+              const isVerified = Math.random() < 0.6;
+              return (
+                <Center>
+                  {isVerified ? (
+                    <IconCircleCheck color="green" size={30} key={member.id} />
+                  ) : (
+                    <IconCircleX color="red" size={30} key={member.id} />
+                  )}
+                </Center>
+              );
+            },
+          },
           { accessor: "name", title: t("name"), sortable: true },
+          {
+            accessor: "phone",
+            title: t("phoneNumber"),
+            render: () => {
+              return fakeIraqiPhoneNumbers[
+                Math.floor(Math.random() * fakeIraqiPhoneNumbers.length)
+              ];
+            },
+          },
           { accessor: "email", title: t("email"), sortable: true },
           {
             accessor: "roles",

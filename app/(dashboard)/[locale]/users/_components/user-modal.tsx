@@ -104,6 +104,15 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
             {...form.getInputProps("name")}
           />
 
+          {!isEditing && (
+            <TextInput
+              label={t("phoneNumber")}
+              placeholder={`${t("phoneNumber")}...`}
+              required
+              {...form.getInputProps("phone")}
+            />
+          )}
+
           <TextInput
             label={t("email")}
             placeholder={`${t("email")}...`}

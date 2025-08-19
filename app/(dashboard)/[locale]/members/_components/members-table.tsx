@@ -4,7 +4,7 @@ import { DeleteButton } from "@/components/buttons/delete-button";
 import { EditButton } from "@/components/buttons/edit-button";
 import { useDataTable } from "@/hooks/use-datatable";
 import { useModals } from "@/hooks/use-modals";
-import { Button, Group } from "@mantine/core";
+import { Button, Center, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { DataTable } from "mantine-datatable";
 import { useTranslations } from "next-intl";
@@ -13,6 +13,7 @@ import { MemberModal } from "./member-modal";
 import { formatDate } from "@/utils/format";
 import { useDeleteMember, useGetMembers } from "@/features/members/api";
 import { Member } from "@/features/members/types";
+import { IconCircleCheck, IconCircleX } from "@tabler/icons-react";
 
 export function MembersTable() {
   const t = useTranslations();
@@ -46,6 +47,23 @@ export function MembersTable() {
       <DataTable
         {...getTableProps({ query })}
         columns={[
+          {
+            accessor: "logo",
+            title: t("verified"),
+            render: (member) => {
+              // TODO: Replace with actual verification from backend
+              const isVerified = Math.random() < 0.6;
+              return (
+                <Center>
+                  {isVerified ? (
+                    <IconCircleCheck color="green" size={30} key={member.id} />
+                  ) : (
+                    <IconCircleX color="red" size={30} key={member.id} />
+                  )}
+                </Center>
+              );
+            },
+          },
           { accessor: "name", title: t("name"), sortable: true },
           { accessor: "phone", title: t("phoneNumber"), sortable: true },
           {
