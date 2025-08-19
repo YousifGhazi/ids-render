@@ -11,13 +11,13 @@ export type Organization = {
 export type CreateOrganizationsInput = {
   name: string;
   description: string;
-  logo?: string;
+  logo?: File;
   website?: string;
 };
 
 export type UpdateOrganizationsInput = {
   name?: string;
   description?: string;
-  logo?: string;
+  logo?: File;
   website?: string;
 };

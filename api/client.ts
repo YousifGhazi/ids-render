@@ -20,8 +20,11 @@ api.interceptors.response.use((response) => {
 });
 
 api.interceptors.request.use((config) => {
+  // Skip transformation for FormData
+  const isFormData = config.headers["Content-Type"] === "multipart/form-data";
+
   // convert camelCase to snake_case
-  if (config.data) config.data = decamelizeKeys(config.data);
+  if (config.data && !isFormData) config.data = decamelizeKeys(config.data);
   if (config.params) config.params = decamelizeKeys(config.params);
 
   // Add authorization token if available

@@ -7,6 +7,7 @@ import {
 import { Organization } from "@/features/organizations/types";
 import {
   Button,
+  FileInput,
   Group,
   Modal,
   Stack,
@@ -34,13 +35,12 @@ export function OrganizationModal({
     name: string;
     description: string;
     website?: string;
-    logo?: string;
+    logo?: File;
   }>({
     initialValues: {
       name: organization?.name || "",
       description: organization?.description || "",
       website: organization?.website || "",
-      logo: organization?.logo || "",
     },
   });
 
@@ -75,7 +75,6 @@ export function OrganizationModal({
         name: organization.name,
         description: organization.description,
         website: organization.website || "",
-        logo: organization.logo || "",
       });
     } else {
       form.reset();
@@ -117,7 +116,7 @@ export function OrganizationModal({
             {...form.getInputProps("website")}
           />
 
-          <TextInput
+          <FileInput
             label={t("organization.logo")}
             placeholder={`${t("organization.logo")}...`}
             {...form.getInputProps("logo")}
