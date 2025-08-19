@@ -3,8 +3,8 @@
 import IDCardView from "@/components/ids-designer/id-card-view";
 import { IDCard } from "@/features/ids/types";
 import { useGetTemplate } from "@/features/templates/api";
-import { Modal } from "@mantine/core";
-import { modals } from "@mantine/modals";
+import { TemplateData } from "@/features/templates/interfaces";
+import { Modal, Skeleton, Stack } from "@mantine/core";
 
 interface IdCardModalProps {
   idCard?: IDCard;
@@ -16,7 +16,6 @@ export function IdCardModal({ idCard, opened, onClose }: IdCardModalProps) {
   const {
     isLoading: isLoadingTemplate,
     data,
-    refetch,
   } = useGetTemplate(idCard?.template.id as unknown as string, {
     refetchOnWindowFocus: false,
   });
@@ -27,10 +26,21 @@ export function IdCardModal({ idCard, opened, onClose }: IdCardModalProps) {
 
   return (
     <Modal opened={opened} onClose={onClose} centered size="md">
-      {data && <IDCardView templateData={data.template as any} data={{
-        ...idCard.identity,
-        name: idCard.member.name
-      }} width={400} height={250} />}
+      {isLoadingTemplate ? (
+        <Stack align="center" p="md">
+          <Skeleton height={250} width={400} radius="md" />
+          <Stack gap="xs" w="100%">
+            <Skeleton height={12} width="60%" />
+            <Skeleton height={12} width="40%" />
+            <Skeleton height={12} width="80%" />
+          </Stack>
+        </Stack>
+      ) : (
+        data && <IDCardView templateData={data.template as TemplateData} data={{
+            name: idCard.member?.name || null,
+            ...idCard.request
+        }} />
+      )}
     </Modal>
   );
 }

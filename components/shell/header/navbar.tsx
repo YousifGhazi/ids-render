@@ -17,6 +17,7 @@ import {
   IconUsers,
   IconUserShield,
   IconBuilding,
+  IconCards,
 } from "@tabler/icons-react";
 import { ShellLink } from "./navbar-link";
 import { useTranslations } from "next-intl";
@@ -37,7 +38,7 @@ export function Navbar() {
             variant="subtle"
             color="dark"
           >
-            {t("sidebar.ids.ids")}
+            {t("sidebar.ids.title")}
           </Button>
         </MenuTarget>
 
@@ -48,6 +49,15 @@ export function Navbar() {
               section="/ids-templates"
               label={t("sidebar.ids.templates")}
               icon={<IconUsersGroup size={18} />}
+            />
+          </MenuItem>
+
+          <MenuItem>
+            <ShellLink
+              w="100%"
+              section="/ids"
+              label={t("ids.plural_title")}
+              icon={<IconCards size={18} />}
             />
           </MenuItem>
         </MenuDropdown>
