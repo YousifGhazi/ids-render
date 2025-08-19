@@ -12,6 +12,7 @@ const organizationsApi = createApiFactory<
 >({
   entityName: "organization",
   endpoint: "/organization",
+  isFormData: true,
 });
 
 // Export the query keys for use in other parts of the app

@@ -9,7 +9,7 @@ import {
 import { Organization } from "@/features/organizations/types";
 import { useDataTable } from "@/hooks/use-datatable";
 import { useModals } from "@/hooks/use-modals";
-import { Button, Group } from "@mantine/core";
+import { Avatar, Button, Group } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { DataTable } from "mantine-datatable";
 import { useTranslations } from "next-intl";
@@ -44,6 +44,12 @@ export function OrganizationsTable() {
       <DataTable
         {...getTableProps({ query })}
         columns={[
+          {
+            accessor: "logo",
+            title: "",
+            width: "60px",
+            render: (organization) => <Avatar src={organization.logo} />,
+          },
           { accessor: "name", title: t("name"), sortable: true },
           {
             accessor: "description",

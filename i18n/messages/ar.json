@@ -4,6 +4,10 @@
   "delete": "حذف",
   "view": "عرض",
   "cancel": "إلغاء",
+  "create": "إنشاء",
+  "update": "تحديث",
+  "list": "عرض القائمة",
+  "show": "عرض التفاصيل",
 
   "id": "المعرف",
   "createdAt": "تاريخ الإنشاء",
@@ -70,8 +74,8 @@
     "delivery": "التوصيل",
     "management": {
       "management": "الادارة",
-      "users": "المستخدمين",
-      "organizationUsers": "مستخدمين المؤسسة",
+      "users": "المدراء",
+      "organizationUsers": "مدراء المؤسسة",
       "organizations": "المؤسسات",
       "roles": "الأدوار"
     }
@@ -95,16 +99,28 @@
   },
 
   "user": {
-    "users": "المستخدمين",
-    "user": "المستخدم"
+    "users": "المدراء",
+    "user": "المدير"
   },
   "organizationUser": {
-    "users": "مستخدمين المؤسسة",
-    "user": "مستخدم المؤسسة"
+    "users": "مدراء المؤسسة",
+    "user": "مدير مؤسسة"
   },
   "role": {
     "roles": "الأدوار",
-    "role": "الدور"
+    "role": "الدور",
+    "rolesList": {
+      "advertisement": "إعلان",
+      "identity": "هوية",
+      "member": "عضو",
+      "news": "أخبار",
+      "organization": "منظمة",
+      "organization-user": "مدير المنظمة",
+      "permissions": "إذن",
+      "role": "دور",
+      "template": "قوالب هويات",
+      "user": "مدير"
+    }
   },
   "permission": {
     "permissions": "الأذونات",

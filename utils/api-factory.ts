@@ -8,6 +8,7 @@ import {
 import { api } from "@/api/client";
 import { serializeQuery } from "@/utils/api";
 import type { BaseQuery, GetResponse } from "@/types/api";
+import { objectToFormData } from "@/utils/objects";
 
 export type BaseEntity = {
   id: number | string;
@@ -16,14 +17,15 @@ export type BaseEntity = {
 export type ApiFactoryConfig = {
   entityName: string;
   endpoint: string;
+  isFormData?: boolean;
 };
 
 export function createApiFactory<
   TEntity extends BaseEntity,
-  TCreateInput = unknown,
-  TUpdateInput = unknown
+  TCreateInput extends Record<string, unknown>,
+  TUpdateInput extends Record<string, unknown>
 >(config: ApiFactoryConfig) {
-  const { entityName, endpoint } = config;
+  const { entityName, endpoint, isFormData = false } = config;
 
   // Query Keys Factory
   const QueryKeys = {
@@ -46,14 +48,7 @@ export function createApiFactory<
         const response = await api.get(endpoint, {
           params: serializeQuery(filter),
         });
-        const total: number = response.headers["x-total-count"];
-        return {
-          data: response.data || [],
-          total,
-          totalPages: Math.ceil(total / (filter.pageSize || 10)),
-          currentPage: filter.page,
-          pageSize: filter.pageSize || 10,
-        } as GetResponse<TEntity[]>;
+        return response;
       },
       ...options,
     });
@@ -86,7 +81,16 @@ export function createApiFactory<
 
     return useMutation({
       mutationFn: async (data: TCreateInput): Promise<TEntity> => {
-        const response = await api.post(endpoint, data);
+        let headers;
+        let requestData;
+        if (isFormData) {
+          headers = { "Content-Type": "multipart/form-data" };
+          requestData = objectToFormData(data);
+        } else {
+          requestData = data;
+        }
+
+        const response = await api.post(endpoint, requestData, { headers });
         return response.data;
       },
 
@@ -119,7 +123,18 @@ export function createApiFactory<
         id: BaseEntity["id"];
         data: TUpdateInput;
       }): Promise<TEntity> => {
-        const response = await api.put(`${endpoint}/${id}`, data);
+        let headers;
+        let requestData;
+        if (isFormData) {
+          headers = { "Content-Type": "multipart/form-data" };
+          requestData = objectToFormData(data);
+        } else {
+          requestData = data;
+        }
+
+        const response = await api.put(`${endpoint}/${id}`, requestData, {
+          headers,
+        });
         return response.data;
       },
       ...options,
@@ -164,5 +179,11 @@ export function createApiFactory<
 
 // Utility type for extracting hook types
 export type ApiHooks<
-  T extends ReturnType<typeof createApiFactory<BaseEntity, unknown, unknown>>
+  T extends ReturnType<
+    typeof createApiFactory<
+      BaseEntity,
+      Record<string, unknown>,
+      Record<string, unknown>
+    >
+  >
 > = T;
