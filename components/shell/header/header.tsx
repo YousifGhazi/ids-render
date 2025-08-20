@@ -31,11 +31,16 @@ export function Header() {
   const pathname = usePathname();
   const locale = useLocale();
   const { toggleColorScheme, colorScheme } = useMantineColorScheme();
-  const { user } = useAuthStore();
+  const { user, logout } = useAuthStore();
 
   const switchLocale = (nextLocale: "en" | "ar") => {
     if (nextLocale === locale) return;
     router.replace({ pathname }, { locale: nextLocale });
+  };
+
+  const handleLogout = () => {
+    logout();
+    router.push("/login");
   };
 
   return (
@@ -105,7 +110,11 @@ export function Header() {
               </MenuTarget>
 
               <MenuDropdown miw={160}>
-                <MenuItem color="red" leftSection={<IconLogout size={18} />}>
+                <MenuItem
+                  color="red"
+                  onClick={handleLogout}
+                  leftSection={<IconLogout size={18} />}
+                >
                   {t("logout")}
                 </MenuItem>
               </MenuDropdown>
