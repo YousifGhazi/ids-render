@@ -138,20 +138,3 @@ export function MemberModal({ member, opened, onClose }: MemberModalProps) {
     </Modal>
   );
 }
-
-// Helper function to open the user modal
-export function openUserModal(member?: Member) {
-  modals.open({
-    modalId: "member-modal",
-    title: member ? `Edit ${member.name}` : "Add New Member",
-    children: (
-      <MemberModal
-        member={member}
-        opened={true}
-        onClose={() => modals.close("member-modal")}
-      />
-    ),
-    centered: true,
-    size: "md",
-  });
-}

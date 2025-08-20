@@ -16,6 +16,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { OrganizationModal } from "./organization-modal";
 import { formatDate } from "@/utils/format";
+import { Permission } from "@/components/permission";
 
 export function OrganizationsTable() {
   const t = useTranslations();
@@ -36,9 +37,11 @@ export function OrganizationsTable() {
   return (
     <>
       <Group justify="flex-end" mb="md">
-        <Button onClick={open}>
-          {t("add")} {t("organization.organization")}
-        </Button>
+        <Permission can="create-organization">
+          <Button onClick={open}>
+            {t("add")} {t("organization.organization")}
+          </Button>
+        </Permission>
       </Group>
 
       <DataTable
@@ -78,19 +81,23 @@ export function OrganizationsTable() {
             title: "",
             render: (organization) => (
               <Group gap={4} wrap="nowrap" justify="center">
-                <EditButton
-                  onClick={() => {
-                    setSelectedRow(organization);
-                    open();
-                  }}
-                />
-                <DeleteButton
-                  onClick={() =>
-                    modals.delete(async () => {
-                      await deleteOrganization.mutateAsync(organization.id);
-                    }, t("organization.organization"))
-                  }
-                />
+                <Permission can="update-organization">
+                  <EditButton
+                    onClick={() => {
+                      setSelectedRow(organization);
+                      open();
+                    }}
+                  />
+                </Permission>
+                <Permission can="delete-organization">
+                  <DeleteButton
+                    onClick={() =>
+                      modals.delete(async () => {
+                        await deleteOrganization.mutateAsync(organization.id);
+                      }, t("organization.organization"))
+                    }
+                  />
+                </Permission>
               </Group>
             ),
           },

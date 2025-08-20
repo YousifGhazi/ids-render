@@ -1,14 +1,14 @@
 import { useAuthStore } from "@/features/auth/store";
 
 export function Permission({
-  permission,
+  can,
   children,
 }: {
-  permission: string;
+  can: string;
   children: React.ReactNode;
 }) {
-  const can = useAuthStore((state) => state.can(permission));
-  if (!can) {
+  const authorized = useAuthStore((state) => state.can(can));
+  if (!authorized) {
     return null;
   }
   return <>{children}</>;

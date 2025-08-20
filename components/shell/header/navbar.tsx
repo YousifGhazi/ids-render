@@ -56,6 +56,7 @@ export function Navbar() {
             <ShellLink
               w="100%"
               section="/ids"
+              can="identities-list"
               label={t("ids.plural_title")}
               icon={<IconCards size={18} />}
             />
@@ -64,6 +65,7 @@ export function Navbar() {
       </Menu>
 
       <ShellLink
+        can="members-list"
         section="/members"
         label={t("members.plural_title")}
         icon={<IconUsers size={18} />}
@@ -90,6 +92,7 @@ export function Navbar() {
           <MenuItem>
             <ShellLink
               w="100%"
+              can="users-list"
               section="/users"
               label={t("sidebar.management.users")}
               icon={<IconUsersGroup size={18} />}
@@ -98,6 +101,7 @@ export function Navbar() {
           <MenuItem>
             <ShellLink
               w="100%"
+              can="organization-users-list"
               section="/organization-users"
               label={t("sidebar.management.organizationUsers")}
               icon={<IconUsersGroup size={18} />}
@@ -106,6 +110,7 @@ export function Navbar() {
           <MenuItem>
             <ShellLink
               w="100%"
+              can="organizations-list"
               section="/organizations"
               label={t("sidebar.management.organizations")}
               icon={<IconBuilding size={18} />}
@@ -114,6 +119,7 @@ export function Navbar() {
           <MenuItem>
             <ShellLink
               w="100%"
+              can="roles-list"
               section="/roles"
               label={t("role.roles")}
               icon={<IconUserShield size={18} />}
@@ -121,6 +127,8 @@ export function Navbar() {
           </MenuItem>
         </MenuDropdown>
       </Menu>
+
+      {/* TODO: Add permissions for printer and delivery */}
       <ShellLink
         section="/printer"
         label={t("sidebar.printer")}

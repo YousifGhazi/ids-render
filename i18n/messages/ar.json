@@ -9,6 +9,16 @@
   "list": "عرض القائمة",
   "show": "عرض التفاصيل",
 
+  "actions": {
+    "upload": "رفع {item}",
+    "downloadTemplate": "تنزيل قالب {item}"
+  },
+
+  "file": {
+    "selectFile": "اختر ملف",
+    "uploadFile": "رفع ملف"
+  },
+
   "id": "المعرف",
   "createdAt": "تاريخ الإنشاء",
   "updatedAt": "تاريخ التحديث",
@@ -20,7 +30,8 @@
   "email": "البريد الإلكتروني",
   "dateOfBirth": "تاريخ الميلاد",
   "logout": "تسجيل الخروج",
-  "verified": "موثق",
+  "verifiedOTP": "موثق OTP",
+  "verifiedSuperQi": "موثق سوبر كي",
   "item": "العنصر",
 
   "organization": {
@@ -134,7 +145,17 @@
   },
   "ids": {
     "singular_title": "الهوية",
-    "plural_title": "الهويات"
+    "plural_title": "الهويات",
+    "idNumber": "رقم الهوية",
+    "type": "نوع البطاقة"
+  },
+  "printer": {
+    "printer": "الطابعة",
+    "printStatus": "حالة الطباعة"
+  },
+  "delivery": {
+    "delivery": "التوصيل",
+    "deliveryStatus": "حالة التوصيل"
   },
   "idsDesigner": {
     "title": "مصمم بطاقات الهوية",

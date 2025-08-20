@@ -1,10 +1,9 @@
 "use client";
 
 import { DeleteButton } from "@/components/buttons/delete-button";
-import { EditButton } from "@/components/buttons/edit-button";
 import { useDataTable } from "@/hooks/use-datatable";
 import { useModals } from "@/hooks/use-modals";
-import { Button, Group } from "@mantine/core";
+import { Group } from "@mantine/core";
 import { DataTable } from "mantine-datatable";
 import { useTranslations } from "next-intl";
 import { formatDate } from "@/utils/format";
@@ -14,6 +13,7 @@ import { IdCardModal } from "./id-modal";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { ViewButton } from "@/components/buttons/view-button";
+import { Permission } from "@/components/permission";
 
 export function IdsTable() {
   const t = useTranslations();
@@ -34,7 +34,7 @@ export function IdsTable() {
   return (
     <>
       <Group justify="flex-start" mb="md">
-            {t("ids.plural_title")}
+        {t("ids.plural_title")}
       </Group>
       <Group justify="flex-end" mb="md">
         {/* <Button
@@ -79,19 +79,23 @@ export function IdsTable() {
             title: "",
             render: (card) => (
               <Group gap={4} wrap="nowrap" justify="center">
-                <ViewButton
-                  onClick={() => {
-                    setSelectedRow(card);
-                    open();
-                  }}
-                />
-                <DeleteButton
-                  onClick={() =>
-                    modals.delete(async () => {
-                      await deleteUser.mutateAsync(user.id);
-                    }, t("user.user"))
-                  }
-                />
+                <Permission can="show-identity">
+                  <ViewButton
+                    onClick={() => {
+                      setSelectedRow(card);
+                      open();
+                    }}
+                  />
+                </Permission>
+                <Permission can="delete-identity">
+                  <DeleteButton
+                    onClick={() =>
+                      modals.delete(async () => {
+                        await deleteUser.mutateAsync(card.id);
+                      }, t("ids.singular_title"))
+                    }
+                  />
+                </Permission>
               </Group>
             ),
           },

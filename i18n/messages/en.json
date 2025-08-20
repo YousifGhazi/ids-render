@@ -9,6 +9,16 @@
   "list": "View List",
   "show": "View details",
 
+  "actions": {
+    "upload": "upload {item}",
+    "downloadTemplate": "download template {item}"
+  },
+
+  "file": {
+    "selectFile": "select file",
+    "uploadFile": "upload file"
+  },
+
   "id": "ID",
   "createdAt": "created At",
   "updatedAt": "updated At",
@@ -21,7 +31,8 @@
   "email": "email",
   "dateOfBirth": "date of birth",
   "logout": "Logout",
-  "verified": "Verified",
+  "verifiedOTP": "Verified OTP",
+  "verifiedSuperQi": "Verified Super Key",
   "item": "Item",
 
   "organization": {
@@ -127,6 +138,13 @@
   "members": {
     "singular_title": "member",
     "plural_title": "members"
+  },
+
+  "ids": {
+    "singular_title": "ID",
+    "plural_title": "IDs",
+    "idNumber": "ID Number",
+    "type": "Card Type"
   },
 
   "ID": {
