@@ -51,35 +51,6 @@ export function Header() {
 
           <Group>
             <Group gap="sm">
-              <Menu>
-                <MenuTarget>
-                  <Button
-                    miw={72}
-                    size="compact-sm"
-                    radius="100vw"
-                    variant="light"
-                  >
-                    <IconLanguage size={18} />
-                  </Button>
-                </MenuTarget>
-
-                <MenuDropdown>
-                  <MenuItem
-                    leftSection="En"
-                    onClick={() => switchLocale("en")}
-                    disabled={locale === "en"}
-                  >
-                    English
-                  </MenuItem>
-                  <MenuItem
-                    leftSection="Ar"
-                    onClick={() => switchLocale("ar")}
-                    disabled={locale === "ar"}
-                  >
-                    العربية
-                  </MenuItem>
-                </MenuDropdown>
-              </Menu>
               <ActionIcon
                 onClick={toggleColorScheme}
                 variant="subtle"
@@ -96,6 +67,35 @@ export function Header() {
                 />
               </ActionIcon>
             </Group>
+            <Menu>
+              <MenuTarget>
+                <Button
+                  miw={72}
+                  size="compact-sm"
+                  radius="100vw"
+                  variant="light"
+                >
+                  <IconLanguage size={18} />
+                </Button>
+              </MenuTarget>
+
+              <MenuDropdown>
+                <MenuItem
+                  leftSection="En"
+                  onClick={() => switchLocale("en")}
+                  disabled={locale === "en"}
+                >
+                  English
+                </MenuItem>
+                <MenuItem
+                  leftSection="Ar"
+                  onClick={() => switchLocale("ar")}
+                  disabled={locale === "ar"}
+                >
+                  العربية
+                </MenuItem>
+              </MenuDropdown>
+            </Menu>
             <Menu>
               <MenuTarget>
                 <Group>
