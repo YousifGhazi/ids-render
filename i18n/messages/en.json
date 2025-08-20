@@ -21,7 +21,8 @@
   "email": "email",
   "dateOfBirth": "date of birth",
   "logout": "Logout",
-  "verified": "Verified",
+  "verifiedOTP": "Verified OTP",
+  "verifiedSuperQi": "Verified Super Key",
   "item": "Item",
 
   "organization": {
