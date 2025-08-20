@@ -13,6 +13,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { RoleModal } from "./role-modal";
 import { formatDate } from "@/utils/format";
+import { Permission } from "@/components/permission";
 
 export function RolesTable() {
   const t = useTranslations();
@@ -33,9 +34,11 @@ export function RolesTable() {
   return (
     <>
       <Group justify="flex-end" mb="md">
-        <Button onClick={open}>
-          {t("add")} {t("role.role")}
-        </Button>
+        <Permission can="create-role">
+          <Button onClick={open}>
+            {t("add")} {t("role.role")}
+          </Button>
+        </Permission>
       </Group>
 
       <DataTable
@@ -60,19 +63,23 @@ export function RolesTable() {
             title: "",
             render: (role) => (
               <Group gap={4} wrap="nowrap" justify="center">
-                <EditButton
-                  onClick={() => {
-                    setSelectedRow(role);
-                    open();
-                  }}
-                />
-                <DeleteButton
-                  onClick={() =>
-                    modals.delete(async () => {
-                      await deleteRole.mutateAsync(role.id);
-                    }, t("role.role"))
-                  }
-                />
+                <Permission can="update-role">
+                  <EditButton
+                    onClick={() => {
+                      setSelectedRow(role);
+                      open();
+                    }}
+                  />
+                </Permission>
+                <Permission can="delete-role">
+                  <DeleteButton
+                    onClick={() =>
+                      modals.delete(async () => {
+                        await deleteRole.mutateAsync(role.id);
+                      }, t("role.role"))
+                    }
+                  />
+                </Permission>
               </Group>
             ),
           },

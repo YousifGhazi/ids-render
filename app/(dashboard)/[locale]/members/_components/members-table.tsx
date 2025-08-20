@@ -14,6 +14,7 @@ import { formatDate } from "@/utils/format";
 import { useDeleteMember, useGetMembers } from "@/features/members/api";
 import { Member } from "@/features/members/types";
 import { IconCircleCheck, IconCircleX } from "@tabler/icons-react";
+import { Permission } from "@/components/permission";
 
 export function MembersTable() {
   const t = useTranslations();
@@ -34,14 +35,16 @@ export function MembersTable() {
   return (
     <>
       <Group justify="flex-end" mb="md">
-        <Button
-          onClick={() => {
-            setSelectedRow(undefined);
-            open();
-          }}
-        >
-          {t("add")} {t("members.singular_title")}
-        </Button>
+        <Permission can="create-member">
+          <Button
+            onClick={() => {
+              setSelectedRow(undefined);
+              open();
+            }}
+          >
+            {t("add")} {t("members.singular_title")}
+          </Button>
+        </Permission>
       </Group>
 
       <DataTable
@@ -83,19 +86,23 @@ export function MembersTable() {
             title: "",
             render: (user) => (
               <Group gap={4} wrap="nowrap" justify="center">
-                <EditButton
-                  onClick={() => {
-                    setSelectedRow(user);
-                    open();
-                  }}
-                />
-                <DeleteButton
-                  onClick={() =>
-                    modals.delete(async () => {
-                      await deleteMember.mutateAsync(user.id);
-                    }, t("user.user"))
-                  }
-                />
+                <Permission can="update-member">
+                  <EditButton
+                    onClick={() => {
+                      setSelectedRow(user);
+                      open();
+                    }}
+                  />
+                </Permission>
+                <Permission can="delete-member">
+                  <DeleteButton
+                    onClick={() =>
+                      modals.delete(async () => {
+                        await deleteMember.mutateAsync(user.id);
+                      }, t("user.user"))
+                    }
+                  />
+                </Permission>
               </Group>
             ),
           },

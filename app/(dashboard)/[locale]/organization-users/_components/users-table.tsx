@@ -17,6 +17,7 @@ import {
   useGetOrganizationUsers,
 } from "@/features/organization-users/api";
 import { IconCircleCheck, IconCircleX } from "@tabler/icons-react";
+import { Permission } from "@/components/permission";
 
 export function UsersTable() {
   const t = useTranslations();
@@ -47,14 +48,16 @@ export function UsersTable() {
   return (
     <>
       <Group justify="flex-end" mb="md">
-        <Button
-          onClick={() => {
-            setSelectedRow(undefined);
-            open();
-          }}
-        >
-          {t("add")} {t("user.user")}
-        </Button>
+        <Permission can="create-organization-user">
+          <Button
+            onClick={() => {
+              setSelectedRow(undefined);
+              open();
+            }}
+          >
+            {t("add")} {t("user.user")}
+          </Button>
+        </Permission>
       </Group>
 
       <DataTable
@@ -110,19 +113,23 @@ export function UsersTable() {
             title: "",
             render: (user) => (
               <Group gap={4} wrap="nowrap" justify="center">
-                <EditButton
-                  onClick={() => {
-                    setSelectedRow(user);
-                    open();
-                  }}
-                />
-                <DeleteButton
-                  onClick={() =>
-                    modals.delete(async () => {
-                      await deleteUser.mutateAsync(user.id);
-                    }, t("user.user"))
-                  }
-                />
+                <Permission can="update-organization-user">
+                  <EditButton
+                    onClick={() => {
+                      setSelectedRow(user);
+                      open();
+                    }}
+                  />
+                </Permission>
+                <Permission can="delete-organization-user">
+                  <DeleteButton
+                    onClick={() =>
+                      modals.delete(async () => {
+                        await deleteUser.mutateAsync(user.id);
+                      }, t("user.user"))
+                    }
+                  />
+                </Permission>
               </Group>
             ),
           },
