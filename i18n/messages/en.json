@@ -141,8 +141,10 @@
   },
 
   "ids": {
-    "singular_title": "الهوية",
-    "plural_title": "الهويات"
+    "singular_title": "ID",
+    "plural_title": "IDs",
+    "idNumber": "ID Number",
+    "type": "Card Type"
   },
 
   "ID": {

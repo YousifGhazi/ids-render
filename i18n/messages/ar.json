@@ -145,7 +145,17 @@
   },
   "ids": {
     "singular_title": "الهوية",
-    "plural_title": "الهويات"
+    "plural_title": "الهويات",
+    "idNumber": "رقم الهوية",
+    "type": "نوع البطاقة"
+  },
+  "printer": {
+    "printer": "الطابعة",
+    "printStatus": "حالة الطباعة"
+  },
+  "delivery": {
+    "delivery": "التوصيل",
+    "deliveryStatus": "حالة التوصيل"
   },
   "idsDesigner": {
     "title": "مصمم بطاقات الهوية",

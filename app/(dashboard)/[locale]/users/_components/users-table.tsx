@@ -59,8 +59,8 @@ export function UsersTable() {
         {...getTableProps({ query })}
         columns={[
           {
-            accessor: "logo",
-            title: t("verified"),
+            accessor: "verifiedOTP",
+            title: t("verifiedOTP"),
             render: (member) => {
               // TODO: Replace with actual verification from backend
               const isVerified = Math.random() < 0.6;
