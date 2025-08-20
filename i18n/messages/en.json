@@ -9,6 +9,16 @@
   "list": "View List",
   "show": "View details",
 
+  "actions": {
+    "upload": "upload {item}",
+    "downloadTemplate": "download template {item}"
+  },
+
+  "file": {
+    "selectFile": "select file",
+    "uploadFile": "upload file"
+  },
+
   "id": "ID",
   "createdAt": "created At",
   "updatedAt": "updated At",
@@ -128,6 +138,11 @@
   "members": {
     "singular_title": "member",
     "plural_title": "members"
+  },
+
+  "ids": {
+    "singular_title": "الهوية",
+    "plural_title": "الهويات"
   },
 
   "ID": {
