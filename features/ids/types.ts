@@ -5,12 +5,12 @@ export type IDCard = {
   id: number;
   name: string;
   phone: string;
-  request: Record<string, any>;
+  request: Record<string, unknown>;
   template_id: number;
   createdAt: string;
   updatedAt: string;
-  template: Template
-  member?: Member
+  template: Template;
+  member?: Member;
 };
 
 export type CreateIDCardInput = {
@@ -18,11 +18,12 @@ export type CreateIDCardInput = {
   phone: string;
   identity: string;
   template_id: number;
+  organizationId: number;
 };
 
 export type UpdateIDCardInput = {
   name: string;
   phone: string;
-  identity: Record<string, any>;
+  identity: Record<string, unknown>;
   template_id: number;
 };

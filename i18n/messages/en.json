@@ -108,7 +108,8 @@
     "emailRequired": "Email is required",
     "emailInvalid": "Please enter a valid email",
     "passwordRequired": "Password is required",
-    "passwordMinLength": "Password must be at least 6 characters"
+    "passwordMinLength": "Password must be at least 6 characters",
+    "otp": "OTP"
   },
 
   "user": {
@@ -118,6 +119,10 @@
   "role": {
     "roles": "roles",
     "role": "role",
+    "type": {
+      "admin": "Admin role",
+      "organization": "Organization role"
+    },
     "rolesList": {
       "advertisement": "Advertisement",
       "identity": "Identity",

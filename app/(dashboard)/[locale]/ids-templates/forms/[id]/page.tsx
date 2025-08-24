@@ -17,6 +17,7 @@ import {
   Divider,
   Badge,
   Tooltip,
+  Select,
 } from "@mantine/core";
 import { DateInput } from "@mantine/dates";
 import {
@@ -25,9 +26,11 @@ import {
   IconCalendar,
   IconPhoto,
   IconDeviceFloppy,
+  IconBuilding,
 } from "@tabler/icons-react";
 import { useGetTemplate } from "@/features/templates/api";
 import { useCreateId } from "@/features/ids/api";
+import { useGetOrganizations } from "@/features/organizations/api";
 import { useParams, useRouter } from "next/navigation";
 import type { CreateIDCardInput } from "@/features/ids/types";
 
@@ -37,6 +40,7 @@ type FormData = {
   phone: string;
   name: string;
   template_id: string;
+  organizationId: string;
   identity: Record<string, FormValue>;
 };
 
@@ -86,6 +90,7 @@ export default function IdCardsTemplates() {
     phone: "",
     name: "",
     template_id: templateId,
+    organizationId: "",
     identity: {},
   });
 
@@ -94,6 +99,8 @@ export default function IdCardsTemplates() {
     isLoading: templateLoading,
     error,
   } = useGetTemplate(templateId);
+  const { data: organizationsResponse, isLoading: organizationsLoading } =
+    useGetOrganizations({ page: 1, pageSize: 100 });
   const [isFormLoading, setIsFormLoading] = useState(true);
   const router = useRouter();
   const createIdMutation = useCreateId();
@@ -133,6 +140,15 @@ export default function IdCardsTemplates() {
     },
     []
   );
+
+  // Prepare organizations for select
+  const organizationsSelectData = useMemo(() => {
+    if (!organizationsResponse?.data?.data) return [];
+    return organizationsResponse.data.data.map((org) => ({
+      value: org.id.toString(),
+      label: org.name,
+    }));
+  }, [organizationsResponse]);
 
   const smartFields = useMemo(() => {
     if (!template?.template) return [];
@@ -188,8 +204,12 @@ export default function IdCardsTemplates() {
   }, [smartFields]);
 
   const handleInputChange = useCallback((fieldId: string, value: FormValue) => {
-    if (fieldId === "phone" || fieldId === "name") {
-      // Store phone and name at root level
+    if (
+      fieldId === "phone" ||
+      fieldId === "name" ||
+      fieldId === "organizationId"
+    ) {
+      // Store phone, name, and organizationId at root level
       setFormData((prev) => ({ ...prev, [fieldId]: value as string }));
     } else {
       // Store dynamic fields in identity object
@@ -206,9 +226,13 @@ export default function IdCardsTemplates() {
   const handleSubmit = useCallback(
     async (event: React.FormEvent) => {
       event.preventDefault();
-      
+
       // Validate required fields
-      if (!formData.phone.trim() || !formData.name.trim()) {
+      if (
+        !formData.phone.trim() ||
+        !formData.name.trim() ||
+        !formData.organizationId.trim()
+      ) {
         return;
       }
 
@@ -216,19 +240,20 @@ export default function IdCardsTemplates() {
         name: formData.name,
         phone: formData.phone,
         template_id: Number(templateId),
-        identity: 'by system',
-        ...formData.identity
+        organizationId: Number(formData.organizationId),
+        identity: "by system",
+        ...formData.identity,
       };
 
       try {
         await createIdMutation.mutateAsync(submitData);
         // Redirect to success page or IDs list
-        router.push('/ids');
+        router.push("/ids");
       } catch (error) {
-        console.error('Error creating ID card:', error);
+        console.error("Error creating ID card:", error);
       }
     },
-    [formData, createIdMutation, router]
+    [formData, createIdMutation, router, templateId]
   );
 
   const renderField = useCallback(
@@ -293,7 +318,7 @@ export default function IdCardsTemplates() {
     [formData, handleInputChange]
   );
 
-  if (templateLoading || isFormLoading) {
+  if (templateLoading || organizationsLoading || isFormLoading) {
     return (
       <Center h={400}>
         <Stack align="center" gap="md">
@@ -403,6 +428,21 @@ export default function IdCardsTemplates() {
                       required
                     />
                   </Grid.Col>
+                  <Grid.Col span={{ base: 12, sm: 6 }}>
+                    <Select
+                      label="المنظمة"
+                      placeholder="اختر المنظمة"
+                      value={formData.organizationId || ""}
+                      onChange={(value) =>
+                        handleInputChange("organizationId", value || "")
+                      }
+                      data={organizationsSelectData}
+                      leftSection={<IconBuilding size={16} />}
+                      required
+                      searchable
+                      clearable
+                    />
+                  </Grid.Col>
                 </Grid>
               </Card>
               {frontFields.length > 0 && (
@@ -449,9 +489,15 @@ export default function IdCardsTemplates() {
                     type="submit"
                     leftSection={<IconDeviceFloppy size={18} />}
                     loading={createIdMutation.isPending}
-                    disabled={!formData.phone.trim() || !formData.name.trim()}
+                    disabled={
+                      !formData.phone.trim() ||
+                      !formData.name.trim() ||
+                      !formData.organizationId.trim()
+                    }
                   >
-                    {createIdMutation.isPending ? "جاري الإنشاء..." : "إنشاء بطاقة الهوية"}
+                    {createIdMutation.isPending
+                      ? "جاري الإنشاء..."
+                      : "إنشاء بطاقة الهوية"}
                   </Button>
                 </Tooltip>
               </Group>

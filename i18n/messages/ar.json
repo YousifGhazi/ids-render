@@ -106,7 +106,8 @@
     "emailRequired": "البريد الإلكتروني مطلوب",
     "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح",
     "passwordRequired": "كلمة المرور مطلوبة",
-    "passwordMinLength": "كلمة المرور يجب أن تكون 6 أحرف على الأقل"
+    "passwordMinLength": "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
+    "otp": "رمز التحقق"
   },
 
   "user": {
@@ -120,6 +121,10 @@
   "role": {
     "roles": "الأدوار",
     "role": "الدور",
+    "type": {
+      "admin": "دور مدير",
+      "organization": "دور منظمة"
+    },
     "rolesList": {
       "advertisement": "إعلان",
       "identity": "هوية",

@@ -14,6 +14,7 @@ import { useState } from "react";
 import { RoleModal } from "./role-modal";
 import { formatDate } from "@/utils/format";
 import { Permission } from "@/components/permission";
+import { RoleTypeLabel } from "@/features/roles/ui-helpers";
 
 export function RolesTable() {
   const t = useTranslations();
@@ -44,8 +45,12 @@ export function RolesTable() {
       <DataTable
         {...getTableProps({ query })}
         columns={[
-          { accessor: "name", title: t("name"), sortable: true },
-          { accessor: "type", title: t("type"), sortable: true },
+          { accessor: "name", title: t("name") },
+          {
+            accessor: "type",
+            title: t("type"),
+            render: (role) => RoleTypeLabel(role.type, t),
+          },
           {
             accessor: "createdAt",
             title: t("createdAt"),

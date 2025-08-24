@@ -5,6 +5,7 @@ import { IDCard } from "@/features/ids/types";
 import { useGetTemplate } from "@/features/templates/api";
 import { TemplateData } from "@/features/templates/interfaces";
 import { Modal, Skeleton, Stack } from "@mantine/core";
+import { useEffect } from "react";
 
 interface IdCardModalProps {
   idCard?: IDCard;
@@ -13,12 +14,15 @@ interface IdCardModalProps {
 }
 
 export function IdCardModal({ idCard, opened, onClose }: IdCardModalProps) {
-  const {
-    isLoading: isLoadingTemplate,
-    data,
-  } = useGetTemplate(idCard?.template.id as unknown as string, {
-    refetchOnWindowFocus: false,
-  });
+  const { isLoading: isLoadingTemplate, data } = useGetTemplate(
+    idCard?.template.id as unknown as string,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+  useEffect(() => {
+    console.log("Template data: ‼️‼️‼️", data?.template);
+  }, [data?.template]);
 
   if (!idCard) {
     return null;
@@ -36,10 +40,15 @@ export function IdCardModal({ idCard, opened, onClose }: IdCardModalProps) {
           </Stack>
         </Stack>
       ) : (
-        data && <IDCardView templateData={data.template as TemplateData} data={{
-            name: idCard.member?.name || null,
-            ...idCard.request
-        }} />
+        data && (
+          <IDCardView
+            templateData={data.template as TemplateData}
+            data={{
+              name: idCard.member?.name || null,
+              ...idCard.request,
+            }}
+          />
+        )
       )}
     </Modal>
   );

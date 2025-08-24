@@ -4,7 +4,7 @@ import { Organization } from "@/features/organizations/types";
 export type OrganizationUser = {
   id: number;
   name: string;
-  email: string;
+  phone: string;
   type: string;
   createdAt: string;
   updatedAt: string;
@@ -14,15 +14,14 @@ export type OrganizationUser = {
 
 export type CreateOrganizationUsersInput = {
   name: string;
-  email: string;
-  password: string;
+  phone: string;
   organizationId: number;
   roleIds?: number[];
 };
 
 export type UpdateOrganizationUsersInput = {
   name?: string;
-  email?: string;
+  phone?: string;
   organizationId: number;
   roleIds?: number[];
 };

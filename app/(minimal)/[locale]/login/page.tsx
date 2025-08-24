@@ -5,67 +5,66 @@ import {
   Container,
   Paper,
   TextInput,
-  PasswordInput,
   Button,
   Title,
   Text,
   Stack,
   Center,
+  NumberInput,
 } from "@mantine/core";
-import {
-  IconLogin,
-  IconMail,
-  IconLock,
-  IconAlertCircle,
-} from "@tabler/icons-react";
+import { IconLogin, IconAlertCircle, IconPhone } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import { useLogin } from "@/features/auth/api";
+import { useLogin, useSendOTP } from "@/features/auth/api";
 import { useAuthStore } from "@/features/auth/store";
 import { useRouter } from "@/i18n/navigation";
 import { notifications } from "@mantine/notifications";
+import { useState } from "react";
 
 export default function LoginPage() {
-  const t = useTranslations("login");
+  const t = useTranslations();
   const router = useRouter();
   const login = useLogin();
+  const sendOTP = useSendOTP();
   const { setAuth } = useAuthStore();
 
-  const form = useForm({
-    // mode: "uncontrolled",
+  const [phone, setPhone] = useState("");
+
+  const form = useForm<{
+    otp: string | undefined;
+    phone: string;
+  }>({
     initialValues: {
-      email: "",
-      password: "",
+      phone: "",
+      otp: undefined,
     },
-    // validate: zodResolver(
-    //   z.object({
-    //     email: z.string().min(1, t("emailRequired")),
-    //     password: z
-    //       .string()
-    //       .min(1, t("passwordRequired"))
-    //       .min(6, t("passwordMinLength")),
-    //   })
-    // ),
   });
 
   const handleSubmit = form.onSubmit(async (values) => {
-    await login.mutateAsync(values, {
-      onSuccess: (data) => {
-        // Store user and token in Zustand store
-        setAuth(data.user, data.accessToken);
+    if (values?.otp) {
+      await login.mutateAsync(
+        { phone, otp: String(values.otp) },
+        {
+          onSuccess: (data) => {
+            setAuth(data.user, data.accessToken);
+            router.push("/");
+          },
+          onError: () => {
+            notifications.show({
+              position: "top-right",
+              title: t("login.loginError"),
+              message: t("login.loginError"),
+              color: "red",
+              icon: <IconAlertCircle />,
+            });
+          },
+        }
+      );
+    }
 
-        // Redirect to dashboard
-        router.push("/");
-      },
-      onError: () => {
-        notifications.show({
-          position: "top-right",
-          title: t("loginError"),
-          message: t("loginError"),
-          color: "red",
-          icon: <IconAlertCircle />,
-        });
-      },
-    });
+    if (!phone) {
+      setPhone(values.phone);
+      await sendOTP.mutateAsync({ phone: values.phone });
+    }
   });
 
   return (
@@ -87,10 +86,10 @@ export default function LoginPage() {
             <Stack gap="xs" align="center">
               <IconLogin size={48} color="var(--mantine-color-blue-6)" />
               <Title order={2} ta="center" fw={600}>
-                {t("title")}
+                {t("login.title")}
               </Title>
               <Text size="sm" c="dimmed" ta="center">
-                {t("subtitle")}
+                {t("login.subtitle")}
               </Text>
             </Stack>
           </Center>
@@ -98,24 +97,26 @@ export default function LoginPage() {
           <form onSubmit={handleSubmit}>
             <Stack gap="md">
               <TextInput
-                label={t("email")}
-                placeholder={t("emailPlaceholder")}
-                leftSection={<IconMail size={16} />}
+                label={t("phoneNumber")}
+                placeholder={t("phoneNumber")}
+                leftSection={<IconPhone size={16} />}
                 size="md"
                 radius="md"
-                key={form.key("email")}
-                {...form.getInputProps("email")}
+                key={form.key("phone")}
+                {...form.getInputProps("phone")}
               />
-
-              <PasswordInput
-                label={t("password")}
-                placeholder={t("passwordPlaceholder")}
-                leftSection={<IconLock size={16} />}
-                size="md"
-                radius="md"
-                key={form.key("password")}
-                {...form.getInputProps("password")}
-              />
+              {phone && (
+                <NumberInput
+                  label={t("login.otp")}
+                  placeholder={t("login.otp")}
+                  leftSection={<IconAlertCircle size={16} />}
+                  rightSection=" "
+                  size="md"
+                  radius="md"
+                  key={form.key("otp")}
+                  {...form.getInputProps("otp")}
+                />
+              )}
 
               <Button
                 type="submit"
@@ -126,7 +127,9 @@ export default function LoginPage() {
                 leftSection={<IconLogin size={18} />}
                 mt="md"
               >
-                {login.isPending ? t("signingIn") : t("submitButton")}
+                {login.isPending
+                  ? t("login.signingIn")
+                  : t("login.submitButton")}
               </Button>
             </Stack>
           </form>

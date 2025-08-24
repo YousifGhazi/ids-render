@@ -53,16 +53,14 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
 
   const form = useForm<{
     name: string;
-    email: string;
-    password: string;
+    phone: string;
     type: string;
     roleIds: string[];
     organizationId: string;
   }>({
     initialValues: {
       name: user?.name || "",
-      password: "",
-      email: user?.email || "",
+      phone: user?.phone || "",
       type: "organization_user",
       roleIds: [],
       organizationId: "",
@@ -91,7 +89,7 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
     if (user) {
       form.setValues({
         name: user.name,
-        email: user.email,
+        phone: user.phone,
         roleIds: user.roles?.map((role) => String(role.id)) || [],
         organizationId: String(user.organization?.id || ""),
       });
@@ -128,14 +126,14 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
               {...form.getInputProps("phone")}
             />
           )}
-          <TextInput
+          {/* <TextInput
             label={t("email")}
             placeholder={`${t("email")}...`}
             type="email"
             required
             {...form.getInputProps("email")}
-          />
-          {!isEditing && (
+          /> */}
+          {/* {!isEditing && (
             <PasswordInput
               key={form.key("password")}
               {...form.getInputProps("password")}
@@ -144,7 +142,7 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
               leftSection={<IconLock size={16} />}
               required={!isEditing}
             />
-          )}
+          )} */}
 
           <Select
             required

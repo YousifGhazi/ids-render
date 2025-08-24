@@ -69,35 +69,35 @@ export function MembersTable() {
       <DataTable
         {...getTableProps({ query })}
         columns={[
-          {
-            accessor: "verifiedOTP",
-            title: t("verifiedOTP"),
-            render: () => {
-              // TODO: Replace with actual verification from backend
-              const isVerified = Math.random() < 0.6;
-              return (
-                <Center>
-                  <BooleanState state={isVerified} />
-                </Center>
-              );
-            },
-          },
-          {
-            accessor: "verifiedSuperQi",
-            title: t("verifiedSuperQi"),
-            render: () => {
-              // TODO: Replace with actual verification from backend
-              const isVerified = Math.random() < 0.6;
-              return (
-                <Center>
-                  <BooleanState
-                    trueProps={{ color: "#f9cd10" }}
-                    state={isVerified}
-                  />
-                </Center>
-              );
-            },
-          },
+          // {
+          //   accessor: "verifiedOTP",
+          //   title: t("verifiedOTP"),
+          //   render: () => {
+          //     // TODO: Replace with actual verification from backend
+          //     const isVerified = Math.random() < 0.6;
+          //     return (
+          //       <Center>
+          //         <BooleanState state={isVerified} />
+          //       </Center>
+          //     );
+          //   },
+          // },
+          // {
+          //   accessor: "verifiedSuperQi",
+          //   title: t("verifiedSuperQi"),
+          //   render: () => {
+          //     // TODO: Replace with actual verification from backend
+          //     const isVerified = Math.random() < 0.6;
+          //     return (
+          //       <Center>
+          //         <BooleanState
+          //           trueProps={{ color: "#f9cd10" }}
+          //           state={isVerified}
+          //         />
+          //       </Center>
+          //     );
+          //   },
+          // },
           { accessor: "name", title: t("name"), sortable: true },
           { accessor: "phone", title: t("phoneNumber"), sortable: true },
           {
