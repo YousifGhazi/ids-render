@@ -1,7 +1,16 @@
 "use client";
 
-import { Container, Paper, Grid, Title, Text, Group } from "@mantine/core";
+import {
+  Container,
+  Paper,
+  Grid,
+  Title,
+  Text,
+  Group,
+  Flex,
+} from "@mantine/core";
 import { useTranslations } from "next-intl";
+import { useRouter } from "@/i18n/navigation";
 import {
   LineChart,
   Line,
@@ -21,6 +30,21 @@ import {
 
 export default function Home() {
   const t = useTranslations("stats");
+  const router = useRouter();
+
+  // Static data for top 10 organizations
+  const topOrganizationsList = [
+    { id: 1, key: "ministryOfHealth" },
+    { id: 2, key: "universityOfBaghdad" },
+    { id: 3, key: "centralBank" },
+    { id: 4, key: "ministryOfEducation" },
+    { id: 5, key: "oilCompany" },
+    { id: 6, key: "ministryOfInterior" },
+    { id: 7, key: "baghdadMunicipality" },
+    { id: 8, key: "ministryOfFinance" },
+    { id: 9, key: "iraqiAirways" },
+    { id: 10, key: "ministryOfTrade" },
+  ];
 
   // Fake data for IDs issued over the year
   const idIssuedData = [
@@ -113,6 +137,64 @@ export default function Home() {
         <Title order={2} mb="xl" ta="center">
           {t("title")}
         </Title>
+
+        {/* Top Organizations Section */}
+        <Paper shadow="md" p="xl" radius="md" mb="xl" bg="white">
+          <Group justify="space-between" align="flex-start" mb="lg">
+            <div>
+              <Title order={3} mb="xs">
+                {t("topOrganizationsList")}
+              </Title>
+              {/* <Text size="sm" c="dimmed">
+                {t("topOrganizationsDescription")}
+              </Text> */}
+            </div>
+            <Text
+              component="button"
+              size="sm"
+              c="blue"
+              td="underline"
+              style={{
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: "4px 0",
+                fontWeight: 500,
+              }}
+              onClick={() => router.push("/organizations")}
+            >
+              {t("viewAllOrganizations")}
+            </Text>
+          </Group>
+          <Flex
+            gap="xs"
+            align="center"
+            justify="center"
+            style={{ flexWrap: "nowrap" }}
+          >
+            {topOrganizationsList.map((org, index) => (
+              <>
+                <Text
+                  key={org.id}
+                  size="md"
+                  fw="bold"
+                  c="dark.7"
+                  style={{
+                    whiteSpace: "nowrap",
+                    // fontSize: "12px",
+                  }}
+                >
+                  {t(`organizations.${org.key}`)}
+                </Text>
+                {index < topOrganizationsList.length - 1 && (
+                  <Text size="xs" c="gray" fw={500} mx="2px">
+                    |
+                  </Text>
+                )}
+              </>
+            ))}
+          </Flex>
+        </Paper>
 
         <Grid>
           {/* IDs Issued Over the Year */}

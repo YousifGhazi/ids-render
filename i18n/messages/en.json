@@ -306,6 +306,9 @@
 
   "stats": {
     "title": "Dashboard Statistics",
+    "topOrganizationsList": "Top Organizations",
+    "topOrganizationsDescription": "Discover the leading organizations in our network",
+    "viewAllOrganizations": "View All",
     "idsIssuedOverYear": "IDs Issued Over the Year",
     "topOrganizations": "Top 5 Organizations",
     "departmentsSpecializations": "Departments & Specializations",
@@ -333,7 +336,12 @@
       "universityOfBaghdad": "University of Baghdad",
       "centralBank": "Central Bank",
       "ministryOfEducation": "Ministry of Education",
-      "oilCompany": "Oil Company"
+      "oilCompany": "Oil Company",
+      "ministryOfInterior": "Ministry of Interior",
+      "baghdadMunicipality": "Baghdad Municipality",
+      "ministryOfFinance": "Ministry of Finance",
+      "iraqiAirways": "Iraqi Airways",
+      "ministryOfTrade": "Ministry of Trade"
     },
     "departments": {
       "healthcare": "Healthcare",

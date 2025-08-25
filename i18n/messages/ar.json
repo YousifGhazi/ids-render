@@ -319,6 +319,9 @@
 
   "stats": {
     "title": "إحصائيات لوحة المعلومات",
+    "topOrganizationsList": "أهم المؤسسات",
+    "topOrganizationsDescription": "اكتشف المؤسسات الرائدة في شبكتنا",
+    "viewAllOrganizations": "عرض الكل",
     "idsIssuedOverYear": "الهويات المُصدرة خلال العام",
     "topOrganizations": "أفضل 5 مؤسسات",
     "departmentsSpecializations": "الأقسام والتخصصات",
@@ -346,7 +349,12 @@
       "universityOfBaghdad": "جامعة بغداد",
       "centralBank": "البنك المركزي",
       "ministryOfEducation": "وزارة التربية",
-      "oilCompany": "شركة النفط"
+      "oilCompany": "شركة النفط",
+      "ministryOfInterior": "وزارة الداخلية",
+      "baghdadMunicipality": "أمانة بغداد",
+      "ministryOfFinance": "وزارة المالية",
+      "iraqiAirways": "الخطوط الجوية العراقية",
+      "ministryOfTrade": "وزارة التجارة"
     },
     "departments": {
       "healthcare": "الرعاية الصحية",

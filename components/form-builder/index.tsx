@@ -81,18 +81,13 @@ export default function SurveyCreatorWidget(props: {
           return;
         }
 
-        const res = await createForm.mutateAsync({
+        await createForm.mutateAsync({
           name: surveyJSON.title,
           slug: surveyJSON.title,
           description: surveyJSON.description,
           form: JSON.stringify(surveyJSON),
           organizationId: 16,
         });
-
-        console.log("=== Save Button Clicked - Survey Form Shape ===");
-        console.log("Save Number:", saveNo);
-        console.log("Full Survey JSON:", surveyJSON);
-        console.log(res);
       };
 
       setCreator(newCreator);
