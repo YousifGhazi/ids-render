@@ -71,8 +71,20 @@ export function Navbar() {
         icon={<IconUsers size={18} />}
       />
 
+      {/* TODO: Add permissions for printer and delivery */}
       <ShellLink
-        section="/forms"
+        section="/printer"
+        label={t("sidebar.printer")}
+        icon={<IconPrinter size={18} />}
+      />
+      <ShellLink
+        section="/delivery"
+        label={t("sidebar.delivery")}
+        icon={<IconPackage size={18} />}
+      />
+
+      <ShellLink
+        section="/forms/builder"
         label={t("sidebar.surveies")}
         icon={<IconClipboardText size={18} />}
       />
@@ -127,18 +139,6 @@ export function Navbar() {
           </MenuItem>
         </MenuDropdown>
       </Menu>
-
-      {/* TODO: Add permissions for printer and delivery */}
-      <ShellLink
-        section="/printer"
-        label={t("sidebar.printer")}
-        icon={<IconPrinter size={18} />}
-      />
-      <ShellLink
-        section="/delivery"
-        label={t("sidebar.delivery")}
-        icon={<IconPackage size={18} />}
-      />
     </Group>
   );
 }

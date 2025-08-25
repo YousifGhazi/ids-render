@@ -39,21 +39,23 @@ export function MembersTable() {
 
   return (
     <>
-      <Group justify="flex-end" mb="md">
-        <Button
-          rightSection={<IconFileUpload size={14} />}
-          variant="default"
-          onClick={openUpload}
-        >
-          {t("actions.upload", { item: t("members.plural_title") })}
-        </Button>
-        <Button
-          rightSection={<IconDownload size={14} />}
-          variant="default"
-          onClick={downloadTemplate}
-        >
-          {t("actions.downloadTemplate", { item: t("members.plural_title") })}
-        </Button>
+      <Group justify="space-between" mb="md">
+        <Group>
+          <Button
+            rightSection={<IconFileUpload size={14} />}
+            variant="default"
+            onClick={openUpload}
+          >
+            {t("actions.upload", { item: t("members.plural_title") })}
+          </Button>
+          <Button
+            rightSection={<IconDownload size={14} />}
+            variant="default"
+            onClick={downloadTemplate}
+          >
+            {t("actions.downloadTemplate", { item: t("members.plural_title") })}
+          </Button>
+        </Group>
         <Permission can="create-member">
           <Button
             onClick={() => {

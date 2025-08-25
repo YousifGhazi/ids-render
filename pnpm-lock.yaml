@@ -94,7 +94,10 @@ importers:
         version: 2.3.1(survey-core@2.3.1)
       survey-creator-react:
         specifier: ^2.3.1
-        version: 2.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1)(survey-creator-core@2.3.1(survey-core@2.3.1))(survey-react-ui@2.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1))
+        version: 2.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1)(survey-creator-core@2.3.1(survey-core@2.3.1))(survey-react-ui@2.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1))
+      survey-react-ui:
+        specifier: ^2.3.3
+        version: 2.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1)
       xcase:
         specifier: ^2.0.1
         version: 2.0.1
@@ -2393,12 +2396,12 @@ packages:
       ace-builds:
         optional: true
 
-  survey-react-ui@2.3.1:
-    resolution: {integrity: sha512-0xUakm1oSgtA26kGRf/8KIPONcabaochD+ufvSjGZ+tKi7nkjnzVXuikzI7VdGBZujXdRqvG9E3zi3qBgnushw==}
+  survey-react-ui@2.3.3:
+    resolution: {integrity: sha512-0vQmsxYrUocEVCft/XPCSUtY+2r3ZAPOPCSdcWtpfv76LCEgcOf311T6XDlTIxGiqYnlBLlsLJU65db0vIFcxg==}
     peerDependencies:
       react: ^16.5.0 || ^17.0.1 || ^18.1.0 || ^19.0.0
       react-dom: ^16.5.0 || ^17.0.1 || ^18.1.0 || ^19.0.0
-      survey-core: 2.3.1
+      survey-core: 2.3.3
 
   symbol-tree@3.2.4:
     resolution: {integrity: sha512-9QNk5KwDF+Bvz+PyObkmSYjI5ksVUYtjW7AU22r2NKcfLJcXp96hkDWU3+XndOsUb+AQ9QhfzfCT2O+CNWT5Tw==}
@@ -5226,15 +5229,15 @@ snapshots:
     dependencies:
       survey-core: 2.3.1
 
-  survey-creator-react@2.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1)(survey-creator-core@2.3.1(survey-core@2.3.1))(survey-react-ui@2.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1)):
+  survey-creator-react@2.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1)(survey-creator-core@2.3.1(survey-core@2.3.1))(survey-react-ui@2.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1)):
     dependencies:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
       survey-core: 2.3.1
       survey-creator-core: 2.3.1(survey-core@2.3.1)
-      survey-react-ui: 2.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1)
+      survey-react-ui: 2.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1)
 
-  survey-react-ui@2.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1):
+  survey-react-ui@2.3.3(react-dom@19.1.0(react@19.1.0))(react@19.1.0)(survey-core@2.3.1):
     dependencies:
       react: 19.1.0
       react-dom: 19.1.0(react@19.1.0)
