@@ -1,7 +1,7 @@
 "use client";
 
 import { NavLink, NavLinkProps } from "@mantine/core";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { usePathname } from "next/navigation";
 import { Permission } from "@/components/permission";
 

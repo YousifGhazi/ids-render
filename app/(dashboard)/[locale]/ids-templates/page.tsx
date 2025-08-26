@@ -1,18 +1,33 @@
 "use client";
 
-import { useTranslations } from 'next-intl';
-import { Container, Title, Text, Grid, Card, Image, Button, Group, Badge, Stack, Box, Skeleton, ActionIcon, Tooltip } from '@mantine/core';
-import { IconPlus, IconEye, IconEdit, IconTrash } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
-import { useGetTemplates, useDeleteTemplate } from '@/features/templates/api';
-import type { Template } from '@/features/templates/types';
-import { modals } from '@mantine/modals';
-import { notifications } from '@mantine/notifications';
-import IDCardPreviewBuilder from '@/components/ids-designer/id-card-template-preview-builder';
+import { useTranslations } from "next-intl";
+import {
+  Container,
+  Title,
+  Text,
+  Grid,
+  Card,
+  Image,
+  Button,
+  Group,
+  Badge,
+  Stack,
+  Box,
+  Skeleton,
+  ActionIcon,
+  Tooltip,
+} from "@mantine/core";
+import { IconPlus, IconEye, IconEdit, IconTrash } from "@tabler/icons-react";
+import { useRouter } from "@/i18n/navigation";
+import { useGetTemplates, useDeleteTemplate } from "@/features/templates/api";
+import type { Template } from "@/features/templates/types";
+import { modals } from "@mantine/modals";
+import { notifications } from "@mantine/notifications";
+import IDCardPreviewBuilder from "@/components/ids-designer/id-card-template-preview-builder";
 
 // Skeleton loader component for template cards
 const TemplateSkeleton = () => (
-  <Card padding="lg" radius="md" withBorder style={{ height: '100%' }}>
+  <Card padding="lg" radius="md" withBorder style={{ height: "100%" }}>
     <Card.Section>
       <Skeleton height={200} />
     </Card.Section>
@@ -33,12 +48,17 @@ const TemplateSkeleton = () => (
 export default function IdCardsTemplates() {
   const t = useTranslations();
   const router = useRouter();
-  const { data: templatesResponse, isLoading, error, refetch } = useGetTemplates({ page: 1, pageSize: 20 });
+  const {
+    data: templatesResponse,
+    isLoading,
+    error,
+    refetch,
+  } = useGetTemplates({ page: 1, pageSize: 20 });
   const templates = templatesResponse?.data?.data || [];
   const deleteTemplate = useDeleteTemplate();
 
   const handleCreateNew = () => {
-    router.push('/id-builder');
+    router.push("/id-builder");
   };
 
   const handleUseTemplate = (templateId: number) => {
@@ -47,34 +67,34 @@ export default function IdCardsTemplates() {
 
   const handleDeleteTemplate = (template: Template) => {
     modals.openConfirmModal({
-      title: t('common.confirmDelete'),
+      title: t("common.confirmDelete"),
       children: (
         <Text size="sm">
-          {t('templates.deleteConfirmation', { title: template.title })}
+          {t("templates.deleteConfirmation", { title: template.title })}
         </Text>
       ),
-      labels: { confirm: t('common.delete'), cancel: t('common.cancel') },
-      confirmProps: { color: 'red' },
+      labels: { confirm: t("common.delete"), cancel: t("common.cancel") },
+      confirmProps: { color: "red" },
       onConfirm: () => {
         deleteTemplate.mutate(template.id, {
           onSuccess: () => {
             notifications.show({
-              title: t('common.success'),
-              message: t('templates.deleteSuccess'),
-              color: 'green'
+              title: t("common.success"),
+              message: t("templates.deleteSuccess"),
+              color: "green",
             });
             refetch();
           },
           onError: (error) => {
             notifications.show({
-              title: t('common.error'),
-              message: t('templates.deleteError'),
-              color: 'red'
+              title: t("common.error"),
+              message: t("templates.deleteError"),
+              color: "red",
             });
-            console.error('Error deleting template:', error);
-          }
+            console.error("Error deleting template:", error);
+          },
         });
-      }
+      },
     });
   };
 
@@ -85,10 +105,10 @@ export default function IdCardsTemplates() {
         <Group justify="space-between" align="flex-end" mb="md">
           <div>
             <Title order={1} size="h2" fw={700} c="#212529" mb="xs">
-              {t('idsDesigner.templates.title')}
+              {t("idsDesigner.templates.title")}
             </Title>
             <Text size="lg" c="#6c757d">
-              {t('idsDesigner.templates.subtitle')}
+              {t("idsDesigner.templates.subtitle")}
             </Text>
           </div>
           <Button
@@ -96,7 +116,7 @@ export default function IdCardsTemplates() {
             onClick={handleCreateNew}
             radius="md"
           >
-            {t('idsDesigner.templates.createNew')}
+            {t("idsDesigner.templates.createNew")}
           </Button>
         </Group>
       </Box>
@@ -113,50 +133,53 @@ export default function IdCardsTemplates() {
         ) : error ? (
           <Grid.Col span={12}>
             <Text c="red" ta="center" py="xl">
-              {t('common.error.loadingFailed')}
+              {t("common.error.loadingFailed")}
             </Text>
           </Grid.Col>
         ) : templates && templates.length > 0 ? (
           templates.map((template: Template) => (
-            <Grid.Col key={template.id} span={{ base: 12, sm: 6, md: 4, lg: 3 }}>
+            <Grid.Col
+              key={template.id}
+              span={{ base: 12, sm: 6, md: 4, lg: 3 }}
+            >
               <Card
                 padding="lg"
                 radius="md"
                 withBorder
                 style={{
-                  height: '100%',
-                  transition: 'all 0.2s ease',
-                  cursor: 'pointer',
-                  '&:hover': {
-                    transform: 'translateY(-4px)',
-                  }
+                  height: "100%",
+                  transition: "all 0.2s ease",
+                  cursor: "pointer",
+                  "&:hover": {
+                    transform: "translateY(-4px)",
+                  },
                 }}
               >
                 <Card.Section>
                   <Box pos="relative">
-                    {template.is_enabled === '1' && (
+                    {template.is_enabled === "1" && (
                       <Badge
                         color="green"
                         variant="filled"
                         size="sm"
                         style={{
-                          position: 'absolute',
+                          position: "absolute",
                           top: 10,
-                          right: 10
+                          right: 10,
                         }}
                       >
-                        {t('common.active')}
+                        {t("common.active")}
                       </Badge>
                     )}
-                    <Tooltip label={t('common.delete')}>
+                    <Tooltip label={t("common.delete")}>
                       <ActionIcon
                         color="red"
                         variant="filled"
                         size="sm"
                         style={{
-                          position: 'absolute',
+                          position: "absolute",
                           top: 10,
-                          left: 10
+                          left: 10,
                         }}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -183,10 +206,10 @@ export default function IdCardsTemplates() {
                       leftSection={<IconEye size={14} />}
                       style={{ flex: 1 }}
                       onClick={() => {
-                        router.push(`/id-builder/edit/${template.id}`)
+                        router.push(`/id-builder/edit/${template.id}`);
                       }}
                     >
-                      {t('idsDesigner.templates.preview')}
+                      {t("idsDesigner.templates.preview")}
                     </Button>
                     <Button
                       variant="filled"
@@ -195,7 +218,7 @@ export default function IdCardsTemplates() {
                       onClick={() => handleUseTemplate(template.id)}
                       style={{ flex: 1 }}
                     >
-                      {t('idsDesigner.templates.useTemplate')}
+                      {t("idsDesigner.templates.useTemplate")}
                     </Button>
                   </Group>
                 </Stack>
@@ -205,7 +228,7 @@ export default function IdCardsTemplates() {
         ) : (
           <Grid.Col span={12}>
             <Text ta="center" py="xl" c="dimmed">
-              {t('idsDesigner.templates.noTemplates')}
+              {t("idsDesigner.templates.noTemplates")}
             </Text>
           </Grid.Col>
         )}

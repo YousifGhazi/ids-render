@@ -31,7 +31,8 @@ import {
 import { useGetTemplate } from "@/features/templates/api";
 import { useCreateId } from "@/features/ids/api";
 import { useGetOrganizations } from "@/features/organizations/api";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "@/i18n/navigation";
 import type { CreateIDCardInput } from "@/features/ids/types";
 
 type FieldType = "text" | "date" | "file" | "textarea";
