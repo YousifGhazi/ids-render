@@ -3,7 +3,7 @@ import { camelizeKeys, decamelizeKeys } from "xcase";
 
 // Create the base configuration
 const baseConfig: AxiosRequestConfig = {
-  baseURL: "http://82.25.101.56:1212/api/dashboard/v1/",
+  baseURL: "https://identities.g4t.io/api/dashboard/v1/",
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",

@@ -430,8 +430,8 @@ export default function IdCardsTemplates() {
                   </Grid.Col>
                   <Grid.Col span={{ base: 12, sm: 6 }}>
                     <Select
-                      label="المنظمة"
-                      placeholder="اختر المنظمة"
+                      label="المؤسسة"
+                      placeholder="اختر المؤسسة"
                       value={formData.organizationId || ""}
                       onChange={(value) =>
                         handleInputChange("organizationId", value || "")

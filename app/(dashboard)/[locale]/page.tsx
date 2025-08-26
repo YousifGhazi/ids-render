@@ -139,7 +139,14 @@ export default function Home() {
         </Title>
 
         {/* Top Organizations Section */}
-        <Paper shadow="md" p="xl" radius="md" mb="xl" bg="white">
+        <Paper
+          shadow="md"
+          p="xl"
+          radius="md"
+          mb="xl"
+          bg="white"
+          style={{ overflowX: "hidden" }}
+        >
           <Group justify="space-between" align="flex-start" mb="lg">
             <div>
               <Title order={3} mb="xs">
