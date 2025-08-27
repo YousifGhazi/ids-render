@@ -126,6 +126,8 @@ export default function IDCardDesigner({
   const [canvasBackgroundImage, setCanvasBackgroundImage] = useState<
     string | null
   >(null);
+  const [price, setPrice] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
   // Memoized field texts for better performance
   const fieldTexts = useMemo(
@@ -268,7 +270,7 @@ export default function IDCardDesigner({
   useEffect(() => {
     if (!canvas) return;
 
-    if(initialData) {
+    if (initialData) {
       importTemplate(initialData);
     }
 
@@ -930,6 +932,8 @@ export default function IDCardDesigner({
         : currentSide === "back"
         ? canvas.toJSON()
         : null,
+      price: price,
+      description: description,
       createdAt: new Date().toISOString(),
     };
 
@@ -945,12 +949,13 @@ export default function IDCardDesigner({
     frontCanvasData,
     currentSide,
     backCanvasData,
+    price,
+    description,
     onSave,
   ]);
 
   const importTemplate = (jsonData: any) => {
     if (!canvas) return;
-
 
     try {
       const parsedData = jsonData;
@@ -962,6 +967,14 @@ export default function IDCardDesigner({
         // Clear current data
         setFrontCanvasData(null);
         setBackCanvasData(null);
+
+        // Load price and description
+        if (parsedData.price) {
+          setPrice(parsedData.price);
+        }
+        if (parsedData.description) {
+          setDescription(parsedData.description);
+        }
 
         // Load front and back canvas data
         if (parsedData.frontCanvas) {
@@ -1192,7 +1205,7 @@ export default function IDCardDesigner({
       }
 
       canvas.renderAll();
-    },
+    }
   );
 
   const saveBothSides = async () => {
@@ -1928,6 +1941,30 @@ export default function IDCardDesigner({
             >
               <IconUpload size={16} />
             </ActionIcon> */}
+            <TextInput
+              placeholder={t("placeholders.price")}
+              size="xs"
+              w={80}
+              value={price}
+              onChange={(e) => setPrice(e.currentTarget.value)}
+              styles={{
+                input: {
+                  fontSize: "12px",
+                },
+              }}
+            />
+            <TextInput
+              placeholder={t("placeholders.description")}
+              size="xs"
+              w={120}
+              value={description}
+              onChange={(e) => setDescription(e.currentTarget.value)}
+              styles={{
+                input: {
+                  fontSize: "12px",
+                },
+              }}
+            />
             <ActionIcon
               variant="gradient"
               gradient={{ from: "blue", to: "cyan" }}

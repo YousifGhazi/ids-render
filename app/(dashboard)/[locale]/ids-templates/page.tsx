@@ -16,6 +16,7 @@ import {
   Skeleton,
   ActionIcon,
   Tooltip,
+  Divider,
 } from "@mantine/core";
 import { IconPlus, IconEye, IconEdit, IconTrash } from "@tabler/icons-react";
 import { useRouter } from "@/i18n/navigation";
@@ -198,6 +199,19 @@ export default function IdCardsTemplates() {
                       templateData={template.template as any}
                     />
                   </div>
+                  <Divider />
+
+                  <Stack>
+                    <Text size="sm" fw={700}>
+                      {t("price")}: {template.price}
+                    </Text>
+                    <Text size="sm" fw={700}>
+                      {t("ids.submissionCount")}: {template.submissionCount}
+                    </Text>
+                    <Text size="sm" fw={700}>
+                      {t("description")}: {template.description}
+                    </Text>
+                  </Stack>
 
                   <Group gap="xs" mt="auto">
                     <Button

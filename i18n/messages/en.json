@@ -34,6 +34,8 @@
   "verifiedOTP": "Verified OTP",
   "verifiedSuperQi": "Verified Super Key",
   "item": "Item",
+  "price": "Price",
+  "description": "Description",
 
   "organization": {
     "organizations": "organizations",
@@ -63,7 +65,9 @@
       "loadingFailed": "Failed to load data"
     },
     "active": "Active",
-    "loadingFailed": "Failed to load data"
+    "loadingFailed": "Failed to load data",
+    "select": "Select",
+    "enter": "Enter"
   },
 
   "templates": {
@@ -142,14 +146,39 @@
   },
   "members": {
     "singular_title": "member",
-    "plural_title": "members"
+    "plural_title": "members",
+    "firstName": "First Name",
+    "secondName": "Second Name",
+    "thirdName": "Third Name",
+    "fourthName": "Fourth Name",
+    "firstNamePlaceholder": "Enter first name",
+    "secondNamePlaceholder": "Enter second name",
+    "thirdNamePlaceholder": "Enter third name",
+    "fourthNamePlaceholder": "Enter fourth name"
   },
 
   "ids": {
     "singular_title": "ID",
     "plural_title": "IDs",
     "idNumber": "ID Number",
-    "type": "Card Type"
+    "type": "Card Type",
+    "submissionCount": "Submission Count",
+    "createId": "Create ID",
+    "field": "field",
+    "fields": "fields",
+    "memberInfo": "Member Information",
+    "frontSide": "Front Side",
+    "backSide": "Back Side",
+    "organization": "Organization",
+    "selectOrganization": "Select Organization",
+    "createIdCard": "Create ID Card",
+    "creating": "Creating...",
+    "createIdCardTooltip": "Create ID card with the provided information",
+    "loadingTemplateFields": "Loading template fields...",
+    "templateLoadError": "Template Load Error",
+    "templateNotFound": "The requested template was not found or an error occurred during loading.",
+    "noSmartFields": "No Smart Fields Found",
+    "noSmartFieldsDesc": "Please add smart fields using the ID designer to create the form."
   },
 
   "ID": {
@@ -270,7 +299,9 @@
       "backgroundColor": "Background Color",
       "fillColor": "Choose fill color",
       "strokeColor": "Choose stroke color",
-      "strokeWidth": "Stroke width"
+      "strokeWidth": "Stroke width",
+      "price": "Price",
+      "description": "Description"
     },
     "labels": {
       "textContent": "Text Content",

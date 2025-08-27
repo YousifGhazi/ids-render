@@ -13,8 +13,8 @@ export const useLogin = () => {
 
 export const useSendOTP = () => {
   return useMutation({
-    mutationFn: async (phone: OTPInput): Promise<void> => {
-      await api.post("/auth/send_otp", { phone });
+    mutationFn: async (body: OTPInput): Promise<void> => {
+      await api.post("/auth/send_otp", body);
     },
   });
 };

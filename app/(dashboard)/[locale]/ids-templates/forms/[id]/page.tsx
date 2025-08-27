@@ -33,13 +33,17 @@ import { useCreateId } from "@/features/ids/api";
 import { useGetOrganizations } from "@/features/organizations/api";
 import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import type { CreateIDCardInput } from "@/features/ids/types";
 
 type FieldType = "text" | "date" | "file" | "textarea";
 type FormValue = string | File | Date | null;
 type FormData = {
   phone: string;
-  name: string;
+  firstName: string;
+  secondName: string;
+  thirdName: string;
+  fourthName: string;
   template_id: string;
   organizationId: string;
   identity: Record<string, FormValue>;
@@ -87,9 +91,15 @@ const FIELD_ICONS = {
 export default function IdCardsTemplates() {
   const params = useParams();
   const templateId = params.id as string;
+  const t = useTranslations("members");
+  const tIds = useTranslations("ids");
+  const tCommon = useTranslations();
   const [formData, setFormData] = useState<FormData>({
     phone: "",
-    name: "",
+    firstName: "",
+    secondName: "",
+    thirdName: "",
+    fourthName: "",
     template_id: templateId,
     organizationId: "",
     identity: {},
@@ -132,14 +142,14 @@ export default function IdCardsTemplates() {
   const getFieldPlaceholder = useCallback(
     (smartFieldType: string, fieldType: FieldType): string => {
       const placeholders = {
-        date: `اختر ${smartFieldType}`,
-        file: `رفع ${smartFieldType}`,
-        textarea: `أدخل تفاصيل ${smartFieldType}`,
-        text: `أدخل ${smartFieldType}`,
+        date: `${tCommon("common.select")} ${smartFieldType}`,
+        file: `${tCommon("file.uploadFile")} ${smartFieldType}`,
+        textarea: `${tCommon("common.enter")} ${smartFieldType}`,
+        text: `${tCommon("common.enter")} ${smartFieldType}`,
       };
       return placeholders[fieldType];
     },
-    []
+    [tCommon]
   );
 
   // Prepare organizations for select
@@ -207,10 +217,13 @@ export default function IdCardsTemplates() {
   const handleInputChange = useCallback((fieldId: string, value: FormValue) => {
     if (
       fieldId === "phone" ||
-      fieldId === "name" ||
+      fieldId === "firstName" ||
+      fieldId === "secondName" ||
+      fieldId === "thirdName" ||
+      fieldId === "fourthName" ||
       fieldId === "organizationId"
     ) {
-      // Store phone, name, and organizationId at root level
+      // Store phone, name fields, and organizationId at root level
       setFormData((prev) => ({ ...prev, [fieldId]: value as string }));
     } else {
       // Store dynamic fields in identity object
@@ -228,17 +241,27 @@ export default function IdCardsTemplates() {
     async (event: React.FormEvent) => {
       event.preventDefault();
 
+      // Join name fields with spaces
+      const fullName = [
+        formData.firstName.trim(),
+        formData.secondName.trim(),
+        formData.thirdName.trim(),
+        formData.fourthName.trim(),
+      ]
+        .filter(Boolean) // Remove empty strings
+        .join(" ");
+
       // Validate required fields
       if (
         !formData.phone.trim() ||
-        !formData.name.trim() ||
+        !fullName.trim() ||
         !formData.organizationId.trim()
       ) {
         return;
       }
 
       const submitData: CreateIDCardInput = {
-        name: formData.name,
+        name: fullName,
         phone: formData.phone,
         template_id: Number(templateId),
         organizationId: Number(formData.organizationId),
@@ -324,7 +347,7 @@ export default function IdCardsTemplates() {
       <Center h={400}>
         <Stack align="center" gap="md">
           <Loader size="lg" />
-          <Text c="dimmed">جاري تحميل حقول القالب...</Text>
+          <Text c="dimmed">{tIds("loadingTemplateFields")}</Text>
         </Stack>
       </Center>
     );
@@ -342,10 +365,10 @@ export default function IdCardsTemplates() {
                 color="var(--mantine-color-red-5)"
               />
               <Text size="lg" fw={500} c="red">
-                خطأ في تحميل القالب
+                {tIds("templateLoadError")}
               </Text>
               <Text size="sm" c="dimmed" ta="center">
-                لم يتم العثور على القالب المطلوب أو حدث خطأ أثناء التحميل.
+                {tIds("templateNotFound")}
               </Text>
             </Stack>
           </Center>
@@ -365,11 +388,12 @@ export default function IdCardsTemplates() {
           <Group gap="sm">
             <IconId size={32} stroke={1.5} />
             <Title order={1} size="h2">
-              انشاء الهوية
+              {tIds("createId")}
             </Title>
           </Group>
           <Badge variant="light" size="lg">
-            {smartFields.length} حقل
+            {smartFields.length}{" "}
+            {smartFields.length === 1 ? tIds("field") : tIds("fields")}
           </Badge>
         </Group>
 
@@ -383,10 +407,10 @@ export default function IdCardsTemplates() {
                   color="var(--mantine-color-gray-5)"
                 />
                 <Text size="lg" fw={500} c="dimmed">
-                  لم يتم العثور على حقول ذكية
+                  {tIds("noSmartFields")}
                 </Text>
                 <Text size="sm" c="dimmed" ta="center">
-                  يرجى إضافة حقول ذكية باستخدام مصمم الهوية لإنشاء النموذج.
+                  {tIds("noSmartFieldsDesc")}
                 </Text>
               </Stack>
             </Center>
@@ -397,16 +421,21 @@ export default function IdCardsTemplates() {
               <Card withBorder radius="md" p="lg">
                 <Group justify="space-between" mb="md">
                   <Title order={3} size="h4">
-                    معلومات المنتسب
+                    {tIds("memberInfo")}
                   </Title>
-                  <Badge variant="outline">{frontFields.length} حقل</Badge>
+                  <Badge variant="outline">
+                    {frontFields.length}{" "}
+                    {frontFields.length === 1 ? tIds("field") : tIds("fields")}
+                  </Badge>
                 </Group>
                 <Divider mb="md" />
                 <Grid>
                   <Grid.Col span={{ base: 12, sm: 6 }}>
                     <TextInput
-                      label="رقم الهاتف"
-                      placeholder="أدخل رقم الهاتف"
+                      label={tCommon("phoneNumber")}
+                      placeholder={`${tCommon("common.enter")} ${tCommon(
+                        "phoneNumber"
+                      )}`}
                       value={(formData.phone as string) || ""}
                       onChange={(e) =>
                         handleInputChange("phone", e.currentTarget.value)
@@ -416,11 +445,11 @@ export default function IdCardsTemplates() {
                   </Grid.Col>
                   <Grid.Col span={{ base: 12, sm: 6 }}>
                     <TextInput
-                      label="اسم المنتسب"
-                      placeholder="أدخل اسم المنتسب"
-                      value={(formData.name as string) || ""}
+                      label={t("firstName")}
+                      placeholder={t("firstNamePlaceholder")}
+                      value={(formData.firstName as string) || ""}
                       onChange={(e) =>
-                        handleInputChange("name", e.currentTarget.value)
+                        handleInputChange("firstName", e.currentTarget.value)
                       }
                       disabled={
                         !formData.phone ||
@@ -430,9 +459,51 @@ export default function IdCardsTemplates() {
                     />
                   </Grid.Col>
                   <Grid.Col span={{ base: 12, sm: 6 }}>
+                    <TextInput
+                      label={t("secondName")}
+                      placeholder={t("secondNamePlaceholder")}
+                      value={(formData.secondName as string) || ""}
+                      onChange={(e) =>
+                        handleInputChange("secondName", e.currentTarget.value)
+                      }
+                      disabled={
+                        !formData.phone ||
+                        (formData.phone as string).trim() === ""
+                      }
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={{ base: 12, sm: 6 }}>
+                    <TextInput
+                      label={t("thirdName")}
+                      placeholder={t("thirdNamePlaceholder")}
+                      value={(formData.thirdName as string) || ""}
+                      onChange={(e) =>
+                        handleInputChange("thirdName", e.currentTarget.value)
+                      }
+                      disabled={
+                        !formData.phone ||
+                        (formData.phone as string).trim() === ""
+                      }
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={{ base: 12, sm: 6 }}>
+                    <TextInput
+                      label={t("fourthName")}
+                      placeholder={t("fourthNamePlaceholder")}
+                      value={(formData.fourthName as string) || ""}
+                      onChange={(e) =>
+                        handleInputChange("fourthName", e.currentTarget.value)
+                      }
+                      disabled={
+                        !formData.phone ||
+                        (formData.phone as string).trim() === ""
+                      }
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={{ base: 12, sm: 6 }}>
                     <Select
-                      label="المؤسسة"
-                      placeholder="اختر المؤسسة"
+                      label={tIds("organization")}
+                      placeholder={tIds("selectOrganization")}
                       value={formData.organizationId || ""}
                       onChange={(value) =>
                         handleInputChange("organizationId", value || "")
@@ -450,9 +521,14 @@ export default function IdCardsTemplates() {
                 <Card withBorder radius="md" p="lg">
                   <Group justify="space-between" mb="md">
                     <Title order={3} size="h4">
-                      الوجه الأمامي
+                      {tIds("frontSide")}
                     </Title>
-                    <Badge variant="outline">{frontFields.length} حقل</Badge>
+                    <Badge variant="outline">
+                      {frontFields.length}{" "}
+                      {frontFields.length === 1
+                        ? tIds("field")
+                        : tIds("fields")}
+                    </Badge>
                   </Group>
                   <Divider mb="md" />
                   <Grid>
@@ -469,9 +545,12 @@ export default function IdCardsTemplates() {
                 <Card withBorder radius="md" p="lg">
                   <Group justify="space-between" mb="md">
                     <Title order={3} size="h4">
-                      الوجه الخلفي
+                      {tIds("backSide")}
                     </Title>
-                    <Badge variant="outline">{backFields.length} حقل</Badge>
+                    <Badge variant="outline">
+                      {backFields.length}{" "}
+                      {backFields.length === 1 ? tIds("field") : tIds("fields")}
+                    </Badge>
                   </Group>
                   <Divider mb="md" />
                   <Grid>
@@ -485,20 +564,20 @@ export default function IdCardsTemplates() {
               )}
 
               <Group justify="flex-end" pt="md">
-                <Tooltip label="إنشاء بطاقة الهوية بالمعلومات المقدمة">
+                <Tooltip label={tIds("createIdCardTooltip")}>
                   <Button
                     type="submit"
                     leftSection={<IconDeviceFloppy size={18} />}
                     loading={createIdMutation.isPending}
                     disabled={
                       !formData.phone.trim() ||
-                      !formData.name.trim() ||
+                      !formData.firstName.trim() ||
                       !formData.organizationId.trim()
                     }
                   >
                     {createIdMutation.isPending
-                      ? "جاري الإنشاء..."
-                      : "إنشاء بطاقة الهوية"}
+                      ? tIds("creating")
+                      : tIds("createIdCard")}
                   </Button>
                 </Tooltip>
               </Group>

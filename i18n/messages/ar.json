@@ -33,6 +33,8 @@
   "verifiedOTP": "موثق OTP",
   "verifiedSuperQi": "موثق سوبر كي",
   "item": "العنصر",
+  "price": "السعر",
+  "description": "الوصف",
 
   "organization": {
     "organizations": "المؤسسات",
@@ -62,7 +64,9 @@
       "loadingFailed": "فشل في تحميل البيانات"
     },
     "active": "نشط",
-    "loadingFailed": "فشل في تحميل البيانات"
+    "loadingFailed": "فشل في تحميل البيانات",
+    "select": "اختر",
+    "enter": "أدخل"
   },
 
   "templates": {
@@ -146,13 +150,38 @@
     "singular_title": "المنتسب",
     "plural_title": "المنتسبين",
     "phone": "رقم الهاتف",
-    "name": "اسم المنتسب"
+    "name": "اسم المنتسب",
+    "firstName": "الاسم الأول",
+    "secondName": "الاسم الثاني",
+    "thirdName": "الاسم الثالث",
+    "fourthName": "الاسم الرابع",
+    "firstNamePlaceholder": "أدخل الاسم الأول",
+    "secondNamePlaceholder": "أدخل الاسم الثاني",
+    "thirdNamePlaceholder": "أدخل الاسم الثالث",
+    "fourthNamePlaceholder": "أدخل الاسم الرابع"
   },
   "ids": {
     "singular_title": "الهوية",
     "plural_title": "الهويات المصدرة",
     "idNumber": "رقم الهوية",
-    "type": "نوع البطاقة"
+    "type": "نوع البطاقة",
+    "submissionCount": "عدد الطلبات",
+    "createId": "انشاء الهوية",
+    "field": "حقل",
+    "fields": "حقول",
+    "memberInfo": "معلومات المنتسب",
+    "frontSide": "الوجه الأمامي",
+    "backSide": "الوجه الخلفي",
+    "organization": "المؤسسة",
+    "selectOrganization": "اختر المؤسسة",
+    "createIdCard": "إنشاء بطاقة الهوية",
+    "creating": "جاري الإنشاء...",
+    "createIdCardTooltip": "إنشاء بطاقة الهوية بالمعلومات المقدمة",
+    "loadingTemplateFields": "جاري تحميل حقول القالب...",
+    "templateLoadError": "خطأ في تحميل القالب",
+    "templateNotFound": "لم يتم العثور على القالب المطلوب أو حدث خطأ أثناء التحميل.",
+    "noSmartFields": "لم يتم العثور على حقول ذكية",
+    "noSmartFieldsDesc": "يرجى إضافة حقول ذكية باستخدام مصمم الهوية لإنشاء النموذج."
   },
   "printer": {
     "printer": "الطابعة",
@@ -283,7 +312,9 @@
       "backgroundColor": "لون الخلفية",
       "fillColor": "اختر لون التعبئة",
       "strokeColor": "اختر لون الحدود",
-      "strokeWidth": "عرض الحدود"
+      "strokeWidth": "عرض الحدود",
+      "price": "السعر",
+      "description": "الوصف"
     },
     "labels": {
       "textContent": "محتوى النص",
