@@ -23,6 +23,7 @@ import {
 import { useLocale, useTranslations } from "next-intl";
 import { usePathname, useRouter } from "@/i18n/navigation";
 import { Navbar } from "./navbar";
+import { useAuthStore } from "@/features/auth/store";
 
 export function Header() {
   const t = useTranslations();
@@ -30,10 +31,16 @@ export function Header() {
   const pathname = usePathname();
   const locale = useLocale();
   const { toggleColorScheme, colorScheme } = useMantineColorScheme();
+  const { user, logout } = useAuthStore();
 
   const switchLocale = (nextLocale: "en" | "ar") => {
     if (nextLocale === locale) return;
     router.replace({ pathname }, { locale: nextLocale });
+  };
+
+  const handleLogout = () => {
+    logout();
+    router.push("/login");
   };
 
   return (
@@ -44,35 +51,6 @@ export function Header() {
 
           <Group>
             <Group gap="sm">
-              <Menu>
-                <MenuTarget>
-                  <Button
-                    miw={72}
-                    size="compact-sm"
-                    radius="100vw"
-                    variant="light"
-                  >
-                    <IconLanguage size={18} />
-                  </Button>
-                </MenuTarget>
-
-                <MenuDropdown>
-                  <MenuItem
-                    leftSection="En"
-                    onClick={() => switchLocale("en")}
-                    disabled={locale === "en"}
-                  >
-                    English
-                  </MenuItem>
-                  <MenuItem
-                    leftSection="Ar"
-                    onClick={() => switchLocale("ar")}
-                    disabled={locale === "ar"}
-                  >
-                    العربية
-                  </MenuItem>
-                </MenuDropdown>
-              </Menu>
               <ActionIcon
                 onClick={toggleColorScheme}
                 variant="subtle"
@@ -91,19 +69,52 @@ export function Header() {
             </Group>
             <Menu>
               <MenuTarget>
+                <Button
+                  miw={72}
+                  size="compact-sm"
+                  radius="100vw"
+                  variant="light"
+                >
+                  <IconLanguage size={18} />
+                </Button>
+              </MenuTarget>
+
+              <MenuDropdown>
+                <MenuItem
+                  leftSection="En"
+                  onClick={() => switchLocale("en")}
+                  disabled={locale === "en"}
+                >
+                  English
+                </MenuItem>
+                <MenuItem
+                  leftSection="Ar"
+                  onClick={() => switchLocale("ar")}
+                  disabled={locale === "ar"}
+                >
+                  العربية
+                </MenuItem>
+              </MenuDropdown>
+            </Menu>
+            <Menu>
+              <MenuTarget>
                 <Group>
                   <Avatar src="/assets/profile.png" alt="it's me" />
                   <Stack gap={0}>
-                    <Text fw={700}>محمد فلاح</Text>
+                    <Text fw={700}>{user?.name}</Text>
                     <Text size="xs" c="dimmed">
-                      مدير
+                      {user?.type}
                     </Text>
                   </Stack>
                 </Group>
               </MenuTarget>
 
               <MenuDropdown miw={160}>
-                <MenuItem color="red" leftSection={<IconLogout size={18} />}>
+                <MenuItem
+                  color="red"
+                  onClick={handleLogout}
+                  leftSection={<IconLogout size={18} />}
+                >
                   {t("logout")}
                 </MenuItem>
               </MenuDropdown>

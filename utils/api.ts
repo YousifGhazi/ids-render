@@ -5,16 +5,16 @@ export const serializeQuery = (
 ): Record<string, string | number> => {
   const params: Record<string, string | number> = {};
   if (query.page) {
-    params["_page"] = query.page;
+    params["page"] = query.page;
   }
 
   if (query.pageSize) {
-    params["_limit"] = query.pageSize;
+    params["per_page"] = query.pageSize;
   }
 
   if (query.sort) {
-    params["_sort"] = query.sort.field;
-    params["_order"] = query.sort.order;
+    params["sort"] = query.sort.field;
+    params["order"] = query.sort.order;
   }
 
   if (query.filter) {

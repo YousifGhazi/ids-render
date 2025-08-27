@@ -8,28 +8,30 @@ import {
 import { api } from "@/api/client";
 import { serializeQuery } from "@/utils/api";
 import type { BaseQuery, GetResponse } from "@/types/api";
+import { objectToFormData } from "@/utils/objects";
 
 export type BaseEntity = {
-  id: string;
+  id: number | string;
 };
 
 export type ApiFactoryConfig = {
   entityName: string;
   endpoint: string;
+  isFormData?: boolean;
 };
 
 export function createApiFactory<
   TEntity extends BaseEntity,
-  TCreateInput,
-  TUpdateInput
+  TCreateInput extends Record<string, unknown>,
+  TUpdateInput extends Record<string, unknown>
 >(config: ApiFactoryConfig) {
-  const { entityName, endpoint } = config;
+  const { entityName, endpoint, isFormData = false } = config;
 
   // Query Keys Factory
   const QueryKeys = {
     all: () => [entityName],
     list: (filter: BaseQuery) => [...QueryKeys.all(), filter],
-    byId: (id: string) => [...QueryKeys.all(), id],
+    byId: (id: BaseEntity["id"]) => [...QueryKeys.all(), id],
   };
 
   // Get List Hook
@@ -46,14 +48,7 @@ export function createApiFactory<
         const response = await api.get(endpoint, {
           params: serializeQuery(filter),
         });
-        const total: number = response.headers["x-total-count"];
-        return {
-          data: response.data || [],
-          total,
-          totalPages: Math.ceil(total / (filter.pageSize || 10)),
-          currentPage: filter.page,
-          pageSize: filter.pageSize || 10,
-        } as GetResponse<TEntity[]>;
+        return response;
       },
       ...options,
     });
@@ -61,8 +56,8 @@ export function createApiFactory<
 
   // Get Single Item Hook
   const useGetById = (
-    id: string,
-    options?: Omit<UseQueryOptions<TEntity>, "queryKey" | "queryFn" | "enabled">
+    id: BaseEntity["id"],
+    options?: Omit<UseQueryOptions<TEntity>, "queryKey" | "queryFn">
   ) => {
     return useQuery({
       queryKey: QueryKeys.byId(id),
@@ -86,21 +81,35 @@ export function createApiFactory<
 
     return useMutation({
       mutationFn: async (data: TCreateInput): Promise<TEntity> => {
-        const response = await api.post(endpoint, data);
+        let headers;
+        let requestData;
+        if (isFormData) {
+          headers = { "Content-Type": "multipart/form-data" };
+          requestData = objectToFormData(data);
+        } else {
+          requestData = data;
+        }
+
+        const response = await api.post(endpoint, requestData, { headers });
         return response.data;
       },
+
+      ...options,
       onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries({ queryKey: QueryKeys.all() });
         options?.onSuccess?.(data, variables, context);
       },
-      ...options,
     });
   };
 
   // Update Hook
   const useUpdate = (
     options?: Omit<
-      UseMutationOptions<TEntity, Error, { id: string; data: TUpdateInput }>,
+      UseMutationOptions<
+        TEntity,
+        Error,
+        { id: BaseEntity["id"]; data: TUpdateInput }
+      >,
       "mutationFn"
     >
   ) => {
@@ -111,39 +120,50 @@ export function createApiFactory<
         id,
         data,
       }: {
-        id: string;
+        id: BaseEntity["id"];
         data: TUpdateInput;
       }): Promise<TEntity> => {
-        const response = await api.put(`${endpoint}/${id}`, data);
+        let headers;
+        let requestData;
+        if (isFormData) {
+          headers = { "Content-Type": "multipart/form-data" };
+          requestData = objectToFormData(data);
+        } else {
+          requestData = data;
+        }
+
+        const response = await api.put(`${endpoint}/${id}`, requestData, {
+          headers,
+        });
         return response.data;
       },
+      ...options,
       onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries({
           queryKey: QueryKeys.all(),
         });
         options?.onSuccess?.(data, variables, context);
       },
-      ...options,
     });
   };
 
   // Delete Hook
   const useDelete = (
-    options?: Omit<UseMutationOptions<void, Error, string>, "mutationFn">
+    options?: Omit<UseMutationOptions<void, Error, number>, "mutationFn">
   ) => {
     const queryClient = useQueryClient();
 
     return useMutation({
-      mutationFn: async (id: string): Promise<void> => {
+      mutationFn: async (id: number): Promise<void> => {
         await api.delete(`${endpoint}/${id}`);
       },
+      ...options,
       onSuccess: (data, variables, context) => {
         queryClient.invalidateQueries({
           queryKey: QueryKeys.all(),
         });
         options?.onSuccess?.(data, variables, context);
       },
-      ...options,
     });
   };
 
@@ -159,5 +179,11 @@ export function createApiFactory<
 
 // Utility type for extracting hook types
 export type ApiHooks<
-  T extends ReturnType<typeof createApiFactory<BaseEntity, unknown, unknown>>
+  T extends ReturnType<
+    typeof createApiFactory<
+      BaseEntity,
+      Record<string, unknown>,
+      Record<string, unknown>
+    >
+  >
 > = T;
