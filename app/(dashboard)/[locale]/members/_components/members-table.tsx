@@ -17,6 +17,7 @@ import { Permission } from "@/components/permission";
 import { BooleanState } from "@/components/icons/boolean-state";
 import { MembersUpload } from "./members-upload";
 import { IconDownload, IconFileUpload } from "@tabler/icons-react";
+import { api } from "@/api/client";
 
 export function MembersTable() {
   const t = useTranslations();
@@ -51,7 +52,29 @@ export function MembersTable() {
           <Button
             rightSection={<IconDownload size={14} />}
             variant="default"
-            onClick={downloadTemplate}
+            onClick={async () => {
+              try {
+                const response = await api.get("/member/excel/download", {
+                  responseType: "arraybuffer",
+                });
+
+                const blob = new Blob([response.data], {
+                  type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                });
+
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement("a");
+                link.href = url;
+                link.download = "members_template.xlsx";
+                link.style.display = "none";
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(url);
+              } catch (error) {
+                console.error("Error downloading template:", error);
+              }
+            }}
           >
             {t("actions.downloadTemplate", { item: t("members.plural_title") })}
           </Button>
@@ -71,35 +94,6 @@ export function MembersTable() {
       <DataTable
         {...getTableProps({ query })}
         columns={[
-          // {
-          //   accessor: "verifiedOTP",
-          //   title: t("verifiedOTP"),
-          //   render: () => {
-          //     // TODO: Replace with actual verification from backend
-          //     const isVerified = Math.random() < 0.6;
-          //     return (
-          //       <Center>
-          //         <BooleanState state={isVerified} />
-          //       </Center>
-          //     );
-          //   },
-          // },
-          // {
-          //   accessor: "verifiedSuperQi",
-          //   title: t("verifiedSuperQi"),
-          //   render: () => {
-          //     // TODO: Replace with actual verification from backend
-          //     const isVerified = Math.random() < 0.6;
-          //     return (
-          //       <Center>
-          //         <BooleanState
-          //           trueProps={{ color: "#f9cd10" }}
-          //           state={isVerified}
-          //         />
-          //       </Center>
-          //     );
-          //   },
-          // },
           { accessor: "name", title: t("name"), sortable: true },
           { accessor: "phone", title: t("phoneNumber"), sortable: true },
           {

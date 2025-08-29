@@ -14,8 +14,16 @@ const baseConfig: AxiosRequestConfig = {
 const api: AxiosInstance = axios.create(baseConfig);
 
 api.interceptors.response.use((response) => {
-  // convert snake_case to camelCase
-  response.data = camelizeKeys(response.data);
+  // Skip transformation for binary data (blob, arraybuffer)
+  const isBinaryResponse =
+    response.config.responseType === "blob" ||
+    response.config.responseType === "arraybuffer";
+
+  if (!isBinaryResponse) {
+    // convert snake_case to camelCase only for non-binary responses
+    response.data = camelizeKeys(response.data);
+  }
+
   return response;
 });
 
