@@ -1,8 +1,8 @@
-import { PaymentStatus } from "./types";
+import { status } from "./types";
 
-export function PaymentStatusLabel(
-  type: PaymentStatus,
+export function IDCardStatusLabel(
+  type: (typeof status)[number]["name"],
   t: (key: string) => string
 ) {
-  return t(`payments.paymentStatus.${type}`);
+  return t(`ids.status.${type}`);
 }

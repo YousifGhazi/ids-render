@@ -9,13 +9,12 @@ import { useTranslations } from "next-intl";
 import { formatDate } from "@/utils/format";
 // Temporarily using IDs API and types until payments feature is created
 import { useGetIds } from "@/features/ids/api";
-import { IDCard, PaymentStatus } from "@/features/ids/types";
+import { IDCard } from "@/features/ids/types";
 import { PaymentModal } from "./payment-modal";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { ViewButton } from "@/components/buttons/view-button";
 import { Permission } from "@/components/permission";
-import { PaymentStatusLabel } from "@/features/ids/ui-helpers";
 
 export function PaymentsTable() {
   const t = useTranslations();
@@ -32,14 +31,6 @@ export function PaymentsTable() {
     sort: sorting,
   });
 
-  const status: PaymentStatus[] = [
-    "pending",
-    "completed-superQi",
-    "cash",
-    "branch",
-    "failed",
-  ];
-
   const currentStatus = status[Math.floor(Math.random() * status.length)];
 
   return (
@@ -52,48 +43,23 @@ export function PaymentsTable() {
           {
             accessor: "member.phone",
             title: t("members.phone"),
-            sortable: true,
           },
           {
             accessor: "price",
             title: t("price"),
             render: () => "15,000 IQD",
           },
-          {
-            accessor: "status",
-            title: t("status"),
-            render: (record) => {
-              // Store the status on the record for use in actions
-              (record as any).currentStatus = currentStatus;
-              return (
-                <Badge
-                  variant="light"
-                  color={
-                    currentStatus === "pending"
-                      ? "yellow"
-                      : currentStatus === "failed"
-                      ? "red"
-                      : "green"
-                  }
-                  size="lg"
-                  radius="sm"
-                >
-                  {PaymentStatusLabel(currentStatus, t)}
-                </Badge>
-              );
-            },
-          },
 
           {
             accessor: "createdAt",
             title: t("createdAt"),
-            sortable: true,
+
             render: (record) => formatDate(record.createdAt),
           },
           {
             accessor: "updatedAt",
             title: t("updatedAt"),
-            sortable: true,
+
             render: (record) => formatDate(record.updatedAt),
           },
           {
@@ -114,15 +80,14 @@ export function PaymentsTable() {
                     }}
                   />
                   {/* <Permission can="pay-payment"> */}
-                  {canPay && (
-                    <PayButton
-                      onClick={() =>
-                        modals.confirm(async () => {
-                          // TODO: Replace with actual payment logic
-                        }, t("payments.confirmPaymentMessage", { amount: "15,000 IQD" }))
-                      }
-                    />
-                  )}
+
+                  <PayButton
+                    onClick={() =>
+                      modals.confirm(async () => {
+                        // TODO: Replace with actual payment logic
+                      }, t("payments.confirmPaymentMessage", { amount: "15,000 IQD" }))
+                    }
+                  />
                   {/* </Permission> */}
                 </Group>
               );

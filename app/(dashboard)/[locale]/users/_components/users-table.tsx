@@ -90,18 +90,17 @@ export function UsersTable() {
             accessor: "roles",
             title: t("role.roles"),
             render: (user) => user?.roles?.map((role) => role.name).join(", "),
-            sortable: true,
           },
           {
             accessor: "createdAt",
             title: t("createdAt"),
-            sortable: true,
+
             render: (user) => formatDate(user.createdAt),
           },
           {
             accessor: "updatedAt",
             title: t("updatedAt"),
-            sortable: true,
+
             render: (user) => formatDate(user.updatedAt),
           },
           {

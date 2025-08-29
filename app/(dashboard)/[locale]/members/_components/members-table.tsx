@@ -105,13 +105,13 @@ export function MembersTable() {
           {
             accessor: "createdAt",
             title: t("createdAt"),
-            sortable: true,
+
             render: (user) => formatDate(user.createdAt),
           },
           {
             accessor: "updatedAt",
             title: t("updatedAt"),
-            sortable: true,
+
             render: (user) => formatDate(user.updatedAt),
           },
           {

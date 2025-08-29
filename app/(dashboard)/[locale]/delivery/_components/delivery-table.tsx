@@ -59,7 +59,7 @@ export function DeliveryTable() {
           {
             accessor: "status",
             title: t("delivery.deliveryStatus"),
-            sortable: true,
+
             render: () => {
               const statuses = {
                 "بانتظار الطباعة": "red",
@@ -84,13 +84,13 @@ export function DeliveryTable() {
           {
             accessor: "createdAt",
             title: t("createdAt"),
-            sortable: true,
+
             render: (user) => formatDate(user.createdAt),
           },
           {
             accessor: "updatedAt",
             title: t("updatedAt"),
-            sortable: true,
+
             render: (user) => formatDate(user.updatedAt),
           },
         ]}

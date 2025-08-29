@@ -4,6 +4,7 @@
   "delete": "Delete",
   "view": "View",
   "pay": "Pay",
+  "approve": "Approve",
   "cancel": "Cancel",
   "create": "Create",
   "update": "Update",
@@ -51,12 +52,16 @@
   "messages": {
     "confirmDeletion": "Confirm Deletion",
     "confirmDeletionMessage": "Are you sure you want to delete {entity}? This action cannot be undone.",
+    "confirmation": "Confirmation",
+    "confirmApprovalMessage": "Are you sure you want to approve this ID card?",
     "success": "Success",
     "error": "Error",
     "createdSuccessfully": "created successfully",
     "updatedSuccessfully": "updated successfully",
+    "approvedSuccessfully": "approved successfully",
     "failedToCreate": "Failed to create",
-    "failedToUpdate": "Failed to update"
+    "failedToUpdate": "Failed to update",
+    "failedToApprove": "Failed to approve"
   },
 
   "common": {
@@ -182,26 +187,29 @@
     "templateLoadError": "Template Load Error",
     "templateNotFound": "The requested template was not found or an error occurred during loading.",
     "noSmartFields": "No Smart Fields Found",
-    "noSmartFieldsDesc": "Please add smart fields using the ID designer to create the form."
+    "noSmartFieldsDesc": "Please add smart fields using the ID designer to create the form.",
+    "status": {
+      "PENDING": "Pending Approval",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
+      "WAITING_TO_PRINT": "Waiting to Print",
+      "PRINTING": "Printing",
+      "PRINTED": "Printed",
+      "DELIVERY_IN_PROGRESS": "Delivery in Progress",
+      "DELIVERED": "Delivered",
+      "RETURNED": "Returned"
+    }
   },
 
   "payments": {
     "singular_title": "Payment",
     "plural_title": "Payments",
     "amount": "Amount",
-    "status": "Status",
     "method": "Payment Method",
     "date": "Payment Date",
     "reference": "Reference Number",
     "description": "Description",
-    "confirmPaymentMessage": "Are you sure you want to process payment of {amount}?",
-    "paymentStatus": {
-      "pending": "Pending",
-      "completed-superQi": "Completed - Super Qi",
-      "cash": "Paid - Cash",
-      "branch": "Paid - Branch",
-      "failed": "Payment Failed"
-    }
+    "confirmPaymentMessage": "Are you sure you want to process payment of {amount}?"
   },
 
   "ID": {

@@ -57,23 +57,21 @@ export function OrganizationsTable() {
           {
             accessor: "description",
             title: t("organization.description"),
-            sortable: true,
           },
           {
             accessor: "website",
             title: t("organization.website"),
-            sortable: true,
           },
           {
             accessor: "createdAt",
             title: t("createdAt"),
-            sortable: true,
+
             render: (organization) => formatDate(organization.createdAt),
           },
           {
             accessor: "updatedAt",
             title: t("updatedAt"),
-            sortable: true,
+
             render: (organization) => formatDate(organization.updatedAt),
           },
           {

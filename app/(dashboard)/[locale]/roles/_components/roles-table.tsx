@@ -54,13 +54,13 @@ export function RolesTable() {
           {
             accessor: "createdAt",
             title: t("createdAt"),
-            sortable: true,
+
             render: (role) => formatDate(role.createdAt),
           },
           {
             accessor: "updatedAt",
             title: t("updatedAt"),
-            sortable: true,
+
             render: (role) => formatDate(role.updatedAt),
           },
           {

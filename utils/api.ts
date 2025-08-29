@@ -12,10 +12,10 @@ export const serializeQuery = (
     params["per_page"] = query.pageSize;
   }
 
-  if (query.sort) {
-    params["sort"] = query.sort.field;
-    params["order"] = query.sort.order;
-  }
+  // if (query.sort) {
+  //   params["sort"] = query.sort.field;
+  //   params["order"] = query.sort.order;
+  // }
 
   if (query.filter) {
     for (const f of query.filter) {

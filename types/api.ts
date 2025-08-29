@@ -5,7 +5,7 @@ export type BaseQuery<
   pageSize?: number;
   page: number;
   sort?: { field: TSortFields[number]; order: "asc" | "desc" };
-  filter?: { field: TFilterFields[number]; value: string }[];
+  filter?: { field: TFilterFields[number]; value: string | string[] }[];
 };
 
 export type GetResponse<T> = {

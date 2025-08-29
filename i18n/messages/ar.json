@@ -4,6 +4,7 @@
   "delete": "حذف",
   "view": "عرض",
   "pay": "دفع",
+  "approve": "موافقة",
   "cancel": "إلغاء",
   "create": "إنشاء",
   "update": "تحديث",
@@ -53,12 +54,15 @@
     "confirmation": "تأكيد العملية",
     "confirmItemDeletionMessage": "هل أنت متأكد أنك تريد حذف {entity}؟ هذه العملية لا يمكن التراجع عنها.",
     "confirmDeletionMessage": "هل أنت متأكد أنك تريد الحذف ؟ هذه العملية لا يمكن التراجع عنها.",
+    "confirmApprovalMessage": "هل أنت متأكد أنك تريد الموافقة على هذه البطاقة الشخصية؟",
     "success": "نجح",
     "error": "خطأ",
     "createdSuccessfully": "تم الإنشاء بنجاح",
     "updatedSuccessfully": "تم التحديث بنجاح",
+    "approvedSuccessfully": "تم الموافقة بنجاح",
     "failedToCreate": "فشل في الإنشاء",
-    "failedToUpdate": "فشل في التحديث"
+    "failedToUpdate": "فشل في التحديث",
+    "failedToApprove": "فشل في الموافقة"
   },
 
   "common": {
@@ -188,26 +192,29 @@
     "templateLoadError": "خطأ في تحميل القالب",
     "templateNotFound": "لم يتم العثور على القالب المطلوب أو حدث خطأ أثناء التحميل.",
     "noSmartFields": "لم يتم العثور على حقول ذكية",
-    "noSmartFieldsDesc": "يرجى إضافة حقول ذكية باستخدام مصمم الهوية لإنشاء النموذج."
+    "noSmartFieldsDesc": "يرجى إضافة حقول ذكية باستخدام مصمم الهوية لإنشاء النموذج.",
+    "status": {
+      "PENDING": "بانتظار الموافقة",
+      "APPROVED": "موافق عليه",
+      "REJECTED": "مرفوض",
+      "WAITING_TO_PRINT": "بانتظار الطباعة",
+      "PRINTING": "جاري الطباعة",
+      "PRINTED": "تمت الطباعة",
+      "DELIVERY_IN_PROGRESS": "جاري التوصيل",
+      "DELIVERED": "تم التوصيل",
+      "RETURNED": "تم الإرجاع"
+    }
   },
 
   "payments": {
     "singular_title": "الدفع",
     "plural_title": "المدفوعات",
     "amount": "المبلغ",
-    "status": "الحالة",
     "method": "طريقة الدفع",
     "date": "تاريخ الدفع",
     "reference": "رقم المرجع",
     "description": "الوصف",
-    "confirmPaymentMessage": "هل أنت متأكد من معالجة دفع {amount}؟",
-    "paymentStatus": {
-      "pending": "بانتظار الدفع",
-      "completed-superQi": "مدفوع - سوبر كي",
-      "cash": "مدفوع - نقداً",
-      "branch": "مدفوع - تسديد",
-      "failed": "فشل الدفع"
-    }
+    "confirmPaymentMessage": "هل أنت متأكد من معالجة دفع {amount}؟"
   },
 
   "printer": {
