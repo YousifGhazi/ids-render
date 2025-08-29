@@ -132,7 +132,7 @@ export function MembersTable() {
                     onClick={() =>
                       modals.delete(async () => {
                         await deleteMember.mutateAsync(user.id);
-                      }, t("user.user"))
+                      })
                     }
                   />
                 </Permission>

@@ -18,6 +18,7 @@ import {
   IconUserShield,
   IconBuilding,
   IconCards,
+  IconCreditCard,
 } from "@tabler/icons-react";
 import { ShellLink } from "./navbar-link";
 import { useTranslations } from "next-intl";
@@ -69,6 +70,13 @@ export function Navbar() {
         section="/members"
         label={t("members.plural_title")}
         icon={<IconUsers size={18} />}
+      />
+
+      <ShellLink
+        // can="payments-list"
+        section="/payments"
+        label={t("sidebar.payments")}
+        icon={<IconCreditCard size={18} />}
       />
 
       {/* TODO: Add permissions for printer and delivery */}

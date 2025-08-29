@@ -3,12 +3,14 @@
   "edit": "Edit",
   "delete": "Delete",
   "view": "View",
+  "pay": "Pay",
   "cancel": "Cancel",
   "create": "Create",
   "update": "Update",
   "list": "View List",
   "show": "View details",
-
+  "status": "Status",
+  "confirm": "Confirm",
   "actions": {
     "upload": "upload {item}",
     "downloadTemplate": "download template {item}"
@@ -88,6 +90,7 @@
     "surveies": "Create Surveys",
     "printer": "Printer",
     "delivery": "Delivery",
+    "payments": "Payments",
     "customers": "Customers",
     "management": {
       "management": "Management",
@@ -179,6 +182,25 @@
     "templateNotFound": "The requested template was not found or an error occurred during loading.",
     "noSmartFields": "No Smart Fields Found",
     "noSmartFieldsDesc": "Please add smart fields using the ID designer to create the form."
+  },
+
+  "payments": {
+    "singular_title": "Payment",
+    "plural_title": "Payments",
+    "amount": "Amount",
+    "status": "Status",
+    "method": "Payment Method",
+    "date": "Payment Date",
+    "reference": "Reference Number",
+    "description": "Description",
+    "confirmPaymentMessage": "Are you sure you want to process payment of {amount}?",
+    "paymentStatus": {
+      "pending": "Pending",
+      "completed-superQi": "Completed - Super Qi",
+      "cash": "Paid - Cash",
+      "branch": "Paid - Branch",
+      "failed": "Payment Failed"
+    }
   },
 
   "ID": {

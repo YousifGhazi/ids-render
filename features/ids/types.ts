@@ -5,6 +5,7 @@ export type IDCard = {
   id: number;
   name: string;
   phone: string;
+  paymentStatus: PaymentStatus;
   request: Record<string, unknown>;
   template_id: number;
   createdAt: string;
@@ -12,6 +13,13 @@ export type IDCard = {
   template: Template;
   member?: Member;
 };
+
+export type PaymentStatus =
+  | "pending"
+  | "completed-superQi"
+  | "cash"
+  | "branch"
+  | "failed";
 
 export type CreateIDCardInput = {
   name: string;

@@ -164,7 +164,19 @@ export default function IdCardsTemplates() {
   const smartFields = useMemo(() => {
     if (!template?.template) return [];
 
-    const templateData = template.template as TemplateStructure;
+    let templateData: TemplateStructure;
+
+    // Check if template has the new structure with title, price, description at top level
+    if (
+      template.template &&
+      typeof template.template === "object" &&
+      "template" in template.template
+    ) {
+      templateData = (template.template as any).template as TemplateStructure;
+    } else {
+      templateData = template.template as TemplateStructure;
+    }
+
     const fields: SmartField[] = [];
     const seenFields = new Set<string>();
 

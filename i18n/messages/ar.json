@@ -3,11 +3,14 @@
   "edit": "تعديل",
   "delete": "حذف",
   "view": "عرض",
+  "pay": "دفع",
   "cancel": "إلغاء",
   "create": "إنشاء",
   "update": "تحديث",
   "list": "عرض القائمة",
   "show": "عرض التفاصيل",
+  "status": "الحالة",
+  "confirm": "تأكيد",
 
   "actions": {
     "upload": "رفع {item}",
@@ -46,7 +49,9 @@
 
   "messages": {
     "confirmDeletion": "تأكيد الحذف",
-    "confirmDeletionMessage": "هل أنت متأكد أنك تريد حذف {entity}؟ هذه العملية لا يمكن التراجع عنها.",
+    "confirmation": "تأكيد العملية",
+    "confirmItemDeletionMessage": "هل أنت متأكد أنك تريد حذف {entity}؟ هذه العملية لا يمكن التراجع عنها.",
+    "confirmDeletionMessage": "هل أنت متأكد أنك تريد الحذف ؟ هذه العملية لا يمكن التراجع عنها.",
     "success": "نجح",
     "error": "خطأ",
     "createdSuccessfully": "تم الإنشاء بنجاح",
@@ -87,6 +92,7 @@
     "surveies": "انشاء الاستمارات",
     "printer": "الطابعة",
     "delivery": "التوصيل",
+    "payments": "الدفع",
     "management": {
       "management": "الادارة",
       "users": "المدراء",
@@ -183,6 +189,26 @@
     "noSmartFields": "لم يتم العثور على حقول ذكية",
     "noSmartFieldsDesc": "يرجى إضافة حقول ذكية باستخدام مصمم الهوية لإنشاء النموذج."
   },
+
+  "payments": {
+    "singular_title": "الدفع",
+    "plural_title": "المدفوعات",
+    "amount": "المبلغ",
+    "status": "الحالة",
+    "method": "طريقة الدفع",
+    "date": "تاريخ الدفع",
+    "reference": "رقم المرجع",
+    "description": "الوصف",
+    "confirmPaymentMessage": "هل أنت متأكد من معالجة دفع {amount}؟",
+    "paymentStatus": {
+      "pending": "بانتظار الدفع",
+      "completed-superQi": "مدفوع - سوبر كي",
+      "cash": "مدفوع - نقداً",
+      "branch": "مدفوع - تسديد",
+      "failed": "فشل الدفع"
+    }
+  },
+
   "printer": {
     "printer": "الطابعة",
     "printStatus": "حالة الطباعة"

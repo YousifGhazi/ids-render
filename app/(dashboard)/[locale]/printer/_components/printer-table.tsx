@@ -14,15 +14,6 @@ import { Member } from "@/features/members/types";
 export function PrinterTable() {
   // TODO: Implement this page when backend is ready
   const t = useTranslations();
-  const deleteMember = useDeleteMember();
-  const [selectedRow, setSelectedRow] = useState<Member | undefined>();
-  const modals = useModals();
-
-  const [opened, { open, close }] = useDisclosure(false, {
-    onClose: () => setSelectedRow(undefined),
-  });
-  const [openedUpload, { open: openUpload, close: closeUpload }] =
-    useDisclosure(false);
 
   const { pagination, sorting, getTableProps } = useDataTable<Member>();
   const query = useGetMembers({

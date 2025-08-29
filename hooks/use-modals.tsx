@@ -10,7 +10,7 @@ export function useModals() {
       centered: true,
       children: (
         <Text size="sm">
-          {t("messages.confirmDeletionMessage", { entity })}
+          {t("messages.confirmItemDeletionMessage", { entity })}
         </Text>
       ),
       labels: { confirm: t("delete"), cancel: t("cancel") },
@@ -20,5 +20,17 @@ export function useModals() {
     });
   };
 
-  return { delete: deleteModal };
+  const confirmationModal = (onConfirm: () => void, message: string) => {
+    modals.openConfirmModal({
+      title: t("messages.confirmation"),
+      centered: true,
+      children: <Text size="sm">{message}</Text>,
+      labels: { confirm: t("confirm"), cancel: t("cancel") },
+      confirmProps: { color: "yellow" },
+      onCancel: () => modals.closeAll(),
+      onConfirm,
+    });
+  };
+
+  return { delete: deleteModal, confirm: confirmationModal };
 }

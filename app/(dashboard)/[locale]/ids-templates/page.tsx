@@ -206,7 +206,8 @@ export default function IdCardsTemplates() {
                       {t("price")}: {template.price}
                     </Text>
                     <Text size="sm" fw={700}>
-                      {t("ids.submissionCount")}: {template.submissionCount}
+                      {t("ids.submissionCount")}:
+                      {String(template.identitiesCount)}
                     </Text>
                     <Text size="sm" fw={700}>
                       {t("description")}: {template.description}
