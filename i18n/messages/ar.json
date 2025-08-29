@@ -30,6 +30,7 @@
   "phoneNumber": "رقم الهاتف",
   "gender": "الجنس",
   "type": "النوع",
+  "qr_code": "QR",
   "email": "البريد الإلكتروني",
   "dateOfBirth": "تاريخ الميلاد",
   "logout": "تسجيل الخروج",

@@ -5,6 +5,7 @@ export type IDCard = {
   id: number;
   name: string;
   phone: string;
+  uniqueKey: string;
   paymentStatus: PaymentStatus;
   request: Record<string, unknown>;
   template_id: number;

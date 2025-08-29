@@ -30,6 +30,7 @@
   "phoneNumber": "phone number",
   "gender": "gender",
   "type": "type",
+  "qr_code": "QR",
   "email": "email",
   "dateOfBirth": "date of birth",
   "logout": "Logout",

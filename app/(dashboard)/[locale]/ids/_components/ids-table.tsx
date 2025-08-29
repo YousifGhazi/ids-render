@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
 import { ViewButton } from "@/components/buttons/view-button";
 import { Permission } from "@/components/permission";
+import { QRCodeComponent } from "@/components/qr-code";
 
 export function IdsTable() {
   const t = useTranslations();
@@ -33,22 +34,17 @@ export function IdsTable() {
 
   return (
     <>
-      <Group justify="flex-start" mb="md">
-        {t("ids.plural_title")}
-      </Group>
-      <Group justify="flex-end" mb="md">
-        {/* <Button
-          onClick={() => {
-            console.log("users");
-          }}
-        >
-          {t("add")} {t("user.user")}
-        </Button> */}
-      </Group>
-
       <DataTable
         {...getTableProps({ query })}
         columns={[
+          {
+            accessor: "uniqueKey",
+            title: t("qr_code"),
+            width: 80,
+            render: (card) => (
+              <QRCodeComponent value={card.uniqueKey} size={60} />
+            ),
+          },
           { accessor: "id", title: t("id") },
           { accessor: "member.name", title: t("members.name"), sortable: true },
           {
