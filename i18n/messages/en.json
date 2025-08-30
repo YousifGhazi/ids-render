@@ -146,7 +146,9 @@
       "permissions": "Permission",
       "role": "Role",
       "template": "Template",
-      "user": "User"
+      "user": "User",
+      "payment": "Payments",
+      "form": "Forms"
     }
   },
   "permission": {
