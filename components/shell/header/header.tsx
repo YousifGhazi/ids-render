@@ -99,7 +99,7 @@ export function Header() {
             <Menu>
               <MenuTarget>
                 <Group>
-                  <Avatar src="/assets/profile.png" alt="it's me" />
+                  <Avatar alt="it's me" />
                   <Stack gap={0}>
                     <Text fw={700}>{user?.name}</Text>
                     <Text size="xs" c="dimmed">
