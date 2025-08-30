@@ -50,7 +50,7 @@ export function Header() {
           <Avatar src="/assets/app-logo.jpg" alt="app logo" />
 
           <Group>
-            <Group gap="sm">
+            {/* <Group gap="sm">
               <ActionIcon
                 onClick={toggleColorScheme}
                 variant="subtle"
@@ -66,7 +66,7 @@ export function Header() {
                   stroke={2}
                 />
               </ActionIcon>
-            </Group>
+            </Group> */}
             <Menu>
               <MenuTarget>
                 <Button
