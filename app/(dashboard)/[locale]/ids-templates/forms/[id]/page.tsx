@@ -44,8 +44,10 @@ type FormData = {
   secondName: string;
   thirdName: string;
   fourthName: string;
+  expirationDate: Date | null;
+  issueDate: Date | null;
   template_id: string;
-  organizationId: string;
+  organizationId?: string;
   identity: Record<string, FormValue>;
 };
 
@@ -100,8 +102,10 @@ export default function IdCardsTemplates() {
     secondName: "",
     thirdName: "",
     fourthName: "",
+    expirationDate: null,
+    issueDate: null,
     template_id: templateId,
-    organizationId: "",
+    organizationId: undefined,
     identity: {},
   });
 
@@ -233,10 +237,12 @@ export default function IdCardsTemplates() {
       fieldId === "secondName" ||
       fieldId === "thirdName" ||
       fieldId === "fourthName" ||
+      fieldId === "expirationDate" ||
+      fieldId === "issueDate" ||
       fieldId === "organizationId"
     ) {
-      // Store phone, name fields, and organizationId at root level
-      setFormData((prev) => ({ ...prev, [fieldId]: value as string }));
+      // Store phone, name fields, date fields, and organizationId at root level
+      setFormData((prev) => ({ ...prev, [fieldId]: value }));
     } else {
       // Store dynamic fields in identity object
       setFormData((prev) => ({
@@ -267,7 +273,9 @@ export default function IdCardsTemplates() {
       if (
         !formData.phone.trim() ||
         !fullName.trim() ||
-        !formData.organizationId.trim()
+        !formData.organizationId?.trim() ||
+        !formData.issueDate ||
+        !formData.expirationDate
       ) {
         return;
       }
@@ -278,6 +286,8 @@ export default function IdCardsTemplates() {
         template_id: Number(templateId),
         organizationId: Number(formData.organizationId),
         identity: "by system",
+        issueDate: formData.issueDate,
+        expirationDate: formData.expirationDate,
         ...formData.identity,
       };
 
@@ -513,6 +523,26 @@ export default function IdCardsTemplates() {
                     />
                   </Grid.Col>
                   <Grid.Col span={{ base: 12, sm: 6 }}>
+                    <DateInput
+                      label={tIds("issueDate")}
+                      placeholder={`${tCommon("common.select")} ${tIds("issueDate")}`}
+                      value={formData.issueDate}
+                      onChange={(date) => handleInputChange("issueDate", date)}
+                      leftSection={<IconCalendar size={16} />}
+                      required
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={{ base: 12, sm: 6 }}>
+                    <DateInput
+                      label={tIds("expirationDate")}
+                      placeholder={`${tCommon("common.select")} ${tIds("expirationDate")}`}
+                      value={formData.expirationDate}
+                      onChange={(date) => handleInputChange("expirationDate", date)}
+                      leftSection={<IconCalendar size={16} />}
+                      required
+                    />
+                  </Grid.Col>
+                  <Grid.Col span={{ base: 12, sm: 6 }}>
                     <Select
                       label={tIds("organization")}
                       placeholder={tIds("selectOrganization")}
@@ -584,7 +614,9 @@ export default function IdCardsTemplates() {
                     disabled={
                       !formData.phone.trim() ||
                       !formData.firstName.trim() ||
-                      !formData.organizationId.trim()
+                      !formData.organizationId?.trim() ||
+                      !formData.issueDate ||
+                      !formData.expirationDate
                     }
                   >
                     {createIdMutation.isPending

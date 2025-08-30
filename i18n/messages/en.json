@@ -180,6 +180,8 @@
     "backSide": "Back Side",
     "organization": "Organization",
     "selectOrganization": "Select Organization",
+    "issueDate": "Issue Date",
+    "expirationDate": "Expiration Date",
     "createIdCard": "Create ID Card",
     "creating": "Creating...",
     "createIdCardTooltip": "Create ID card with the provided information",

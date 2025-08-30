@@ -185,6 +185,8 @@
     "backSide": "الوجه الخلفي",
     "organization": "المؤسسة",
     "selectOrganization": "اختر المؤسسة",
+    "issueDate": "تاريخ الإصدار",
+    "expirationDate": "تاريخ الانتهاء",
     "createIdCard": "إنشاء بطاقة الهوية",
     "creating": "جاري الإنشاء...",
     "createIdCardTooltip": "إنشاء بطاقة الهوية بالمعلومات المقدمة",

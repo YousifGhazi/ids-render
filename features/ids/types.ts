@@ -64,6 +64,8 @@ export type CreateIDCardInput = {
   identity: string;
   template_id: number;
   organizationId: number;
+  issueDate: Date | null;
+  expirationDate: Date | null;
 };
 
 export type UpdateIDCardInput = {
