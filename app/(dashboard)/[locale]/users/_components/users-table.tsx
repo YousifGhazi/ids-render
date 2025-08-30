@@ -13,7 +13,6 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { UserModal } from "./user-modal";
 import { formatDate } from "@/utils/format";
-import { IconCircleCheck, IconCircleX } from "@tabler/icons-react";
 import { Permission } from "@/components/permission";
 
 export function UsersTable() {
@@ -31,14 +30,6 @@ export function UsersTable() {
     pageSize: pagination.pageSize,
     sort: sorting,
   });
-
-  const fakeIraqiPhoneNumbers = [
-    "07502324323",
-    "07804332222",
-    "07901334354",
-    "07805332822",
-    "07905332821",
-  ];
 
   return (
     <>
@@ -58,34 +49,11 @@ export function UsersTable() {
       <DataTable
         {...getTableProps({ query })}
         columns={[
-          // {
-          //   accessor: "verifiedOTP",
-          //   title: t("verifiedOTP"),
-          //   render: (member) => {
-          //     // TODO: Replace with actual verification from backend
-          //     const isVerified = Math.random() < 0.6;
-          //     return (
-          //       <Center>
-          //         {isVerified ? (
-          //           <IconCircleCheck color="green" size={30} key={member.id} />
-          //         ) : (
-          //           <IconCircleX color="red" size={30} key={member.id} />
-          //         )}
-          //       </Center>
-          //     );
-          //   },
-          // },
           { accessor: "name", title: t("name"), sortable: true },
           {
             accessor: "phone",
             title: t("phoneNumber"),
-            // render: () => {
-            //   return fakeIraqiPhoneNumbers[
-            //     Math.floor(Math.random() * fakeIraqiPhoneNumbers.length)
-            //   ];
-            // },
           },
-          // { accessor: "email", title: t("email"), sortable: true },
           {
             accessor: "roles",
             title: t("role.roles"),
