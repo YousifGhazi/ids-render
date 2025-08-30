@@ -150,7 +150,9 @@
       "permissions": "إذن",
       "role": "دور",
       "template": "قوالب هويات",
-      "user": "مدير"
+      "user": "مدير",
+      "payment": "دفعات",
+      "form": "الاستمارات"
     }
   },
   "permission": {
