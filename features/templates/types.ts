@@ -4,7 +4,7 @@ export type Template = {
   description: string;
   price: string;
   phone: string;
-  submissionCount: number;
+  identitiesCount: number;
   template: Record<string, unknown>;
   is_enabled: string;
 };

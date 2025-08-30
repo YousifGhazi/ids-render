@@ -20,3 +20,8 @@ export type UpdateMembersInput = {
   name: string;
   organizationId?: number;
 };
+
+export type UploadMembersInput = {
+  file: File;
+  organization_id?: number;
+};

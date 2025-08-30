@@ -25,6 +25,7 @@ import type { Template } from "@/features/templates/types";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
 import IDCardPreviewBuilder from "@/components/ids-designer/id-card-template-preview-builder";
+import { Permission } from "@/components/permission";
 
 // Skeleton loader component for template cards
 const TemplateSkeleton = () => (
@@ -112,13 +113,15 @@ export default function IdCardsTemplates() {
               {t("idsDesigner.templates.subtitle")}
             </Text>
           </div>
-          <Button
-            leftSection={<IconPlus size={20} />}
-            onClick={handleCreateNew}
-            radius="md"
-          >
-            {t("idsDesigner.templates.createNew")}
-          </Button>
+          <Permission can="create-template">
+            <Button
+              leftSection={<IconPlus size={20} />}
+              onClick={handleCreateNew}
+              radius="md"
+            >
+              {t("idsDesigner.templates.createNew")}
+            </Button>
+          </Permission>
         </Group>
       </Box>
 
@@ -206,7 +209,8 @@ export default function IdCardsTemplates() {
                       {t("price")}: {template.price}
                     </Text>
                     <Text size="sm" fw={700}>
-                      {t("ids.submissionCount")}: {template.submissionCount}
+                      {t("ids.submissionCount")}:
+                      {String(template.identitiesCount)}
                     </Text>
                     <Text size="sm" fw={700}>
                       {t("description")}: {template.description}
@@ -214,26 +218,30 @@ export default function IdCardsTemplates() {
                   </Stack>
 
                   <Group gap="xs" mt="auto">
-                    <Button
-                      variant="light"
-                      size="xs"
-                      leftSection={<IconEye size={14} />}
-                      style={{ flex: 1 }}
-                      onClick={() => {
-                        router.push(`/id-builder/edit/${template.id}`);
-                      }}
-                    >
-                      {t("idsDesigner.templates.preview")}
-                    </Button>
-                    <Button
-                      variant="filled"
-                      size="xs"
-                      leftSection={<IconEdit size={14} />}
-                      onClick={() => handleUseTemplate(template.id)}
-                      style={{ flex: 1 }}
-                    >
-                      {t("idsDesigner.templates.useTemplate")}
-                    </Button>
+                    <Permission can="update-template">
+                      <Button
+                        variant="light"
+                        size="xs"
+                        leftSection={<IconEye size={14} />}
+                        style={{ flex: 1 }}
+                        onClick={() => {
+                          router.push(`/id-builder/edit/${template.id}`);
+                        }}
+                      >
+                        {t("idsDesigner.templates.preview")}
+                      </Button>
+                    </Permission>
+                    <Permission can="create-identity">
+                      <Button
+                        variant="filled"
+                        size="xs"
+                        leftSection={<IconEdit size={14} />}
+                        onClick={() => handleUseTemplate(template.id)}
+                        style={{ flex: 1 }}
+                      >
+                        {t("idsDesigner.templates.useTemplate")}
+                      </Button>
+                    </Permission>
                   </Group>
                 </Stack>
               </Card>

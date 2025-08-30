@@ -12,14 +12,16 @@ export function useMutationNotifications(
   const t = useTranslations();
   const { onSuccess, onError } = prop || {};
   const showSuccessNotification = (
-    action: "created" | "updated" | "deleted"
+    action: "created" | "updated" | "deleted" | "approved"
   ) => {
     const actionKey =
       action === "created"
         ? "createdSuccessfully"
         : action === "updated"
         ? "updatedSuccessfully"
-        : "deletedSuccessfully";
+        : action === "deleted"
+        ? "deletedSuccessfully"
+        : "approvedSuccessfully";
 
     notifications.show({
       title: t("messages.success"),
@@ -30,13 +32,17 @@ export function useMutationNotifications(
     onSuccess?.();
   };
 
-  const showErrorNotification = (action: "create" | "update" | "delete") => {
+  const showErrorNotification = (
+    action: "create" | "update" | "delete" | "approve"
+  ) => {
     const actionKey =
       action === "create"
         ? "failedToCreate"
         : action === "update"
         ? "failedToUpdate"
-        : "failedToDelete";
+        : action === "delete"
+        ? "failedToDelete"
+        : "failedToApprove";
 
     notifications.show({
       title: t("messages.error"),
@@ -47,16 +53,18 @@ export function useMutationNotifications(
     onError?.();
   };
 
-  const notify = (action: "create" | "update" | "delete") => ({
+  const notify = (action: "create" | "update" | "delete" | "approve") => ({
     onSuccess: () => {
       const successAction =
         action === "create"
           ? "created"
           : action === "update"
           ? "updated"
-          : "deleted";
+          : action === "delete"
+          ? "deleted"
+          : "approved";
       showSuccessNotification(
-        successAction as "created" | "updated" | "deleted"
+        successAction as "created" | "updated" | "deleted" | "approved"
       );
     },
     onError: () => showErrorNotification(action),

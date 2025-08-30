@@ -15,6 +15,7 @@ import { theme } from "../../../theme";
 import { DatesProvider } from "@mantine/dates";
 import { ModalsProvider } from "@mantine/modals";
 import { ReactQueryProvider } from "@/providers/react-query-provider";
+import { AuthWrapper } from "@/components/auth/auth-wrapper";
 
 import "@mantine/core/styles.layer.css";
 import "mantine-datatable/styles.layer.css";
@@ -60,7 +61,9 @@ export default async function RootLayout({
               <DatesProvider settings={{ locale, consistentWeeks: true }}>
                 <ModalsProvider>
                   <ReactQueryProvider>
-                    <Shell>{children}</Shell>
+                    <AuthWrapper>
+                      <Shell>{children}</Shell>
+                    </AuthWrapper>
                     <Notifications />
                   </ReactQueryProvider>
                 </ModalsProvider>

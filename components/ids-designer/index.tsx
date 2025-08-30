@@ -128,6 +128,7 @@ export default function IDCardDesigner({
   >(null);
   const [price, setPrice] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
 
   // Memoized field texts for better performance
   const fieldTexts = useMemo(
@@ -308,7 +309,7 @@ export default function IDCardDesigner({
       canvas.off("object:modified", handleCanvasChange);
       canvas.off("path:created", handleCanvasChange);
     };
-  }, [canvas, currentSide]);
+  }, [canvas, currentSide, initialData]);
 
   const saveCurrentSideData = useCallback(() => {
     if (!canvas) return;
@@ -932,13 +933,18 @@ export default function IDCardDesigner({
         : currentSide === "back"
         ? canvas.toJSON()
         : null,
-      price: price,
-      description: description,
       createdAt: new Date().toISOString(),
     };
 
+    const saveData = {
+      title: title,
+      price: price,
+      description: description,
+      template: templateData,
+    };
+
     if (onSave) {
-      onSave(templateData);
+      onSave(saveData);
     }
   }, [
     canvas,
@@ -949,6 +955,7 @@ export default function IDCardDesigner({
     frontCanvasData,
     currentSide,
     backCanvasData,
+    title,
     price,
     description,
     onSave,
@@ -960,9 +967,79 @@ export default function IDCardDesigner({
     try {
       const parsedData = jsonData;
 
+      // Check if this is the new data format with title, price, description at top level
+      if (parsedData.template && parsedData.template.version) {
+        // Handle new format with template wrapper
+        const templateData = parsedData.template;
+
+        // Load title, price and description from top level
+        if (parsedData.title) {
+          setTitle(parsedData.title);
+        }
+        if (parsedData.price) {
+          setPrice(parsedData.price);
+        }
+        if (parsedData.description) {
+          setDescription(parsedData.description);
+        }
+
+        // Clear current data
+        setFrontCanvasData(null);
+        setBackCanvasData(null);
+
+        // Load front and back canvas data from template
+        if (templateData.frontCanvas) {
+          setFrontCanvasData(JSON.stringify(templateData.frontCanvas));
+        }
+        if (templateData.backCanvas) {
+          setBackCanvasData(JSON.stringify(templateData.backCanvas));
+        }
+
+        // Set canvas dimensions based on template orientation
+        const templateCanvasWidth =
+          templateData.canvasOrientation === "horizontal" ? width : height;
+        const templateCanvasHeight =
+          templateData.canvasOrientation === "horizontal" ? height : width;
+
+        // Update canvas orientation if different
+        if (templateData.canvasOrientation !== canvasOrientation) {
+          setCanvasOrientation(templateData.canvasOrientation);
+        }
+
+        // Set canvas dimensions immediately
+        canvas.setDimensions({
+          width: templateCanvasWidth,
+          height: templateCanvasHeight,
+        });
+
+        // Load the front canvas by default
+        if (templateData.frontCanvas) {
+          canvas.loadFromJSON(templateData.frontCanvas, () => {
+            canvas.backgroundColor = "#ffffff";
+            canvas.renderAll();
+            setTimeout(() => {
+              canvas.renderAll();
+              canvas.requestRenderAll();
+            }, 100);
+            setCurrentSide("front");
+            setSelectedObject(null);
+            setSelectedObjects([]);
+            resetControls();
+            console.log("New template format imported successfully");
+          });
+        } else {
+          canvas.clear();
+          canvas.backgroundColor = "#ffffff";
+          canvas.renderAll();
+          setCurrentSide("front");
+          setSelectedObject(null);
+          setSelectedObjects([]);
+          resetControls();
+        }
+      }
       // Check if this is a new comprehensive template format
-      if (parsedData.version && parsedData.canvasOrientation) {
-        // Handle new template format
+      else if (parsedData.version && parsedData.canvasOrientation) {
+        // Handle old comprehensive template format
 
         // Clear current data
         setFrontCanvasData(null);
@@ -1005,7 +1082,6 @@ export default function IDCardDesigner({
         if (parsedData.frontCanvas) {
           canvas.loadFromJSON(parsedData.frontCanvas, () => {
             canvas.backgroundColor = "#ffffff";
-            // Force multiple renders to ensure objects are visible
             canvas.renderAll();
             setTimeout(() => {
               canvas.renderAll();
@@ -1018,7 +1094,6 @@ export default function IDCardDesigner({
             console.log("Comprehensive template imported successfully");
           });
         } else {
-          // No front canvas data, just clear and set orientation
           canvas.clear();
           canvas.backgroundColor = "#ffffff";
           canvas.renderAll();
@@ -1073,7 +1148,6 @@ export default function IDCardDesigner({
             height: currentCanvasHeight,
           });
           canvas.backgroundColor = "#ffffff";
-          // Force multiple renders to ensure objects are visible
           canvas.renderAll();
           setTimeout(() => {
             canvas.renderAll();
@@ -1941,6 +2015,18 @@ export default function IDCardDesigner({
             >
               <IconUpload size={16} />
             </ActionIcon> */}
+            <TextInput
+              placeholder={t("placeholders.title")}
+              size="xs"
+              w={100}
+              value={title}
+              onChange={(e) => setTitle(e.currentTarget.value)}
+              styles={{
+                input: {
+                  fontSize: "12px",
+                },
+              }}
+            />
             <TextInput
               placeholder={t("placeholders.price")}
               size="xs"
