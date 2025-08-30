@@ -52,7 +52,7 @@ export default function LoginPage() {
           },
           onError: () => {
             notifications.show({
-              position: "top-right",
+              position: "bottom-right",
               title: t("login.loginError"),
               message: t("login.loginError"),
               color: "red",
