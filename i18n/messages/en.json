@@ -127,7 +127,11 @@
 
   "user": {
     "users": "admins",
-    "user": "admin"
+    "user": "admin",
+    "type": {
+      "admin": "Admin role",
+      "organization_user": "Organization user role"
+    }
   },
   "role": {
     "roles": "roles",

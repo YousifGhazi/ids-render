@@ -127,7 +127,11 @@
 
   "user": {
     "users": "المدراء",
-    "user": "المدير"
+    "user": "المدير",
+    "type": {
+      "admin": "دور مدير",
+      "organization_user": "دور منظمة"
+    }
   },
   "organizationUser": {
     "users": "مدراء المؤسسة",
