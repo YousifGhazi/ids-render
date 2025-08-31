@@ -78,7 +78,9 @@ export function IdsTable() {
                 label={t("status")}
                 data={status
                   .filter((status) =>
-                    ["PENDING", "APPROVED", "REJECTED"].includes(status.name)
+                    ["PENDING", "APPROVED", "REJECTED", "PAID"].includes(
+                      status.name
+                    )
                   )
                   .map((status) => ({
                     value: String(status.id),
