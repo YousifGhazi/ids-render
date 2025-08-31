@@ -35,6 +35,7 @@ import { useParams } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import type { CreateIDCardInput } from "@/features/ids/types";
+import { useAuthStore } from "@/features/auth/store";
 
 type FieldType = "text" | "date" | "file" | "textarea";
 type FormValue = string | File | Date | null;
@@ -96,6 +97,7 @@ export default function IdCardsTemplates() {
   const t = useTranslations("members");
   const tIds = useTranslations("ids");
   const tCommon = useTranslations();
+  const { user } = useAuthStore();
   const [formData, setFormData] = useState<FormData>({
     phone: "",
     firstName: "",
@@ -525,7 +527,9 @@ export default function IdCardsTemplates() {
                   <Grid.Col span={{ base: 12, sm: 6 }}>
                     <DateInput
                       label={tIds("issueDate")}
-                      placeholder={`${tCommon("common.select")} ${tIds("issueDate")}`}
+                      placeholder={`${tCommon("common.select")} ${tIds(
+                        "issueDate"
+                      )}`}
                       value={formData.issueDate}
                       onChange={(date) => handleInputChange("issueDate", date)}
                       leftSection={<IconCalendar size={16} />}
@@ -535,27 +539,33 @@ export default function IdCardsTemplates() {
                   <Grid.Col span={{ base: 12, sm: 6 }}>
                     <DateInput
                       label={tIds("expirationDate")}
-                      placeholder={`${tCommon("common.select")} ${tIds("expirationDate")}`}
+                      placeholder={`${tCommon("common.select")} ${tIds(
+                        "expirationDate"
+                      )}`}
                       value={formData.expirationDate}
-                      onChange={(date) => handleInputChange("expirationDate", date)}
+                      onChange={(date) =>
+                        handleInputChange("expirationDate", date)
+                      }
                       leftSection={<IconCalendar size={16} />}
                       required
                     />
                   </Grid.Col>
                   <Grid.Col span={{ base: 12, sm: 6 }}>
-                    <Select
-                      label={tIds("organization")}
-                      placeholder={tIds("selectOrganization")}
-                      value={formData.organizationId || ""}
-                      onChange={(value) =>
-                        handleInputChange("organizationId", value || "")
-                      }
-                      data={organizationsSelectData}
-                      leftSection={<IconBuilding size={16} />}
-                      required
-                      searchable
-                      clearable
-                    />
+                    {user?.type === "admin" && (
+                      <Select
+                        label={tIds("organization")}
+                        placeholder={tIds("selectOrganization")}
+                        value={formData.organizationId || ""}
+                        onChange={(value) =>
+                          handleInputChange("organizationId", value || "")
+                        }
+                        data={organizationsSelectData}
+                        leftSection={<IconBuilding size={16} />}
+                        required
+                        searchable
+                        clearable
+                      />
+                    )}
                   </Grid.Col>
                 </Grid>
               </Card>

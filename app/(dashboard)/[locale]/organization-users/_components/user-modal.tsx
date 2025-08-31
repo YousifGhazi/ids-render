@@ -22,6 +22,7 @@ import {
 } from "@/features/organization-users/api";
 import { useMutationNotifications } from "@/hooks/use-mutation-notifications";
 import { useGetOrganizations } from "@/features/organizations/api";
+import { useAuthStore } from "@/features/auth/store";
 
 interface UserModalProps {
   user?: OrganizationUser;
@@ -32,6 +33,7 @@ interface UserModalProps {
 export function UserModal({ user, opened, onClose }: UserModalProps) {
   const t = useTranslations();
   const { notify } = useMutationNotifications();
+  const AuthUser = useAuthStore((state) => state.user);
   const createUser = useCreateOrganizationUser(notify("create"));
   const updateUser = useUpdateOrganizationUser(notify("update"));
   const organizations = useGetOrganizations({
@@ -126,34 +128,19 @@ export function UserModal({ user, opened, onClose }: UserModalProps) {
               {...form.getInputProps("phone")}
             />
           )}
-          {/* <TextInput
-            label={t("email")}
-            placeholder={`${t("email")}...`}
-            type="email"
-            required
-            {...form.getInputProps("email")}
-          /> */}
-          {/* {!isEditing && (
-            <PasswordInput
-              key={form.key("password")}
-              {...form.getInputProps("password")}
-              label={t("password")}
-              placeholder={`${t("password")}...`}
-              leftSection={<IconLock size={16} />}
-              required={!isEditing}
-            />
-          )} */}
 
-          <Select
-            required
-            data={organizations?.data?.data?.data?.map((org) => ({
-              value: String(org.id),
-              label: org.name,
-            }))}
-            label={t("organization.organization")}
-            placeholder={`${t("organization.organization")}...`}
-            {...form.getInputProps("organizationId")}
-          />
+          {AuthUser?.type === "admin" && (
+            <Select
+              required
+              data={organizations?.data?.data?.data?.map((org) => ({
+                value: String(org.id),
+                label: org.name,
+              }))}
+              label={t("organization.organization")}
+              placeholder={`${t("organization.organization")}...`}
+              {...form.getInputProps("organizationId")}
+            />
+          )}
           <MultiSelect
             label={t("role.roles")}
             placeholder={`${t("role.roles")}...`}

@@ -80,29 +80,25 @@ export function Navbar() {
       />
 
       <ShellLink
-        disabled={true}
-        // can="payments-list"
+        can="payments-list"
         section="/payments"
         label={t("sidebar.payments")}
         icon={<IconCreditCard size={18} />}
       />
 
-      {/* TODO: Add permissions for printer and delivery */}
       <ShellLink
-        disabled={true}
         section="/printer"
         label={t("sidebar.printer")}
         icon={<IconPrinter size={18} />}
       />
       <ShellLink
-        disabled={true}
         section="/delivery"
         label={t("sidebar.delivery")}
         icon={<IconPackage size={18} />}
       />
 
       <ShellLink
-        disabled={true}
+        can="create-form"
         section="/forms/builder"
         label={t("sidebar.surveies")}
         icon={<IconClipboardText size={18} />}

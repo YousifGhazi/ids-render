@@ -127,7 +127,11 @@
 
   "user": {
     "users": "المدراء",
-    "user": "المدير"
+    "user": "المدير",
+    "type": {
+      "admin": "دور مدير",
+      "organization_user": "دور منظمة"
+    }
   },
   "organizationUser": {
     "users": "مدراء المؤسسة",
@@ -199,6 +203,7 @@
     "noSmartFieldsDesc": "يرجى إضافة حقول ذكية باستخدام مصمم الهوية لإنشاء النموذج.",
     "status": {
       "PENDING": "بانتظار الموافقة",
+      "PAID": "مدفوع",
       "APPROVED": "موافق عليه",
       "REJECTED": "مرفوض",
       "WAITING_TO_PRINT": "بانتظار الطباعة",

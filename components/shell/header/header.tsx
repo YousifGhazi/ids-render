@@ -103,7 +103,7 @@ export function Header() {
                   <Stack gap={0}>
                     <Text fw={700}>{user?.name}</Text>
                     <Text size="xs" c="dimmed">
-                      {user?.type}
+                      {t(`user.type.${user?.type}`)}
                     </Text>
                   </Stack>
                 </Group>

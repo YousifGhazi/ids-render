@@ -20,6 +20,7 @@ import { useGetPermissions } from "@/features/permissions/api";
 import { useMutationNotifications } from "@/hooks/use-mutation-notifications";
 import { permissionsToNestedTree } from "@/features/permissions/utils";
 import { TreeCheckbox } from "@/components/tree-checkbox";
+import { useAuthStore } from "@/features/auth/store";
 
 interface RoleModalProps {
   role?: Role;
@@ -29,7 +30,7 @@ interface RoleModalProps {
 
 export function RoleModal({ role, opened, onClose }: RoleModalProps) {
   const t = useTranslations();
-
+  const user = useAuthStore((state) => state.user);
   const isEditing = !!role;
 
   const form = useForm<{
@@ -55,10 +56,14 @@ export function RoleModal({ role, opened, onClose }: RoleModalProps) {
     filter: [
       {
         field: "type",
-        value: form.values.type as string,
+        value:
+          user?.type === "admin"
+            ? (form.values.type as string)
+            : "organization",
       },
     ],
   });
+
   const currentRole = useGetRole(role?.id ?? "", {
     enabled: !!role?.id,
   });
@@ -125,16 +130,18 @@ export function RoleModal({ role, opened, onClose }: RoleModalProps) {
             {...form.getInputProps("name")}
           />
 
-          <Select
-            label={t("type")}
-            placeholder={`${t("type")}...`}
-            data={[
-              { value: "admin", label: "Admin" },
-              { value: "organization", label: "Organization" },
-            ]}
-            required
-            {...form.getInputProps("type")}
-          />
+          {user?.type === "admin" && (
+            <Select
+              label={t("type")}
+              placeholder={`${t("type")}...`}
+              data={[
+                { value: "admin", label: "Admin" },
+                { value: "organization", label: "Organization" },
+              ]}
+              required
+              {...form.getInputProps("type")}
+            />
+          )}
 
           <Tree
             tree={tree}
