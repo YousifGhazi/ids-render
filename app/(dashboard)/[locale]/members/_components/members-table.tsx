@@ -99,13 +99,11 @@ export function MembersTable() {
           {
             accessor: "createdAt",
             title: t("createdAt"),
-
             render: (user) => formatDate(user.createdAt),
           },
           {
             accessor: "updatedAt",
             title: t("updatedAt"),
-
             render: (user) => formatDate(user.updatedAt),
           },
           {

@@ -198,6 +198,7 @@
     "noSmartFieldsDesc": "Please add smart fields using the ID designer to create the form.",
     "status": {
       "PENDING": "Pending Approval",
+      "PAID": "Paid",
       "APPROVED": "Approved",
       "REJECTED": "Rejected",
       "WAITING_TO_PRINT": "Waiting to Print",

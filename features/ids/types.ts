@@ -22,34 +22,38 @@ export const status = [
   },
   {
     id: 1,
-    name: "APPROVED",
+    name: "PAID",
   },
   {
     id: 2,
-    name: "REJECTED",
+    name: "APPROVED",
   },
   {
     id: 3,
-    name: "WAITING_TO_PRINT",
+    name: "REJECTED",
   },
   {
     id: 4,
-    name: "PRINTING",
+    name: "WAITING_TO_PRINT",
   },
   {
     id: 5,
-    name: "PRINTED",
+    name: "PRINTING",
   },
   {
     id: 6,
-    name: "DELIVERY_IN_PROGRESS",
+    name: "PRINTED",
   },
   {
     id: 7,
-    name: "DELIVERED",
+    name: "DELIVERY_IN_PROGRESS",
   },
   {
     id: 8,
+    name: "DELIVERED",
+  },
+  {
+    id: 9,
     name: "RETURNED",
   },
 ] as const;
