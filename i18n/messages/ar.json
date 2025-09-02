@@ -357,7 +357,8 @@
       "strokeColor": "اختر لون الحدود",
       "strokeWidth": "عرض الحدود",
       "price": "السعر",
-      "description": "الوصف"
+      "description": "الوصف",
+      "title": "العنوان"
     },
     "labels": {
       "textContent": "محتوى النص",

@@ -11,6 +11,7 @@ import { api } from "@/api/client";
 const idsApi = createApiFactory<IDCard, CreateIDCardInput, UpdateIDCardInput>({
   entityName: "identity",
   endpoint: "/identity",
+  isFormData: true,
 });
 
 // Export the query keys for use in other parts of the app
