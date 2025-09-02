@@ -28,11 +28,20 @@ api.interceptors.response.use((response) => {
 });
 
 api.interceptors.request.use((config) => {
-  // Skip transformation for FormData
-  const isFormData = config.headers["Content-Type"] === "multipart/form-data";
-
-  // convert camelCase to snake_case
-  if (config.data && !isFormData) config.data = decamelizeKeys(config.data);
+  // convert camelCase to snake_case conversion for form-data too
+  if (config.data) {
+    // Handle FormData separately
+    if (config.data instanceof FormData) {
+      const newFormData = new FormData();
+      for (const [key, value] of config.data.entries()) {
+        const snakeKey = decamelizeKeys({ [key]: value });
+        newFormData.append(Object.keys(snakeKey)[0], value);
+      }
+      config.data = newFormData;
+    } else {
+      config.data = decamelizeKeys(config.data);
+    }
+  }
   if (config.params) config.params = decamelizeKeys(config.params);
 
   // Add authorization token if available

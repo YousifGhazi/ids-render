@@ -341,7 +341,8 @@
       "strokeColor": "Choose stroke color",
       "strokeWidth": "Stroke width",
       "price": "Price",
-      "description": "Description"
+      "description": "Description",
+      "title": "Title"
     },
     "labels": {
       "textContent": "Text Content",

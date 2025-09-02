@@ -1,7 +1,15 @@
 import { createApiFactory } from "@/utils/api-factory";
-import type { Template, CreateTemplateInput, UpdateTemplateInput } from "./types";
+import type {
+  Template,
+  CreateTemplateInput,
+  UpdateTemplateInput,
+} from "./types";
 
-const templatesApi = createApiFactory<Template, CreateTemplateInput, UpdateTemplateInput>({
+const templatesApi = createApiFactory<
+  Template,
+  CreateTemplateInput,
+  UpdateTemplateInput
+>({
   entityName: "template",
   endpoint: "/template",
 });
