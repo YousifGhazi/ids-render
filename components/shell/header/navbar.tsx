@@ -40,6 +40,7 @@ export function Navbar() {
       <Menu>
         <MenuTarget>
           <Button
+            fw={"bold"}
             leftSection={<IconIdBadge size={18} />}
             variant="subtle"
             color="dark"
@@ -107,6 +108,7 @@ export function Navbar() {
       <Menu>
         <MenuTarget>
           <Button
+            fw={"bold"}
             leftSection={<IconTournament size={18} />}
             variant="subtle"
             color="dark"

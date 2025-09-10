@@ -38,6 +38,7 @@ export function ShellLink({
             label={label}
             active={active}
             leftSection={icon}
+            fw={"bold"}
             variant="light"
             w="fit-content"
             py={4}
@@ -57,6 +58,7 @@ export function ShellLink({
           leftSection={icon}
           variant="light"
           w="fit-content"
+          fw={"bold"}
           py={4}
           px={20}
           h={34}
