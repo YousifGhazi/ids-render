@@ -17,6 +17,7 @@ import { useCreateMember, useUpdateMember } from "@/features/members/api";
 import { useGetOrganizations } from "@/features/organizations/api";
 import { useAuthStore } from "@/features/auth/store";
 import { useMutationNotifications } from "@/hooks/use-mutation-notifications";
+import { DateInput } from "@mantine/dates";
 
 interface MemberModalProps {
   member?: Member;

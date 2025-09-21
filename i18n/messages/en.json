@@ -196,6 +196,7 @@
     "templateNotFound": "The requested template was not found or an error occurred during loading.",
     "noSmartFields": "No Smart Fields Found",
     "noSmartFieldsDesc": "Please add smart fields using the ID designer to create the form.",
+    "templateFields": "Template Fields",
     "status": {
       "PENDING": "Pending Approval",
       "PAID": "Paid",
