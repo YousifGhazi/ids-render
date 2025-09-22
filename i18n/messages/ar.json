@@ -1,0 +1,478 @@
+{
+  "add": "اضافة",
+  "edit": "تعديل",
+  "delete": "حذف",
+  "view": "عرض",
+  "pay": "دفع",
+  "approve": "موافقة",
+  "cancel": "إلغاء",
+  "create": "إنشاء",
+  "update": "تحديث",
+  "list": "عرض القائمة",
+  "show": "عرض التفاصيل",
+  "status": "الحالة",
+  "confirm": "تأكيد",
+
+  "actions": {
+    "upload": "رفع {item}",
+    "downloadTemplate": "تنزيل قالب {item}"
+  },
+
+  "file": {
+    "selectFile": "اختر ملف",
+    "uploadFile": "رفع ملف"
+  },
+
+  "id": "المعرف",
+  "createdAt": "تاريخ الإنشاء",
+  "updatedAt": "تاريخ التحديث",
+  "name": "الاسم",
+  "password": "كلمة المرور",
+  "phoneNumber": "رقم الهاتف",
+  "gender": "الجنس",
+  "type": "النوع",
+  "qr_code": "QR",
+  "email": "البريد الإلكتروني",
+  "dateOfBirth": "تاريخ الميلاد",
+  "logout": "تسجيل الخروج",
+  "verifiedOTP": "موثق OTP",
+  "verifiedSuperQi": "موثق سوبر كي",
+  "item": "العنصر",
+  "price": "السعر",
+  "description": "الوصف",
+
+  "organization": {
+    "organizations": "المؤسسات",
+    "organization": "المؤسسة",
+    "description": "الوصف",
+    "website": "الموقع الإلكتروني",
+    "logo": "الشعار"
+  },
+
+  "messages": {
+    "confirmDeletion": "تأكيد الحذف",
+    "confirmation": "تأكيد العملية",
+    "confirmItemDeletionMessage": "هل أنت متأكد أنك تريد حذف {entity}؟ هذه العملية لا يمكن التراجع عنها.",
+    "confirmDeletionMessage": "هل أنت متأكد أنك تريد الحذف ؟ هذه العملية لا يمكن التراجع عنها.",
+    "confirmApprovalMessage": "هل أنت متأكد أنك تريد الموافقة على هذه البطاقة الشخصية؟",
+    "success": "نجح",
+    "error": "خطأ",
+    "createdSuccessfully": "تم الإنشاء بنجاح",
+    "updatedSuccessfully": "تم التحديث بنجاح",
+    "approvedSuccessfully": "تم الموافقة بنجاح",
+    "failedToCreate": "فشل في الإنشاء",
+    "failedToUpdate": "فشل في التحديث",
+    "failedToApprove": "فشل في الموافقة"
+  },
+
+  "common": {
+    "confirmDelete": "تأكيد الحذف",
+    "delete": "حذف",
+    "cancel": "إلغاء",
+    "success": "نجح",
+    "error": {
+      "loadingFailed": "فشل في تحميل البيانات"
+    },
+    "active": "نشط",
+    "loadingFailed": "فشل في تحميل البيانات",
+    "select": "اختر",
+    "enter": "أدخل"
+  },
+
+  "templates": {
+    "singular_title": "قالب الهوية",
+    "deleteConfirmation": "هل أنت متأكد أنك تريد حذف القالب '{title}'؟ هذه العملية لا يمكن التراجع عنها.",
+    "deleteSuccess": "تم حذف القالب بنجاح",
+    "deleteError": "فشل في حذف القالب",
+    "noTemplates": "لم يتم العثور على قوالب",
+    "config": {
+      "title": "إعدادات القالب",
+      "editTitle": "تحرير معلومات القالب",
+      "templateTitle": "عنوان القالب",
+      "templateTitlePlaceholder": "أدخل عنوان القالب...",
+      "templateDescription": "الوصف",
+      "templateDescriptionPlaceholder": "أدخل وصف القالب...",
+      "templatePrice": "السعر",
+      "templatePricePlaceholder": "أدخل سعر القالب...",
+      "saveConfiguration": "حفظ الإعدادات",
+      "updateInformation": "تحديث المعلومات",
+      "validation": {
+        "titleMinLength": "العنوان يجب أن يكون على الأقل 3 أحرف",
+        "descriptionMinLength": "الوصف يجب أن يكون على الأقل 10 أحرف",
+        "pricePositive": "السعر يجب أن يكون رقم موجب"
+      }
+    },
+    "actions": {
+      "configureTemplate": "إعداد القالب",
+      "editTemplateInfo": "تحرير معلومات القالب",
+      "editConfiguration": "تحرير الإعدادات",
+      "saveTemplate": "حفظ القالب",
+      "updateTemplate": "تحديث القالب",
+      "saving": "جاري الحفظ...",
+      "updating": "جاري التحديث...",
+      "downloadJSON": "تحميل JSON",
+      "saveAsSVG": "حفظ كـ SVG",
+      "tooltips": {
+        "configureFirst": "إعداد القالب أولاً",
+        "templateInfo": "العنوان: {title}\\nالسعر: ${price}",
+        "editingTemplate": "تحرير القالب: {title}",
+        "createNewTemplate": "إنشاء قالب جديد"
+      }
+    }
+  },
+
+  "sidebar": {
+    "home": "الرئيسية",
+    "ids": {
+      "title": "اصدار الهويات",
+      "templates": "قوالب الهويات",
+      "create": "انشاء قالب"
+    },
+    "surveies": "انشاء الاستمارات",
+    "printer": "الطابعة",
+    "delivery": "التوصيل",
+    "payments": "الدفع",
+    "management": {
+      "management": "الادارة",
+      "users": "المدراء",
+      "organizationUsers": "مدراء المؤسسة",
+      "organizations": "المؤسسات",
+      "roles": "الأدوار"
+    }
+  },
+
+  "login": {
+    "title": "مرحباً بعودتك",
+    "subtitle": "قم بتسجيل الدخول إلى حسابك للمتابعة",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "emailPlaceholder": "أدخل بريدك الإلكتروني",
+    "passwordPlaceholder": "أدخل كلمة المرور",
+    "submitButton": "تسجيل الدخول",
+    "signingIn": "جاري تسجيل الدخول...",
+    "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+    "loginError": "فشل تسجيل الدخول. يرجى المحاولة مرة أخرى.",
+    "emailRequired": "البريد الإلكتروني مطلوب",
+    "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح",
+    "passwordRequired": "كلمة المرور مطلوبة",
+    "passwordMinLength": "كلمة المرور يجب أن تكون 6 أحرف على الأقل",
+    "otp": "رمز التحقق"
+  },
+
+  "user": {
+    "users": "المدراء",
+    "user": "المدير",
+    "type": {
+      "admin": "دور مدير",
+      "organization_user": "دور منظمة"
+    }
+  },
+  "organizationUser": {
+    "users": "مدراء المؤسسة",
+    "user": "مدير مؤسسة"
+  },
+  "role": {
+    "roles": "الأدوار",
+    "role": "الدور",
+    "type": {
+      "admin": "دور مدير",
+      "organization": "دور منظمة"
+    },
+    "rolesList": {
+      "advertisement": "إعلان",
+      "identity": "هوية",
+      "member": "عضو",
+      "news": "أخبار",
+      "organization": "منظمة",
+      "organization-user": "مدير المنظمة",
+      "permissions": "إذن",
+      "role": "دور",
+      "template": "قوالب هويات",
+      "user": "مدير",
+      "payment": "دفعات",
+      "form": "الاستمارات"
+    }
+  },
+  "permission": {
+    "permissions": "الأذونات",
+    "permission": "إذن"
+  },
+  "members": {
+    "singular_title": "المنتسب",
+    "plural_title": "المنتسبين",
+    "phone": "رقم الهاتف",
+    "name": "اسم المنتسب",
+    "firstName": "الاسم الأول",
+    "secondName": "الاسم الثاني",
+    "thirdName": "الاسم الثالث",
+    "fourthName": "الاسم الرابع",
+    "firstNamePlaceholder": "أدخل الاسم الأول",
+    "secondNamePlaceholder": "أدخل الاسم الثاني",
+    "thirdNamePlaceholder": "أدخل الاسم الثالث",
+    "fourthNamePlaceholder": "أدخل الاسم الرابع"
+  },
+  "ids": {
+    "singular_title": "الهوية",
+    "plural_title": "الهويات المصدرة",
+    "idNumber": "رقم الهوية",
+    "type": "نوع البطاقة",
+    "submissionCount": "عدد الطلبات",
+    "createId": "انشاء الهوية",
+    "field": "حقل",
+    "fields": "حقول",
+    "memberInfo": "معلومات المنتسب",
+    "frontSide": "الوجه الأمامي",
+    "backSide": "الوجه الخلفي",
+    "organization": "المؤسسة",
+    "selectOrganization": "اختر المؤسسة",
+    "issueDate": "تاريخ الإصدار",
+    "expirationDate": "تاريخ الانتهاء",
+    "createIdCard": "إنشاء بطاقة الهوية",
+    "creating": "جاري الإنشاء...",
+    "createIdCardTooltip": "إنشاء بطاقة الهوية بالمعلومات المقدمة",
+    "loadingTemplateFields": "جاري تحميل حقول القالب...",
+    "templateLoadError": "خطأ في تحميل القالب",
+    "templateNotFound": "لم يتم العثور على القالب المطلوب أو حدث خطأ أثناء التحميل.",
+    "noSmartFields": "لم يتم العثور على حقول ذكية",
+    "noSmartFieldsDesc": "يرجى إضافة حقول ذكية باستخدام مصمم الهوية لإنشاء النموذج.",
+    "templateFields": "حقول القالب",
+    "status": {
+      "PENDING": "بانتظار الموافقة",
+      "PAID": "مدفوع",
+      "APPROVED": "موافق عليه",
+      "REJECTED": "مرفوض",
+      "WAITING_TO_PRINT": "بانتظار الطباعة",
+      "PRINTING": "جاري الطباعة",
+      "PRINTED": "تمت الطباعة",
+      "DELIVERY_IN_PROGRESS": "جاري التوصيل",
+      "DELIVERED": "تم التوصيل",
+      "RETURNED": "تم الإرجاع"
+    }
+  },
+
+  "payments": {
+    "singular_title": "الدفع",
+    "plural_title": "المدفوعات",
+    "amount": "المبلغ",
+    "method": "طريقة الدفع",
+    "date": "تاريخ الدفع",
+    "reference": "رقم المرجع",
+    "description": "الوصف",
+    "confirmPaymentMessage": "هل أنت متأكد من معالجة دفع {amount}؟"
+  },
+
+  "printer": {
+    "printer": "الطابعة",
+    "printStatus": "حالة الطباعة"
+  },
+  "delivery": {
+    "delivery": "التوصيل",
+    "deliveryStatus": "حالة التوصيل"
+  },
+  "idsDesigner": {
+    "title": "مصمم بطاقات الهوية",
+    "subtitle": "أنشئ بطاقات هوية احترافية باستخدام مصممنا البديهي",
+    "addText": "إضافة نص",
+    "addShape": "إضافة شكل",
+    "addImage": "إضافة صورة",
+    "delete": "حذف",
+    "duplicate": "نسخ",
+    "flipHorizontal": "قلب أفقي",
+    "flipVertical": "قلب عمودي",
+    "undo": "تراجع",
+    "redo": "إعادة",
+    "save": "حفظ",
+    "download": "تحميل",
+    "front": "الوجه الأمامي",
+    "back": "الوجه الخلفي",
+    "horizontal": "أفقي",
+    "vertical": "عمودي",
+    "zoomIn": "تكبير",
+    "zoomOut": "تصغير",
+    "resetZoom": "إعادة تعيين التكبير",
+    "transparency": "الشفافية",
+    "rotation": "الدوران",
+    "width": "العرض",
+    "height": "الارتفاع",
+    "backgroundColor": "لون الخلفية",
+    "backgroundImage": "صورة الخلفية",
+    "removeBackground": "إزالة الخلفية",
+    "templates": {
+      "title": "قوالب بطاقات الهوية",
+      "subtitle": "اختر من مجموعتنا من قوالب بطاقات الهوية الاحترافية أو أنشئ قالبك الخاص من الصفر",
+      "createNew": "إنشاء جديد",
+      "popular": "شائع",
+      "preview": "معاينة",
+      "useTemplate": "استخدام القالب",
+      "createCustom": "إنشاء قالب مخصص",
+      "createCustomDescription": "ابدأ بلوحة فارغة وصمم بطاقة هويتك الفريدة من الصفر",
+      "startFromScratch": "البدء من الصفر",
+      "noTemplates": "لم يتم العثور على قوالب"
+    },
+    "textTypes": {
+      "singleLine": "نص من سطر واحد",
+      "multiLine": "نص متعدد الأسطر",
+      "smartFields": "الحقول الذكية"
+    },
+    "smartFields": {
+      "title": "تعيين كـ حقل ذكي",
+      "name": "الاسم",
+      "id": "رقم الهوية",
+      "date": "التاريخ",
+      "department": "القسم",
+      "age": "العمر",
+      "salary": "الراتب",
+      "indicator": "حقل ذكي",
+      "unknown": "غير معروف"
+    },
+    "shapes": {
+      "square": "مربع",
+      "rectangle": "مستطيل",
+      "circle": "دائرة",
+      "triangle": "مثلث",
+      "star": "نجمة",
+      "line": "خط"
+    },
+    "textFormatting": {
+      "bold": "عريض",
+      "italic": "مائل",
+      "underline": "تحته خط",
+      "alignLeft": "محاذاة يسار",
+      "alignCenter": "محاذاة وسط",
+      "alignRight": "محاذاة يمين",
+      "rtl": "من اليمين إلى اليسار"
+    },
+    "alignment": {
+      "alignObjects": "محاذاة الكائنات",
+      "distributeObjects": "توزيع الكائنات",
+      "alignTop": "محاذاة علوية",
+      "alignMiddle": "محاذاة وسطية",
+      "alignBottom": "محاذاة سفلية",
+      "distributeHorizontal": "توزيع أفقي",
+      "distributeVertical": "توزيع عمودي",
+      "title": "المحاذاة",
+      "left": "يسار",
+      "center": "وسط",
+      "right": "يمين",
+      "top": "اعلى",
+      "middle": "وسط",
+      "bottom": "أسفل"
+    },
+    "panels": {
+      "smartFields": "الحقول الذكية",
+      "objects": "الكائنات",
+      "properties": "الخصائص"
+    },
+    "canvas": {
+      "selectCanvas": "تم تحديد اللوحة",
+      "orientation": "الاتجاه",
+      "zoom": "التكبير",
+      "back": "الوجه الخلفي",
+      "front": "الوجه الأمامي",
+      "horizontal": "أفقي",
+      "vertical": "عامودي",
+      "zoomOut": "تصغير",
+      "zoomIn": "تكبير",
+      "resetZoom": "إعادة تعيين التكبير"
+    },
+    "actions": {
+      "importTemplate": "استيراد قالب",
+      "saveBothSides": "حفظ الوجهين"
+    },
+    "placeholders": {
+      "smartField": "حقل ذكي",
+      "enterTextHere": "أدخل النص هنا...",
+      "selectSmartField": "اختر حقلاً لإدراجه...",
+      "fontFamily": "نوع الخط",
+      "fontSize": "الحجم",
+      "selectDataType": "اختر نوع البيانات",
+      "enterVariableName": "أدخل اسم المتغير",
+      "backgroundColor": "لون الخلفية",
+      "fillColor": "اختر لون التعبئة",
+      "strokeColor": "اختر لون الحدود",
+      "strokeWidth": "عرض الحدود",
+      "price": "السعر",
+      "description": "الوصف",
+      "title": "العنوان"
+    },
+    "labels": {
+      "textContent": "محتوى النص",
+      "typography": "اعدادات الخط",
+      "dataType": "نوع البيانات",
+      "variableSettings": "إعدادات المتغير",
+      "markAsVariable": "تحديد كمتغير",
+      "canvasBackground": "خلفية اللوحة",
+      "fillColor": "لون التعبئة",
+      "strokeColor": "لون الحدود",
+      "strokeWidth": "عرض الحدود",
+      "transparency": "الشفافية",
+      "rotation": "الدوران",
+      "dimensions": "الأبعاد",
+      "objectActions": "إجراءات الكائن",
+      "width": "عرض",
+      "height": "ارتفاع"
+    },
+    "buttons": {
+      "setImage": "تعيين صورة",
+      "clear": "مسح"
+    },
+    "dataTypes": {
+      "text": "نص",
+      "number": "رقم",
+      "date": "تاريخ"
+    },
+    "messages": {
+      "backgroundImageApplied": "تم تطبيق صورة الخلفية",
+      "toggleRTL": "تبديل الاتجاه (من اليمين إلى اليسار)"
+    }
+  },
+
+  "stats": {
+    "title": "إحصائيات لوحة المعلومات",
+    "topOrganizationsList": "أهم المؤسسات",
+    "topOrganizationsDescription": "اكتشف المؤسسات الرائدة في شبكتنا",
+    "viewAllOrganizations": "عرض الكل",
+    "idsIssuedOverYear": "الهويات المُصدرة خلال العام",
+    "topOrganizations": "أفضل 5 مؤسسات",
+    "departmentsSpecializations": "الأقسام والتخصصات",
+    "userGrowthOverYear": "نمو المستخدمين خلال العام",
+    "totalIds": "إجمالي الهويات",
+    "totalOrganizations": "إجمالي المؤسسات",
+    "totalDepartments": "إجمالي الأقسام",
+    "totalUsers": "إجمالي المستخدمين",
+    "months": {
+      "jan": "يناير",
+      "feb": "فبراير",
+      "mar": "مارس",
+      "apr": "أبريل",
+      "may": "مايو",
+      "jun": "يونيو",
+      "jul": "يوليو",
+      "aug": "أغسطس",
+      "sep": "سبتمبر",
+      "oct": "أكتوبر",
+      "nov": "نوفمبر",
+      "dec": "ديسمبر"
+    },
+    "organizations": {
+      "ministryOfHealth": "وزارة الصحة",
+      "universityOfBaghdad": "جامعة بغداد",
+      "centralBank": "البنك المركزي",
+      "ministryOfEducation": "وزارة التربية",
+      "oilCompany": "شركة النفط",
+      "ministryOfInterior": "وزارة الداخلية",
+      "baghdadMunicipality": "أمانة بغداد",
+      "ministryOfFinance": "وزارة المالية",
+      "iraqiAirways": "الخطوط الجوية العراقية",
+      "ministryOfTrade": "وزارة التجارة"
+    },
+    "departments": {
+      "healthcare": "الرعاية الصحية",
+      "education": "التعليم",
+      "finance": "المالية",
+      "engineering": "الهندسة",
+      "government": "الحكومة",
+      "other": "أخرى"
+    }
+  }
+}
