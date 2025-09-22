@@ -82,7 +82,41 @@
     "deleteConfirmation": "Are you sure you want to delete the template '{title}'? This action cannot be undone.",
     "deleteSuccess": "Template deleted successfully",
     "deleteError": "Failed to delete template",
-    "noTemplates": "No templates found"
+    "noTemplates": "No templates found",
+    "config": {
+      "title": "Template Configuration",
+      "editTitle": "Edit Template Information",
+      "templateTitle": "Template Title",
+      "templateTitlePlaceholder": "Enter template title...",
+      "templateDescription": "Description",
+      "templateDescriptionPlaceholder": "Enter template description...",
+      "templatePrice": "Price",
+      "templatePricePlaceholder": "Enter template price...",
+      "saveConfiguration": "Save Configuration",
+      "updateInformation": "Update Information",
+      "validation": {
+        "titleMinLength": "Title must be at least 3 characters",
+        "descriptionMinLength": "Description must be at least 10 characters",
+        "pricePositive": "Price must be a positive number"
+      }
+    },
+    "actions": {
+      "configureTemplate": "Configure Template",
+      "editTemplateInfo": "Edit Template Info",
+      "editConfiguration": "Edit Configuration",
+      "saveTemplate": "Save Template",
+      "updateTemplate": "Update Template",
+      "saving": "Saving...",
+      "updating": "Updating...",
+      "downloadJSON": "Download JSON",
+      "saveAsSVG": "Save as SVG",
+      "tooltips": {
+        "configureFirst": "Configure template first",
+        "templateInfo": "Title: {title}\\nPrice: ${price}",
+        "editingTemplate": "Editing template: {title}",
+        "createNewTemplate": "Create new template"
+      }
+    }
   },
 
   "sidebar": {

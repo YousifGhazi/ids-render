@@ -35,6 +35,7 @@ export function TemplateConfigModal({
   isEditMode = false,
 }: TemplateConfigModalProps) {
   const t = useTranslations();
+  const tTemplates = useTranslations("templates");
 
   const form = useForm<TemplateConfig>({
     initialValues: {
@@ -44,12 +45,15 @@ export function TemplateConfigModal({
     },
     validate: {
       title: (value) =>
-        value.trim().length < 3 ? "Title must be at least 3 characters" : null,
+        value.trim().length < 3
+          ? tTemplates("config.validation.titleMinLength")
+          : null,
       description: (value) =>
         value.trim().length < 10
-          ? "Description must be at least 10 characters"
+          ? tTemplates("config.validation.descriptionMinLength")
           : null,
-      price: (value) => (value < 0 ? "Price must be a positive number" : null),
+      price: (value) =>
+        value < 0 ? tTemplates("config.validation.pricePositive") : null,
     },
   });
 
@@ -78,7 +82,7 @@ export function TemplateConfigModal({
       opened={opened}
       onClose={handleClose}
       title={
-        isEditMode ? "Edit Template Information" : "Template Configuration"
+        isEditMode ? tTemplates("config.editTitle") : tTemplates("config.title")
       }
       centered
       size="md"
@@ -88,23 +92,23 @@ export function TemplateConfigModal({
       <form onSubmit={handleSubmit}>
         <Stack gap="md">
           <TextInput
-            label="Template Title"
-            placeholder="Enter template title..."
+            label={tTemplates("config.templateTitle")}
+            placeholder={tTemplates("config.templateTitlePlaceholder")}
             required
             {...form.getInputProps("title")}
           />
 
           <Textarea
-            label="Description"
-            placeholder="Enter template description..."
+            label={tTemplates("config.templateDescription")}
+            placeholder={tTemplates("config.templateDescriptionPlaceholder")}
             required
             rows={4}
             {...form.getInputProps("description")}
           />
 
           <NumberInput
-            label="Price"
-            placeholder="Enter template price..."
+            label={tTemplates("config.templatePrice")}
+            placeholder={tTemplates("config.templatePricePlaceholder")}
             required
             min={0}
             decimalScale={2}
@@ -115,10 +119,12 @@ export function TemplateConfigModal({
 
           <Group justify="flex-end" mt="md">
             <Button variant="filled" color="gray" onClick={handleClose}>
-              Cancel
+              {t("cancel")}
             </Button>
             <Button type="submit">
-              {isEditMode ? "Update Information" : "Save Configuration"}
+              {isEditMode
+                ? tTemplates("config.updateInformation")
+                : tTemplates("config.saveConfiguration")}
             </Button>
           </Group>
         </Stack>

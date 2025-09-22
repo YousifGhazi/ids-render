@@ -6,6 +6,7 @@ import { PagesTimeline } from "polotno/pages-timeline";
 import { ZoomButtons } from "polotno/toolbar/zoom-buttons";
 import { SidePanel, DEFAULT_SECTIONS } from "polotno/side-panel";
 import { Workspace } from "polotno/canvas/workspace";
+import { useTranslations } from "next-intl";
 
 import { createStore } from "polotno/model/store";
 import { PlaceholderSectionDefinition } from "./placeholder-section";
@@ -33,7 +34,6 @@ const filteredSections = DEFAULT_SECTIONS.filter(
   (section) =>
     section.name === "text" ||
     section.name === "elements" ||
-    section.name === "photos" ||
     section.name === "upload" ||
     section.name === "background" // Keep background for styling
 );
@@ -46,6 +46,9 @@ interface EditorProps {
 }
 
 export const Editor = ({ template }: EditorProps) => {
+  // Translation hooks
+  const tTemplates = useTranslations("templates");
+
   // Template configuration state - initialize with template data if provided
   const [templateConfig, setTemplateConfig] = useState<TemplateConfig>({
     title: template?.title || "",
@@ -176,15 +179,18 @@ export const Editor = ({ template }: EditorProps) => {
           }}
           title={
             hasConfigured
-              ? `Title: ${templateConfig.title}\nPrice: $${templateConfig.price}`
-              : "Configure template first"
+              ? tTemplates("actions.tooltips.templateInfo", {
+                  title: templateConfig.title,
+                  price: templateConfig.price.toString(),
+                })
+              : tTemplates("actions.tooltips.configureFirst")
           }
         >
           {hasConfigured
             ? isEditMode
-              ? "Edit Template Info"
-              : "Edit Configuration"
-            : "Configure Template"}
+              ? tTemplates("actions.editTemplateInfo")
+              : tTemplates("actions.editConfiguration")
+            : tTemplates("actions.configureTemplate")}
         </button>
         <button
           onClick={handleSaveTemplate}
@@ -205,44 +211,21 @@ export const Editor = ({ template }: EditorProps) => {
           }
           title={
             isEditMode
-              ? `Editing template: ${templateConfig.title}`
-              : "Create new template"
+              ? tTemplates("actions.tooltips.editingTemplate", {
+                  title: templateConfig.title,
+                })
+              : tTemplates("actions.tooltips.createNewTemplate")
           }
         >
           {createTemplate.isPending || updateTemplate.isPending
             ? isEditMode
-              ? "Updating..."
-              : "Saving..."
+              ? tTemplates("actions.updating")
+              : tTemplates("actions.saving")
             : isEditMode
-            ? "Update Template"
-            : "Save Template"}
+            ? tTemplates("actions.updateTemplate")
+            : tTemplates("actions.saveTemplate")}
         </button>
-        {isEditMode && (
-          <button
-            onClick={async () => {
-              try {
-                await saveTemplateToAPI(store, templateConfig, createTemplate);
-              } catch (error) {
-                // Error handling is done by the mutation notification hook
-              }
-            }}
-            style={{
-              padding: "8px 16px",
-              backgroundColor: "#2196F3",
-              color: "white",
-              border: "none",
-              borderRadius: "4px",
-              cursor: "pointer",
-              fontSize: "14px",
-              fontWeight: "500",
-            }}
-            disabled={!hasConfigured || createTemplate.isPending}
-            title="Save as new template (copy)"
-          >
-            {createTemplate.isPending ? "Creating..." : "Save as Copy"}
-          </button>
-        )}
-        <button
+        {/* <button
           onClick={() => downloadTemplateAsJSON(store, templateConfig)}
           style={{
             padding: "8px 16px",
@@ -256,9 +239,9 @@ export const Editor = ({ template }: EditorProps) => {
           }}
           disabled={!hasConfigured}
         >
-          Download JSON
-        </button>
-        <button
+          {tTemplates("actions.downloadJSON")}
+        </button> */}
+        {/* <button
           onClick={() => saveTemplateAsSVG(store, templateConfig)}
           style={{
             padding: "8px 16px",
@@ -272,8 +255,8 @@ export const Editor = ({ template }: EditorProps) => {
           }}
           disabled={!hasConfigured}
         >
-          Save as SVG
-        </button>
+          {tTemplates("actions.saveAsSVG")}
+        </button> */}
       </div>
     );
   };
