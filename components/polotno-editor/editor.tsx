@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useState } from "react";
 import { PolotnoContainer, SidePanelWrap, WorkspaceWrap } from "polotno";
 import { Toolbar } from "polotno/toolbar/toolbar";
