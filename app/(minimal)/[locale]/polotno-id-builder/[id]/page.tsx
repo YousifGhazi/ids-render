@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import { useParams } from "next/navigation";
 import { useGetTemplate } from "@/features/templates/api";
 import { Loader, Center, Text, Alert } from "@mantine/core";
-import { Template } from "@/features/templates/types";
 
 const Editor = dynamic(() => import("@/components/polotno-editor/editor"), {
   ssr: false,
