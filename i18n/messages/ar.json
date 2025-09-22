@@ -84,7 +84,41 @@
     "deleteConfirmation": "هل أنت متأكد أنك تريد حذف القالب '{title}'؟ هذه العملية لا يمكن التراجع عنها.",
     "deleteSuccess": "تم حذف القالب بنجاح",
     "deleteError": "فشل في حذف القالب",
-    "noTemplates": "لم يتم العثور على قوالب"
+    "noTemplates": "لم يتم العثور على قوالب",
+    "config": {
+      "title": "إعدادات القالب",
+      "editTitle": "تحرير معلومات القالب",
+      "templateTitle": "عنوان القالب",
+      "templateTitlePlaceholder": "أدخل عنوان القالب...",
+      "templateDescription": "الوصف",
+      "templateDescriptionPlaceholder": "أدخل وصف القالب...",
+      "templatePrice": "السعر",
+      "templatePricePlaceholder": "أدخل سعر القالب...",
+      "saveConfiguration": "حفظ الإعدادات",
+      "updateInformation": "تحديث المعلومات",
+      "validation": {
+        "titleMinLength": "العنوان يجب أن يكون على الأقل 3 أحرف",
+        "descriptionMinLength": "الوصف يجب أن يكون على الأقل 10 أحرف",
+        "pricePositive": "السعر يجب أن يكون رقم موجب"
+      }
+    },
+    "actions": {
+      "configureTemplate": "إعداد القالب",
+      "editTemplateInfo": "تحرير معلومات القالب",
+      "editConfiguration": "تحرير الإعدادات",
+      "saveTemplate": "حفظ القالب",
+      "updateTemplate": "تحديث القالب",
+      "saving": "جاري الحفظ...",
+      "updating": "جاري التحديث...",
+      "downloadJSON": "تحميل JSON",
+      "saveAsSVG": "حفظ كـ SVG",
+      "tooltips": {
+        "configureFirst": "إعداد القالب أولاً",
+        "templateInfo": "العنوان: {title}\\nالسعر: ${price}",
+        "editingTemplate": "تحرير القالب: {title}",
+        "createNewTemplate": "إنشاء قالب جديد"
+      }
+    }
   },
 
   "sidebar": {
@@ -201,6 +235,7 @@
     "templateNotFound": "لم يتم العثور على القالب المطلوب أو حدث خطأ أثناء التحميل.",
     "noSmartFields": "لم يتم العثور على حقول ذكية",
     "noSmartFieldsDesc": "يرجى إضافة حقول ذكية باستخدام مصمم الهوية لإنشاء النموذج.",
+    "templateFields": "حقول القالب",
     "status": {
       "PENDING": "بانتظار الموافقة",
       "PAID": "مدفوع",

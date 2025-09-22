@@ -7,7 +7,6 @@ import {
   Text,
   Grid,
   Card,
-  Image,
   Button,
   Group,
   Badge,
@@ -24,7 +23,7 @@ import { useGetTemplates, useDeleteTemplate } from "@/features/templates/api";
 import type { Template } from "@/features/templates/types";
 import { modals } from "@mantine/modals";
 import { notifications } from "@mantine/notifications";
-import IDCardPreviewBuilder from "@/components/ids-designer/id-card-template-preview-builder";
+import { PolotnoImageRenderer } from "@/components/polotno-editor";
 import { Permission } from "@/components/permission";
 
 // Skeleton loader component for template cards
@@ -60,7 +59,7 @@ export default function IdCardsTemplates() {
   const deleteTemplate = useDeleteTemplate();
 
   const handleCreateNew = () => {
-    router.push("/id-builder");
+    router.push("/polotno-id-builder");
   };
 
   const handleUseTemplate = (templateId: number) => {
@@ -141,112 +140,130 @@ export default function IdCardsTemplates() {
             </Text>
           </Grid.Col>
         ) : templates && templates.length > 0 ? (
-          templates.map((template: Template) => (
-            <Grid.Col
-              key={template.id}
-              span={{ base: 12, sm: 6, md: 4, lg: 3 }}
-            >
-              <Card
-                padding="lg"
-                radius="md"
-                withBorder
-                style={{
-                  height: "100%",
-                  transition: "all 0.2s ease",
-                  cursor: "pointer",
-                  "&:hover": {
-                    transform: "translateY(-4px)",
-                  },
-                }}
+          templates.map((template: Template) => {
+            if (!template?.template?.pages) {
+              return null;
+            }
+
+            const previewTemplate = {
+              ...template,
+              template: {
+                ...template.template,
+                pages: Array.isArray(template.template.pages)
+                  ? [template.template.pages[0]]
+                  : [],
+              },
+            };
+
+            return (
+              <Grid.Col
+                key={template.id}
+                span={{ base: 12, sm: 6, md: 4, lg: 3 }}
               >
-                <Card.Section>
-                  <Box pos="relative">
-                    {template.is_enabled === "1" && (
-                      <Badge
-                        color="green"
-                        variant="filled"
-                        size="sm"
-                        style={{
-                          position: "absolute",
-                          top: 10,
-                          right: 10,
-                        }}
-                      >
-                        {t("common.active")}
-                      </Badge>
+                <Card
+                  padding="lg"
+                  radius="md"
+                  withBorder
+                  style={{
+                    height: "100%",
+                    transition: "all 0.2s ease",
+                    cursor: "pointer",
+                    "&:hover": {
+                      transform: "translateY(-4px)",
+                    },
+                  }}
+                >
+                  <Card.Section>
+                    <Box pos="relative">
+                      {template.is_enabled === 1 && (
+                        <Badge
+                          color="green"
+                          variant="filled"
+                          size="sm"
+                          style={{
+                            position: "absolute",
+                            top: 10,
+                            right: 10,
+                          }}
+                        >
+                          {t("common.active")}
+                        </Badge>
+                      )}
+                      <Tooltip label={t("common.delete")}>
+                        <ActionIcon
+                          color="red"
+                          variant="filled"
+                          size="sm"
+                          style={{
+                            position: "absolute",
+                            top: 10,
+                            left: 10,
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteTemplate(template);
+                          }}
+                        >
+                          <IconTrash size={14} />
+                        </ActionIcon>
+                      </Tooltip>
+                    </Box>
+                  </Card.Section>
+
+                  <Stack gap="sm" mt="md">
+                    {template?.template && !template?.template.frontCanvas && (
+                      <PolotnoImageRenderer
+                        key={template.id}
+                        template={
+                          previewTemplate?.template as Record<string, any>
+                        }
+                      />
                     )}
-                    <Tooltip label={t("common.delete")}>
-                      <ActionIcon
-                        color="red"
-                        variant="filled"
-                        size="sm"
-                        style={{
-                          position: "absolute",
-                          top: 10,
-                          left: 10,
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDeleteTemplate(template);
-                        }}
-                      >
-                        <IconTrash size={14} />
-                      </ActionIcon>
-                    </Tooltip>
-                  </Box>
-                </Card.Section>
 
-                <Stack gap="sm" mt="md">
-                  <div>
-                    <IDCardPreviewBuilder
-                      templateData={template.template as any}
-                    />
-                  </div>
-                  <Divider />
+                    <Stack gap={10}>
+                      <Text size="sm" fw={700}>
+                        {t("price")}: {template.price}
+                      </Text>
+                      <Text size="sm" fw={700}>
+                        {t("ids.submissionCount")}:
+                        {String(template.identitiesCount)}
+                      </Text>
+                      <Text size="sm" fw={700}>
+                        {t("description")}: {template.description}
+                      </Text>
+                    </Stack>
 
-                  <Stack>
-                    <Text size="sm" fw={700}>
-                      {t("price")}: {template.price}
-                    </Text>
-                    <Text size="sm" fw={700}>
-                      {t("ids.submissionCount")}:
-                      {String(template.identitiesCount)}
-                    </Text>
-                    <Text size="sm" fw={700}>
-                      {t("description")}: {template.description}
-                    </Text>
+                    <Group gap="xs" mt="auto">
+                      <Permission can="update-template">
+                        <Button
+                          variant="light"
+                          size="xs"
+                          leftSection={<IconEye size={14} />}
+                          style={{ flex: 1 }}
+                          onClick={() => {
+                            router.push(`/polotno-id-builder/${template.id}`);
+                          }}
+                        >
+                          {t("idsDesigner.templates.preview")}
+                        </Button>
+                      </Permission>
+                      <Permission can="create-identity">
+                        <Button
+                          variant="filled"
+                          size="xs"
+                          leftSection={<IconEdit size={14} />}
+                          onClick={() => handleUseTemplate(template.id)}
+                          style={{ flex: 1 }}
+                        >
+                          {t("idsDesigner.templates.useTemplate")}
+                        </Button>
+                      </Permission>
+                    </Group>
                   </Stack>
-
-                  <Group gap="xs" mt="auto">
-                    <Permission can="update-template">
-                      <Button
-                        variant="light"
-                        size="xs"
-                        leftSection={<IconEye size={14} />}
-                        style={{ flex: 1 }}
-                        onClick={() => {
-                          router.push(`/id-builder/edit/${template.id}`);
-                        }}
-                      >
-                        {t("idsDesigner.templates.preview")}
-                      </Button>
-                    </Permission>
-                    <Permission can="create-identity">
-                      <Button
-                        variant="filled"
-                        size="xs"
-                        leftSection={<IconEdit size={14} />}
-                        onClick={() => handleUseTemplate(template.id)}
-                        style={{ flex: 1 }}
-                      >
-                        {t("idsDesigner.templates.useTemplate")}
-                      </Button>
-                    </Permission>
-                  </Group>
-                </Stack>
-              </Card>
-            </Grid.Col>
-          ))
+                </Card>
+              </Grid.Col>
+            );
+          })
         ) : (
           <Grid.Col span={12}>
             <Text ta="center" py="xl" c="dimmed">

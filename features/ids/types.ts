@@ -70,6 +70,7 @@ export type CreateIDCardInput = {
   organizationId: number;
   issueDate: Date | null;
   expirationDate: Date | null;
+  [key: string]: any; // Allow dynamic properties from template variables
 };
 
 export type UpdateIDCardInput = {
