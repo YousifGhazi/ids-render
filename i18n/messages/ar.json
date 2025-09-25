@@ -112,11 +112,13 @@
       "updating": "جاري التحديث...",
       "downloadJSON": "تحميل JSON",
       "saveAsSVG": "حفظ كـ SVG",
+      "flipOrientation": "قلب الاتجاه",
       "tooltips": {
         "configureFirst": "إعداد القالب أولاً",
         "templateInfo": "العنوان: {title}\\nالسعر: ${price}",
         "editingTemplate": "تحرير القالب: {title}",
-        "createNewTemplate": "إنشاء قالب جديد"
+        "createNewTemplate": "إنشاء قالب جديد",
+        "flipOrientation": "التبديل بين التخطيط الأفقي والعمودي للوجهين الأمامي والخلفي"
       }
     }
   },

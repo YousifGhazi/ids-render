@@ -14,7 +14,6 @@ import { formatDate } from "@/utils/format";
 import { useDeleteMember, useGetMembers } from "@/features/members/api";
 import { Member } from "@/features/members/types";
 import { Permission } from "@/components/permission";
-import { BooleanState } from "@/components/icons/boolean-state";
 import { MembersUpload } from "./members-upload";
 import { IconDownload, IconFileUpload } from "@tabler/icons-react";
 import { api } from "@/api/client";
@@ -140,23 +139,3 @@ export function MembersTable() {
     </>
   );
 }
-
-const downloadTemplate = () => {
-  // Create CSV headers
-  const headers = ["Phone Number", "Member Name"];
-  const csvContent = headers.join(",") + "\n";
-
-  // Create blob and download
-  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-  const link = document.createElement("a");
-
-  if (link.download !== undefined) {
-    const url = URL.createObjectURL(blob);
-    link.setAttribute("href", url);
-    link.setAttribute("download", "members_template.csv");
-    link.style.visibility = "hidden";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  }
-};

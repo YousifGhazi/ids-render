@@ -56,10 +56,10 @@ export function IdsTable() {
             ),
           },
           { accessor: "id", title: t("id") },
-          { accessor: "member.name", title: t("members.name"), sortable: true },
+          { accessor: "member.name", title: t("name"), sortable: true },
           {
             accessor: "member.phone",
-            title: t("members.phone"),
+            title: t("phoneNumber"),
           },
           {
             accessor: "template.title",
