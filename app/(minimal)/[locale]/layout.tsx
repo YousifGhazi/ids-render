@@ -15,9 +15,6 @@ import { DatesProvider } from "@mantine/dates";
 import { ModalsProvider } from "@mantine/modals";
 import { ReactQueryProvider } from "@/providers/react-query-provider";
 
-import "@blueprintjs/core/lib/css/blueprint.css";
-import "@blueprintjs/icons/lib/css/blueprint-icons.css";
-
 const CairoFont = Cairo({
   variable: "--font-cairo",
   subsets: ["latin", "arabic"],
