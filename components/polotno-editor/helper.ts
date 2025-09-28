@@ -269,6 +269,51 @@ export const addTemplateElements = (store: any) => {
   }
 };
 
+// Function to flip orientation (swap width and height) for all pages
+export const flipOrientation = (store: any) => {
+  try {
+    if (!store || !store.pages || !Array.isArray(store.pages)) {
+      console.error("Store or pages not available for orientation flip");
+      return;
+    }
+
+    // Get current dimensions from the first page to determine if we need to flip
+    const firstPage = store.pages[0];
+    if (!firstPage) {
+      console.error("No pages available for orientation flip");
+      return;
+    }
+
+    const currentWidth = firstPage.width || ID_CARD_WIDTH;
+    const currentHeight = firstPage.height || ID_CARD_HEIGHT;
+
+    // Calculate new dimensions (swap width and height)
+    const newWidth = currentHeight;
+    const newHeight = currentWidth;
+
+    // Update all pages with new dimensions
+    store.pages.forEach((page: any) => {
+      if (page && typeof page.set === "function") {
+        page.set({
+          width: newWidth,
+          height: newHeight,
+        });
+      }
+    });
+
+    // Update the store size
+    if (typeof store.setSize === "function") {
+      store.setSize(newWidth, newHeight);
+    }
+
+    console.log(
+      `Orientation flipped: ${currentWidth}x${currentHeight} -> ${newWidth}x${newHeight}`
+    );
+  } catch (error) {
+    console.error("Error flipping orientation:", error);
+  }
+};
+
 // Function to initialize the store with proper configuration
 export const initializeStore = (storeKey: string, createStoreFunction: any) => {
   try {
