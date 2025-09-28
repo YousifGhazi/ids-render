@@ -14,7 +14,10 @@ import { formatDate } from "@/utils/format";
 import { useDeleteMember, useGetMembers } from "@/features/members/api";
 import { Member } from "@/features/members/types";
 import { Permission } from "@/components/permission";
+<<<<<<< HEAD
 import { BooleanState } from "@/components/icons/boolean-state";
+=======
+>>>>>>> upstream/main
 import { MembersUpload } from "./members-upload";
 import { IconDownload, IconFileUpload } from "@tabler/icons-react";
 import { api } from "@/api/client";
@@ -140,6 +143,7 @@ export function MembersTable() {
     </>
   );
 }
+<<<<<<< HEAD
 
 const downloadTemplate = () => {
   // Create CSV headers
@@ -160,3 +164,5 @@ const downloadTemplate = () => {
     document.body.removeChild(link);
   }
 };
+=======
+>>>>>>> upstream/main

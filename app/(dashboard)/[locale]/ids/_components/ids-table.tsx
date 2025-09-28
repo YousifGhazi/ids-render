@@ -56,10 +56,17 @@ export function IdsTable() {
             ),
           },
           { accessor: "id", title: t("id") },
+<<<<<<< HEAD
           { accessor: "member.name", title: t("members.name"), sortable: true },
           {
             accessor: "member.phone",
             title: t("members.phone"),
+=======
+          { accessor: "member.name", title: t("name"), sortable: true },
+          {
+            accessor: "member.phone",
+            title: t("phoneNumber"),
+>>>>>>> upstream/main
           },
           {
             accessor: "template.title",

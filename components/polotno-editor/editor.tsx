@@ -25,12 +25,19 @@ import {
   initializeStore,
   isValidTemplateJSON,
   isStoreReady,
+<<<<<<< HEAD
 } from "./helper";
+=======
+  flipOrientation,
+} from "./helper";
+import { QrSection } from "./qr-section";
+>>>>>>> upstream/main
 
 // Lock size changes by removing size-related components from toolbar
 const PageBackground = () => null; // Disable page background controls
 
 // Restrict side panel sections - remove size, upload, and other potentially problematic sections
+<<<<<<< HEAD
 const filteredSections = DEFAULT_SECTIONS.filter(
   (section) =>
     section.name === "text" ||
@@ -38,6 +45,18 @@ const filteredSections = DEFAULT_SECTIONS.filter(
     section.name === "upload" ||
     section.name === "background" // Keep background for styling
 );
+=======
+const filteredSections = [
+  ...DEFAULT_SECTIONS.filter(
+    (section) =>
+      section.name === "text" ||
+      section.name === "elements" ||
+      section.name === "upload" ||
+      section.name === "background" // Keep background for styling
+  ),
+  QrSection,
+];
+>>>>>>> upstream/main
 
 // Add the custom placeholder section
 const sections = [...filteredSections, PlaceholderSectionDefinition];
@@ -139,8 +158,11 @@ export const Editor = ({ template }: EditorProps) => {
 
             // Ensure we're in edit mode
             setIsEditMode(true);
+<<<<<<< HEAD
 
             console.log("Template loaded successfully:", template.title);
+=======
+>>>>>>> upstream/main
           } else {
             const errorMsg = !isValidTemplateJSON(template.template)
               ? "Invalid template JSON structure"
@@ -167,6 +189,25 @@ export const Editor = ({ template }: EditorProps) => {
       <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
         <DownloadButton store={store} />
         <button
+<<<<<<< HEAD
+=======
+          onClick={() => flipOrientation(store)}
+          style={{
+            padding: "8px 16px",
+            backgroundColor: "#FF6B35",
+            color: "white",
+            border: "none",
+            borderRadius: "4px",
+            cursor: "pointer",
+            fontSize: "14px",
+            fontWeight: "500",
+          }}
+          title={tTemplates("actions.tooltips.flipOrientation")}
+        >
+          {tTemplates("actions.flipOrientation")}
+        </button>
+        <button
+>>>>>>> upstream/main
           onClick={() => setConfigModalOpened(true)}
           style={{
             padding: "8px 16px",
@@ -242,7 +283,11 @@ export const Editor = ({ template }: EditorProps) => {
         >
           {tTemplates("actions.downloadJSON")}
         </button> */}
+<<<<<<< HEAD
         {/* <button
+=======
+        <button
+>>>>>>> upstream/main
           onClick={() => saveTemplateAsSVG(store, templateConfig)}
           style={{
             padding: "8px 16px",
@@ -257,7 +302,11 @@ export const Editor = ({ template }: EditorProps) => {
           disabled={!hasConfigured}
         >
           {tTemplates("actions.saveAsSVG")}
+<<<<<<< HEAD
         </button> */}
+=======
+        </button>
+>>>>>>> upstream/main
       </div>
     );
   };

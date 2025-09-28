@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+"use client";
+>>>>>>> upstream/main
 import React, { useState, useEffect } from "react";
 import { SectionTab } from "polotno/side-panel";
 import { IconVariable, IconPlus } from "@tabler/icons-react";
