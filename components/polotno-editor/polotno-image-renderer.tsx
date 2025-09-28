@@ -4,15 +4,6 @@ import { svgToURL } from "polotno/utils/svg";
 import React from "react";
 import { PolotnoImageRendererProps } from "./types";
 
-<<<<<<< HEAD
-/**
- * Replaces {variableName} patterns with actual data values in a text string
- * @param text - The text containing variable patterns
- * @param data - The data object with variable values
- * @returns The text with variables replaced
- */
-=======
->>>>>>> upstream/main
 function replaceVariables(text: string, data: Record<string, string>): string {
   if (!text || !data) return text;
 
@@ -22,15 +13,6 @@ function replaceVariables(text: string, data: Record<string, string>): string {
   });
 }
 
-<<<<<<< HEAD
-/**
- * Deep clones and processes a template to replace variables with data
- * @param template - The template object to process
- * @param data - The data object with variable values
- * @returns A new template with variables replaced
- */
-=======
->>>>>>> upstream/main
 function processTemplateWithData(
   template: any,
   data?: Record<string, string>
@@ -47,16 +29,11 @@ function processTemplateWithData(
     processedTemplate.pages.forEach((page: any) => {
       if (page.children && Array.isArray(page.children)) {
         page.children.forEach((child: any) => {
-<<<<<<< HEAD
-=======
           console.log(`Replacing image variable `);
->>>>>>> upstream/main
           // Replace variables in text elements
           if (child.type === "text" && child.text) {
             child.text = replaceVariables(child.text, data);
           }
-<<<<<<< HEAD
-=======
 
           // Replace variables in image elements
           if (child.type === "image" && child.custom) {
@@ -68,7 +45,6 @@ function processTemplateWithData(
               child.src = data[variable];
             }
           }
->>>>>>> upstream/main
         });
       }
     });

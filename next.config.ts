@@ -5,10 +5,6 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-<<<<<<< HEAD
-  webpack: (config) => {
-    config.externals = [...config.externals, { canvas: 'canvas' }]; // required to make Konva & react-konva work
-=======
   webpack: (config, { isServer }) => {
     if (isServer) {
       config.externals = config.externals || [];
@@ -17,7 +13,6 @@ const nextConfig: NextConfig = {
         sharp: "commonjs sharp",
       });
     }
->>>>>>> upstream/main
     return config;
   },
 };

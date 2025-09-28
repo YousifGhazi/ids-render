@@ -269,8 +269,6 @@ export const addTemplateElements = (store: any) => {
   }
 };
 
-<<<<<<< HEAD
-=======
 // Function to flip orientation (swap width and height) for all pages
 export const flipOrientation = (store: any) => {
   try {
@@ -316,7 +314,6 @@ export const flipOrientation = (store: any) => {
   }
 };
 
->>>>>>> upstream/main
 // Function to initialize the store with proper configuration
 export const initializeStore = (storeKey: string, createStoreFunction: any) => {
   try {

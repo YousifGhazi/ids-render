@@ -79,10 +79,7 @@
   },
 
   "templates": {
-<<<<<<< HEAD
-=======
     "singular_title": "template",
->>>>>>> upstream/main
     "deleteConfirmation": "Are you sure you want to delete the template '{title}'? This action cannot be undone.",
     "deleteSuccess": "Template deleted successfully",
     "deleteError": "Failed to delete template",
@@ -114,20 +111,13 @@
       "updating": "Updating...",
       "downloadJSON": "Download JSON",
       "saveAsSVG": "Save as SVG",
-<<<<<<< HEAD
-=======
       "flipOrientation": "Flip Orientation",
->>>>>>> upstream/main
       "tooltips": {
         "configureFirst": "Configure template first",
         "templateInfo": "Title: {title}\\nPrice: ${price}",
         "editingTemplate": "Editing template: {title}",
-<<<<<<< HEAD
-        "createNewTemplate": "Create new template"
-=======
         "createNewTemplate": "Create new template",
         "flipOrientation": "Switch between horizontal and vertical layout for both front and back pages"
->>>>>>> upstream/main
       }
     }
   },
