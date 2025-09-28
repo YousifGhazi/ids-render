@@ -1,0 +1,19 @@
+name: Render Production Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-to-render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Trigger Render Deployment
+        run: |
+          curl -X POST \
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer rnd_2Zy7dKq3BPayejy66ia0tsVT7xUO" \
+            https://api.render.com/v1/services/srv-d38k1a8dl3ps73a28agg/deploys
