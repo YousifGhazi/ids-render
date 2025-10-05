@@ -35,16 +35,20 @@ function processTemplateWithData(
             child.text = replaceVariables(child.text, data);
           }
 
-          // Replace variables in image elements
-          if (child.type === "image" && child.custom) {
-            const { variable, variableType } = child.custom;
+          // // Replace variables in image elements
+          // if (child.type === "image" && child.custom) {
+          //   const { variable, variableType } = child.custom;
+          //   console.log(`Replacing image variable `, variable, variableType);
 
-            // Check if this is an image variable and we have data for it
-            if (variableType === "image" && variable && data[variable]) {
-              // Set the image src to the URL value from data
-              child.src = data[variable];
-            }
-          }
+
+          //   // Check if this is an image variable and we have data for it
+          //   if (variableType === "image" && variable && data[variable]) {
+          //   console.log(`Replacing image variable `, variable, variableType, data[variable]);
+              
+          //     // Set the image src to the URL value from data
+          //     child.src = data[variable];
+          //   }
+          // }
         });
       }
     });

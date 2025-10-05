@@ -29,8 +29,6 @@ import {
 } from "./helper";
 import { QrSection } from "./qr-section";
 
-// Lock size changes by removing size-related components from toolbar
-const PageBackground = () => null; // Disable page background controls
 
 // Restrict side panel sections - remove size, upload, and other potentially problematic sections
 const filteredSections = [
@@ -39,13 +37,13 @@ const filteredSections = [
       section.name === "text" ||
       section.name === "elements" ||
       section.name === "upload" ||
+      section.name === "size" ||
       section.name === "background" // Keep background for styling
   ),
-  QrSection,
 ];
 
 // Add the custom placeholder section
-const sections = [...filteredSections, PlaceholderSectionDefinition];
+const sections = [...filteredSections,QrSection, PlaceholderSectionDefinition];
 
 interface EditorProps {
   template?: Template;
@@ -307,14 +305,14 @@ export const Editor = ({ template }: EditorProps) => {
 
   return (
     <>
-      <TemplateConfigModal
+      {/* <TemplateConfigModal
         opened={configModalOpened}
         onClose={handleConfigModalClose}
         onSave={handleConfigSave}
         initialConfig={templateConfig}
         isEditMode={isEditMode}
         key={template?.id || "default"} // Force re-render when template changes
-      />{" "}
+      /> */}
       <PolotnoContainer style={{ width: "100vw", height: "100vh" }}>
         <link
           rel="stylesheet"
@@ -328,15 +326,15 @@ export const Editor = ({ template }: EditorProps) => {
             store={store}
             components={{
               ActionControls,
-              PageBackground, // Disable page background size controls
+              // PageBackground, // Disable page background size controls
             }}
           />
           <Workspace
             store={store}
-            components={{
-              // Hide page controls to prevent adding/removing pages
-              PageControls: () => null,
-            }}
+            // components={{
+            //   // Hide page controls to prevent adding/removing pages
+            //   PageControls: () => null,
+            // }}
           />
           <ZoomButtons store={store} />
           <PagesTimeline store={store} />

@@ -176,11 +176,11 @@ export const lockStoreChanges = (store: any) => {
     }
 
     // Lock size changes
-    if (store.setSize) {
-      store.setSize = () => {
-        // Do nothing - size is locked
-      };
-    }
+      // NOTE: previously we overrode `store.setSize` to prevent size changes
+      // which blocked Polotno's resize section/form from appearing. Removing
+      // that override so the resize controls can function normally. If you
+      // need to enforce size constraints in the future, consider validating
+      // sizes in event handlers instead of replacing the API method.
 
     // Override addPage to prevent adding more than 2 pages
     if (store.addPage && store.pages) {
@@ -198,7 +198,7 @@ export const lockStoreChanges = (store: any) => {
     if (store.deletePages && store.pages) {
       const originalDeletePages = store.deletePages;
       store.deletePages = (ids: string[]) => {
-        if (store.pages.length - ids.length < 2) {
+        if (store.pages.length - ids.length < 1) {
           console.warn("Minimum 2 pages required for ID card template");
           return; // Do nothing - keep minimum 2 pages
         }
