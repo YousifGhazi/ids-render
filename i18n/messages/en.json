@@ -419,6 +419,25 @@
     }
   },
 
+  "idModal": {
+    "title": "Member Information",
+    "memberDetails": "Member Details",
+    "idCardInformation": "ID Card Information",
+    "organization": "Organization",
+    "additionalInformation": "Additional Information",
+    "joinDate": "Join Date",
+    "issueDate": "Issue Date",
+    "expirationDate": "Expiration Date",
+    "template": "Template",
+    "visitWebsite": "Visit Website",
+    "viewImage": "View Image",
+    "downloadFile": "Download File",
+    "downloadSVG": "Download SVG",
+    "downloadPNG": "Download PNG",
+    "close": "Close",
+    "notAvailable": "N/A"
+  },
+
   "stats": {
     "title": "Dashboard Statistics",
     "topOrganizationsList": "Top Organizations",

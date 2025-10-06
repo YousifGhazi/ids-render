@@ -434,6 +434,25 @@
     }
   },
 
+  "idModal": {
+    "title": "معلومات المنتسب",
+    "memberDetails": "تفاصيل المنتسب",
+    "idCardInformation": "معلومات بطاقة الهوية",
+    "organization": "المؤسسة",
+    "additionalInformation": "معلومات إضافية",
+    "joinDate": "تاريخ الانتساب",
+    "issueDate": "تاريخ الإصدار",
+    "expirationDate": "تاريخ الانتهاء",
+    "template": "القالب",
+    "visitWebsite": "زيارة الموقع",
+    "viewImage": "عرض الصورة",
+    "downloadFile": "تحميل الملف",
+    "downloadSVG": "تحميل SVG",
+    "downloadPNG": "تحميل PNG",
+    "close": "إغلاق",
+    "notAvailable": "غير متاح"
+  },
+
   "stats": {
     "title": "إحصائيات لوحة المعلومات",
     "topOrganizationsList": "أهم المؤسسات",

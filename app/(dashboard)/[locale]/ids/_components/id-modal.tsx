@@ -65,7 +65,7 @@ const getFieldType = (value: any): string => {
   return "text";
 };
 
-const renderFieldValue = (key: string, value: any) => {
+const renderFieldValue = (key: string, value: any, t: any) => {
   const fieldType = getFieldType(value);
   
   switch (fieldType) {
@@ -86,7 +86,7 @@ const renderFieldValue = (key: string, value: any) => {
         <Group gap="xs">
           <Avatar src={value} size="sm" alt={key} />
           <Anchor href={value} target="_blank" size="sm">
-            View Image
+            {t("idModal.viewImage")}
             <IconExternalLink size={12} style={{ marginLeft: 4 }} />
           </Anchor>
         </Group>
@@ -96,7 +96,7 @@ const renderFieldValue = (key: string, value: any) => {
         <Anchor href={value} target="_blank" size="sm">
           <Group gap="xs">
             <IconDownload size={16} />
-            Download File
+            {t("idModal.downloadFile")}
           </Group>
         </Anchor>
       );
@@ -133,7 +133,7 @@ export function IdCardModal({ idCard, opened, onClose }: IdCardModalProps) {
       onClose={onClose}
       centered
       size="lg"
-      title="Member Information"
+      title={t("idModal.title")}
     >
       <ScrollArea h={600} type="scroll">
         <Stack gap="lg" p="md">
@@ -161,21 +161,21 @@ export function IdCardModal({ idCard, opened, onClose }: IdCardModalProps) {
 
         {/* Member Details */}
         <Paper withBorder p="md" radius="md">
-          <Title order={4} mb="md">Member Details</Title>
+          <Title order={4} mb="md">{t("idModal.memberDetails")}</Title>
           <Stack gap="sm">
             <Group >
-              <Text fw={500}>Name:</Text>
-              <Text>{idCard.member?.name || "N/A"}</Text>
+              <Text fw={500}>{t("name")}:</Text>
+              <Text>{idCard.member?.name || t("idModal.notAvailable")}</Text>
             </Group>
             <Group >
-              <Text fw={500}>Phone:</Text>
+              <Text fw={500}>{t("phoneNumber")}:</Text>
               <Group gap="xs">
                 <IconPhone size={16} />
-                <Text>{idCard.member?.phone || "N/A"}</Text>
+                <Text>{idCard.member?.phone || t("idModal.notAvailable")}</Text>
               </Group>
             </Group>
             <Group >
-              <Text fw={500}>Join Date:</Text>
+              <Text fw={500}>{t("idModal.joinDate")}:</Text>
               {(idCard as any).member?.joinDate ? (
                 <Group gap="xs">
                   <IconCalendar size={16} />
@@ -190,33 +190,33 @@ export function IdCardModal({ idCard, opened, onClose }: IdCardModalProps) {
 
         {/* ID Card Information */}
         <Paper withBorder p="md" radius="md">
-          <Title order={4} mb="md">ID Card Information</Title>
+          <Title order={4} mb="md">{t("idModal.idCardInformation")}</Title>
           <Stack gap="sm">
             <Group >
-              <Text fw={500}>Issue Date:</Text>
+              <Text fw={500}>{t("idModal.issueDate")}:</Text>
               {(idCard as any).issueDate ? (
                 <Group gap="xs">
                   <IconCalendar size={16} />
                   <Text>{formatDate((idCard as any).issueDate)}</Text>
                 </Group>
               ) : (
-                <Text>N/A</Text>
+                <Text>{t("idModal.notAvailable")}</Text>
               )}
             </Group>
             <Group >
-              <Text fw={500}>Expiration Date:</Text>
+              <Text fw={500}>{t("idModal.expirationDate")}:</Text>
               {(idCard as any).expirationDate ? (
                 <Group gap="xs">
                   <IconCalendar size={16} />
                   <Text>{formatDate((idCard as any).expirationDate)}</Text>
                 </Group>
               ) : (
-                <Text>N/A</Text>
+                <Text>{t("idModal.notAvailable")}</Text>
               )}
             </Group>
             <Group >
-              <Text fw={500}>Template:</Text>
-              <Text>{idCard.template?.title || "N/A"}</Text>
+              <Text fw={500}>{t("idModal.template")}:</Text>
+              <Text>{idCard.template?.title || t("idModal.notAvailable")}</Text>
             </Group>
           </Stack>
         </Paper>
@@ -224,7 +224,7 @@ export function IdCardModal({ idCard, opened, onClose }: IdCardModalProps) {
         {/* Organization Information */}
         {(idCard as any).organization && (
           <Paper withBorder p="md" radius="md">
-            <Title order={4} mb="md">Organization</Title>
+            <Title order={4} mb="md">{t("idModal.organization")}</Title>
             <Group>
               <Avatar src={(idCard as any).organization.logo} size="md" alt={(idCard as any).organization.name} />
               <Box>
@@ -232,7 +232,7 @@ export function IdCardModal({ idCard, opened, onClose }: IdCardModalProps) {
                 <Text size="sm" c="dimmed">{(idCard as any).organization.description}</Text>
                 {(idCard as any).organization.website && (
                   <Anchor href={(idCard as any).organization.website} target="_blank" size="sm">
-                    Visit Website
+                    {t("idModal.visitWebsite")}
                     <IconExternalLink size={12} style={{ marginLeft: 4 }} />
                   </Anchor>
                 )}
@@ -244,7 +244,7 @@ export function IdCardModal({ idCard, opened, onClose }: IdCardModalProps) {
         {/* Additional Information */}
         {idCard.request && Object.keys(idCard.request).length > 0 && (
           <Paper withBorder p="md" radius="md">
-            <Title order={4} mb="md">Additional Information</Title>
+            <Title order={4} mb="md">{t("idModal.additionalInformation")}</Title>
             <Stack gap="sm">
               {Object.entries(idCard.request).map(([key, value]) => (
                 <Group key={key}  align="flex-start">
@@ -252,7 +252,7 @@ export function IdCardModal({ idCard, opened, onClose }: IdCardModalProps) {
                     {getVariableLabel(key)}:
                   </Text>
                   <Box style={{ textAlign: "right", maxWidth: "60%" }}>
-                    {renderFieldValue(key, value)}
+                    {renderFieldValue(key, value, t)}
                   </Box>
                 </Group>
               ))}
@@ -276,7 +276,7 @@ export function IdCardModal({ idCard, opened, onClose }: IdCardModalProps) {
                   variant="filled"
                   color="blue"
                 >
-                  Download SVG
+                  {t("idModal.downloadSVG")}
                 </PolotnoExportButton>
 
                 <PolotnoExportButton
@@ -291,12 +291,12 @@ export function IdCardModal({ idCard, opened, onClose }: IdCardModalProps) {
                   variant="outline"
                   color="blue"
                 >
-                  Download PNG
+                  {t("idModal.downloadPNG")}
                 </PolotnoExportButton>
               </Group>
             )}
             <Button variant="default" onClick={onClose}>
-              Close
+              {t("idModal.close")}
             </Button>
           </Group>
         </Stack>
