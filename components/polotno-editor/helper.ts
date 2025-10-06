@@ -31,7 +31,8 @@ export const isStoreReady = (store: any): boolean => {
 };
 
 // Function to extract variables from all elements across all pages
-export const extractVariables = (json: any) => {
+// This extracts variables from canvas elements (visible variables)
+export const extractVariablesFromCanvas = (json: any) => {
   const variables: any[] = [];
   const seenVariables = new Set<string>(); // To avoid duplicates
 
@@ -47,7 +48,13 @@ export const extractVariables = (json: any) => {
             // Avoid duplicate variables
             if (!seenVariables.has(variableKey)) {
               seenVariables.add(variableKey);
-              variables.push(element.custom);
+              // Extract the full variable data including isVisible
+              variables.push({
+                variable: element.custom.variable,
+                variableLabel: element.custom.variableLabel,
+                variableType: element.custom.variableType,
+                isVisible: element.custom.isVisible !== undefined ? element.custom.isVisible : true,
+              });
             }
           }
         });
@@ -58,6 +65,41 @@ export const extractVariables = (json: any) => {
   return variables;
 };
 
+// Function to extract all variables including invisible ones from template JSON
+// This gets variables from the top-level vars array if it exists
+export const extractAllVariables = (json: any) => {
+  const allVariables: any[] = [];
+  const seenVariableNames = new Set<string>();
+  
+  // First, get variables from canvas (visible variables)
+  const canvasVariables = extractVariablesFromCanvas(json);
+  canvasVariables.forEach((v: any) => {
+    if (!seenVariableNames.has(v.variable)) {
+      allVariables.push(v);
+      seenVariableNames.add(v.variable);
+    }
+  });
+  
+  // Then check if there are pre-existing vars in the JSON (which may include invisible ones)
+  if (json.vars && Array.isArray(json.vars)) {
+    json.vars.forEach((v: any) => {
+      // Add any variables from vars array that aren't already in our list
+      // These are typically invisible variables
+      if (!seenVariableNames.has(v.variable)) {
+        allVariables.push({
+          variable: v.variable,
+          variableLabel: v.variableLabel || v.variable,
+          variableType: v.variableType,
+          isVisible: v.isVisible !== undefined ? v.isVisible : false, // Default to false if not specified
+        });
+        seenVariableNames.add(v.variable);
+      }
+    });
+  }
+  
+  return allVariables;
+};
+
 // Function to save template to API (create new template)
 export const saveTemplateToAPI = async (
   store: any,
@@ -66,11 +108,18 @@ export const saveTemplateToAPI = async (
 ) => {
   const json = store.toJSON();
 
-  // Extract variables and add to top level
-  const variables = extractVariables(json);
+  // Extract visible variables from canvas
+  const visibleVariables = extractVariablesFromCanvas(json);
+  
+  // Extract invisible variables from store's custom property
+  const invisibleVariables = json.custom?.invisibleVariables || [];
+  
+  // Merge visible and invisible variables
+  const allVariables = [...visibleVariables, ...invisibleVariables];
+  
   const enhancedJson = {
     ...json,
-    vars: variables,
+    vars: allVariables,
   };
 
   // Prepare template data for API
@@ -100,11 +149,18 @@ export const updateTemplateAPI = async (
 ) => {
   const json = store.toJSON();
 
-  // Extract variables and add to top level
-  const variables = extractVariables(json);
+  // Extract visible variables from canvas
+  const visibleVariables = extractVariablesFromCanvas(json);
+  
+  // Extract invisible variables from store's custom property
+  const invisibleVariables = json.custom?.invisibleVariables || [];
+  
+  // Merge visible and invisible variables
+  const allVariables = [...visibleVariables, ...invisibleVariables];
+  
   const enhancedJson = {
     ...json,
-    vars: variables,
+    vars: allVariables,
   };
 
   // Prepare template data for API
@@ -132,11 +188,18 @@ export const downloadTemplateAsJSON = async (
 ) => {
   const json = store.toJSON();
 
-  // Extract variables and add to top level
-  const variables = extractVariables(json);
+  // Extract visible variables from canvas
+  const visibleVariables = extractVariablesFromCanvas(json);
+  
+  // Extract invisible variables from store's custom property
+  const invisibleVariables = json.custom?.invisibleVariables || [];
+  
+  // Merge visible and invisible variables
+  const allVariables = [...visibleVariables, ...invisibleVariables];
+  
   const enhancedJson = {
     ...json,
-    vars: variables,
+    vars: allVariables,
     templateConfig: config, // Include template configuration
   };
 

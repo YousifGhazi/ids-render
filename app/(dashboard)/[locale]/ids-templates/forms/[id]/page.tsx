@@ -29,6 +29,7 @@ import {
   IconPhone,
   IconUser,
   IconNumbers,
+  IconUpload,
 } from "@tabler/icons-react";
 import { useGetTemplate } from "@/features/templates/api";
 import { useCreateId } from "@/features/ids/api";
@@ -38,6 +39,7 @@ import { useRouter } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import type { CreateIDCardInput } from "@/features/ids/types";
 import { useAuthStore } from "@/features/auth/store";
+import { log } from "fabric/fabric-impl";
 
 type FormValue = string | number | File | Date | null;
 
@@ -47,8 +49,6 @@ type FormData = Record<string, FormValue> & {
   secondName: string;
   thirdName: string;
   fourthName: string;
-  expirationDate: Date | null;
-  issueDate: Date | null;
   template_id: string;
   organizationId?: string;
 };
@@ -72,6 +72,8 @@ const getInputTypeFromVariableType = (variableType: string) => {
       return "image";
     case "number":
       return "number";
+    case "file":
+      return "file";
     case "text":
     default:
       return "text";
@@ -127,6 +129,16 @@ const renderInputField = (
           accept="image/*"
         />
       );
+    case "file":
+      return (
+        <FileInput
+          {...commonProps}
+          leftSection={<IconUpload size={16} />}
+          value={(value as File) || null}
+          onChange={(file) => onChange(file)}
+          accept="image/*,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/pdf"
+        />
+      );
     default:
       return null;
   }
@@ -147,8 +159,6 @@ export default function TemplateFormPage() {
     secondName: "",
     thirdName: "",
     fourthName: "",
-    expirationDate: null,
-    issueDate: null,
     template_id: templateId,
     organizationId: "",
   });
@@ -188,7 +198,7 @@ export default function TemplateFormPage() {
           templateVar.variableType
         );
         acc[templateVar.variable] =
-          inputType === "date" || inputType === "image"
+          inputType === "date" || inputType === "image" || inputType === "file"
             ? null
             : inputType === "number"
             ? 0
@@ -210,6 +220,8 @@ export default function TemplateFormPage() {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
+   
+
     try {
       // Extract fixed fields and dynamic variables separately
       const {
@@ -219,8 +231,6 @@ export default function TemplateFormPage() {
         fourthName,
         phone,
         organizationId,
-        issueDate,
-        expirationDate,
         template_id,
         ...dynamicVariables
       } = formData;
@@ -243,10 +253,11 @@ export default function TemplateFormPage() {
         phone: safeTrim(phone),
         template_id: Number(templateId),
         organizationId: Number(organizationId),
-        issueDate: issueDate,
-        expirationDate: expirationDate,
         ...dynamicVariables, // Spread the dynamic variables at the top level
       };
+
+      console.log('submitData', submitData);
+      
 
       await createIdMutation.mutateAsync(submitData);
       router.push("/ids");
@@ -296,8 +307,6 @@ export default function TemplateFormPage() {
     formData.phone.trim() &&
     typeof formData?.firstName === "string" &&
     formData.firstName.trim() &&
-    formData?.issueDate &&
-    formData?.expirationDate &&
     (!isAdmin || formData?.organizationId);
 
   return (
@@ -380,7 +389,7 @@ export default function TemplateFormPage() {
                     leftSection={<IconUser size={16} />}
                   />
                 </Grid.Col>
-                <Grid.Col span={{ base: 12, sm: 6 }}>
+                {/* <Grid.Col span={{ base: 12, sm: 6 }}>
                   <DateInput
                     label={tIds("issueDate")}
                     placeholder={`${tCommon("common.select")} ${tIds(
@@ -393,7 +402,7 @@ export default function TemplateFormPage() {
                   />
                 </Grid.Col>
                 <Grid.Col span={{ base: 12, sm: 6 }}>
-                  <DateInput
+                  {/* <DateInput
                     label={tIds("expirationDate")}
                     placeholder={`${tCommon("common.select")} ${tIds(
                       "expirationDate"
@@ -404,8 +413,8 @@ export default function TemplateFormPage() {
                     }
                     leftSection={<IconCalendar size={16} />}
                     required
-                  />
-                </Grid.Col>
+                  /> 
+                </Grid.Col> */}
                 {isAdmin && (
                   <Grid.Col span={{ base: 12, sm: 6 }}>
                     <Select

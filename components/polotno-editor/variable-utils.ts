@@ -36,6 +36,7 @@ export function replaceTextVariables(
 /**
  * Replace image variables in a Polotno JSON template
  * Finds elements with custom.variable property and updates their src
+ * Note: File-type variables are not rendered on canvas, so they won't be replaced here
  */
 export function replaceImageVariables(
   templateJson: any,
@@ -61,6 +62,7 @@ export function replaceImageVariables(
           child.type === "image" &&
           child.custom?.variable &&
           child.custom?.variableType === "image" &&
+          child.custom?.isVisible !== false && // Only replace visible image variables
           imageData[child.custom.variable]
         ) {
           // Replace the src with actual image URL
@@ -89,16 +91,20 @@ export function replaceAllVariables(
 /**
  * Extract all variables from a Polotno JSON template
  * Returns information about variables found in the template
+ * Now includes support for invisible and file-type variables
  */
 export function extractVariables(templateJson: any): {
   textVariables: string[];
-  imageVariables: Array<{ name: string; label: string; type: string }>;
+  imageVariables: Array<{ name: string; label: string; type: string; isVisible: boolean }>;
+  fileVariables: Array<{ name: string; label: string; type: string; isVisible: boolean }>;
+  invisibleVariables: Array<{ name: string; label: string; type: string; isVisible: boolean }>;
 } {
   const textVariables: Set<string> = new Set();
-  const imageVariables: Array<{ name: string; label: string; type: string }> =
-    [];
+  const imageVariables: Array<{ name: string; label: string; type: string; isVisible: boolean }> = [];
+  const fileVariables: Array<{ name: string; label: string; type: string; isVisible: boolean }> = [];
+  const invisibleVariables: Array<{ name: string; label: string; type: string; isVisible: boolean }> = [];
 
-  // Find text variables using regex
+  // Find text variables using regex (only from visible elements)
   const jsonString = JSON.stringify(templateJson);
   const textMatches = jsonString.match(/\{([^}]+)\}/g);
   if (textMatches) {
@@ -108,7 +114,7 @@ export function extractVariables(templateJson: any): {
     });
   }
 
-  // Find image variables
+  // Find image variables from canvas
   const forEveryChild = (node: any, callback: (child: any) => void) => {
     if (node.children) {
       node.children.forEach((child: any) => {
@@ -130,15 +136,41 @@ export function extractVariables(templateJson: any): {
             name: child.custom.variable,
             label: child.custom.variableLabel || child.custom.variable,
             type: child.custom.variableType,
+            isVisible: child.custom.isVisible !== undefined ? child.custom.isVisible : true,
           });
         }
       });
     });
   }
 
+  // Extract invisible and file variables from the vars array
+  if (templateJson.vars && Array.isArray(templateJson.vars)) {
+    templateJson.vars.forEach((variable: any) => {
+      if (variable.isVisible === false) {
+        if (variable.variableType === "file") {
+          fileVariables.push({
+            name: variable.variable,
+            label: variable.variableLabel || variable.variable,
+            type: variable.variableType,
+            isVisible: false,
+          });
+        } else {
+          invisibleVariables.push({
+            name: variable.variable,
+            label: variable.variableLabel || variable.variable,
+            type: variable.variableType,
+            isVisible: false,
+          });
+        }
+      }
+    });
+  }
+
   return {
     textVariables: Array.from(textVariables),
     imageVariables,
+    fileVariables,
+    invisibleVariables,
   };
 }
 

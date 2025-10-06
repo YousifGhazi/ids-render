@@ -243,7 +243,7 @@ export const Editor = ({ template }: EditorProps) => {
             ? tTemplates("actions.updateTemplate")
             : tTemplates("actions.saveTemplate")}
         </button>
-        {/* <button
+        <button
           onClick={() => downloadTemplateAsJSON(store, templateConfig)}
           style={{
             padding: "8px 16px",
@@ -258,7 +258,7 @@ export const Editor = ({ template }: EditorProps) => {
           disabled={!hasConfigured}
         >
           {tTemplates("actions.downloadJSON")}
-        </button> */}
+        </button>
         <button
           onClick={() => saveTemplateAsSVG(store, templateConfig)}
           style={{
