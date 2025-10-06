@@ -9,6 +9,8 @@ import {
 } from "@mantine/core";
 import "@mantine/core/styles.css";
 import "@mantine/notifications/styles.css";
+import "@mantine/dates/styles.css";
+
 import { NextIntlClientProvider } from "next-intl";
 import { theme } from "../../../theme";
 import { DatesProvider } from "@mantine/dates";

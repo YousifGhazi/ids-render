@@ -234,6 +234,11 @@
     "noSmartFields": "No Smart Fields Found",
     "noSmartFieldsDesc": "Please add smart fields using the ID designer to create the form.",
     "templateFields": "Template Fields",
+    "thankYou": "Thank You!",
+    "submissionSuccess": "Your ID card request has been submitted successfully.",
+    "submissionSuccessMessage": "We will process your request and notify you once it's ready.",
+    "createAnother": "Create Another ID",
+    "goToList": "Go to ID List",
     "status": {
       "PENDING": "Pending Approval",
       "PAID": "Paid",

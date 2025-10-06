@@ -15,7 +15,6 @@ import {
   Skeleton,
   ActionIcon,
   Tooltip,
-  Divider,
 } from "@mantine/core";
 import { IconPlus, IconEye, IconEdit, IconTrash } from "@tabler/icons-react";
 import { useRouter } from "@/i18n/navigation";
@@ -63,7 +62,7 @@ export default function IdCardsTemplates() {
   };
 
   const handleUseTemplate = (templateId: number) => {
-    router.push(`/ids-templates/forms/${templateId}`);
+    router.push(`/ids-templates-forms/${templateId}`);
   };
 
   const handleDeleteTemplate = (template: Template) => {

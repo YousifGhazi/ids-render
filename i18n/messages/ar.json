@@ -238,6 +238,11 @@
     "noSmartFields": "لم يتم العثور على حقول ذكية",
     "noSmartFieldsDesc": "يرجى إضافة حقول ذكية باستخدام مصمم الهوية لإنشاء النموذج.",
     "templateFields": "حقول القالب",
+    "thankYou": "شكراً لك!",
+    "submissionSuccess": "تم تقديم طلب بطاقة الهوية بنجاح.",
+    "submissionSuccessMessage": "سنقوم بمعالجة طلبك وإخطارك عند جاهزيته.",
+    "createAnother": "إنشاء هوية أخرى",
+    "goToList": "الذهاب إلى قائمة الهويات",
     "status": {
       "PENDING": "بانتظار الموافقة",
       "PAID": "مدفوع",
