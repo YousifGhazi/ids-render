@@ -1,0 +1,14 @@
+- preset for common vars 
+- fix camelCase typing
+- fix save SVG file
+- download pdf file 
+- fix double save template 
+
+
+- integrate payments 
+- public form
+- templates
+- upload to server
+- translation
+
+test 
