@@ -305,14 +305,14 @@ export const Editor = ({ template }: EditorProps) => {
 
   return (
     <>
-      {/* <TemplateConfigModal
+      <TemplateConfigModal
         opened={configModalOpened}
         onClose={handleConfigModalClose}
         onSave={handleConfigSave}
         initialConfig={templateConfig}
         isEditMode={isEditMode}
         key={template?.id || "default"} // Force re-render when template changes
-      /> */}
+      />
       <PolotnoContainer style={{ width: "100vw", height: "100vh" }}>
         <link
           rel="stylesheet"
