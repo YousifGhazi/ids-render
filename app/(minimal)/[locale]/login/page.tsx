@@ -48,7 +48,7 @@ export default function LoginPage() {
         {
           onSuccess: (data) => {
             setAuth(data.user, data.accessToken);
-            router.push("/");
+            router.push("/ids-templates");
           },
           onError: () => {
             notifications.show({

@@ -30,13 +30,13 @@ export function Navbar() {
   const { user } = useAuthStore();
   return (
     <Group w="100%" p={8} justify="center" wrap="nowrap">
-      {user?.type === "admin" && (
+      {/* {user?.type === "admin" && (
         <ShellLink
           section="/"
           label={t("sidebar.home")}
           icon={<IconHome size={18} />}
         />
-      )}
+      )} */}
       <Menu>
         <MenuTarget>
           <Button
@@ -87,12 +87,12 @@ export function Navbar() {
         icon={<IconCreditCard size={18} />}
       />
 
-      <ShellLink
+      {/* <ShellLink
         section="/printer"
         label={t("sidebar.printer")}
         icon={<IconPrinter size={18} />}
-      />
-      <ShellLink
+      /> */}
+      {/* <ShellLink
         section="/delivery"
         label={t("sidebar.delivery")}
         icon={<IconPackage size={18} />}
@@ -103,7 +103,7 @@ export function Navbar() {
         section="/forms/builder"
         label={t("sidebar.surveies")}
         icon={<IconClipboardText size={18} />}
-      />
+      /> */}
 
       <Menu>
         <MenuTarget>
