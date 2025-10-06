@@ -37,6 +37,7 @@ export function Navbar() {
           icon={<IconHome size={18} />}
         />
       )} */}
+      
       <Menu>
         <MenuTarget>
           <Button
